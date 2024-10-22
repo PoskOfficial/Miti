@@ -1,0 +1,14 @@
+{
+  "extends": "@miti/tsconfig/base",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["."],
+  "exclude": ["node_modules"],
+  "buildOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  }
+}

@@ -2,7 +2,7 @@ import colors from "../constants/colors"
 import { useState } from "react"
 import useLanguage from "../helper/useLanguage"
 import EventDetailsDialog from "./EventDetailsDialog"
-import { CalendarEvent } from "../types/events.types"
+import { CalendarEvent } from "@miti/types"
 import { eventDuration } from "../helper/dates"
 function SingleUserEvent({ event }: { event: CalendarEvent }) {
   const [modalOpen, setModalOpen] = useState(false)

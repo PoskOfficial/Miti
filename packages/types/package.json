@@ -1,0 +1,14 @@
+{
+  "name": "@miti/types",
+  "private": true,
+  "version": "0.1.0",
+  "main": "index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts"
+    }
+  },
+  "devDependencies": {
+    "@miti/tsconfig": "*"
+  }
+}

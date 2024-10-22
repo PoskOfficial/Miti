@@ -1,6 +1,6 @@
 import { relativeTimeFromDates } from "../helper/dates"
 import nepaliNumber from "../helper/nepaliNumber"
-import { Event } from "../types/calendar.types"
+import { Event } from "@miti/types"
 import UseLanguage from "../helper/useLanguage"
 import NepaliDate from "nepali-datetime"
 function SingleCalendarEvent({

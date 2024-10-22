@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom"
 import NepaliDate from "nepali-datetime"
 import { useQuery } from "@tanstack/react-query"
 import Spinner from "../components/Spinner"
-import { CalendarData, Months } from "../types/calendar.types"
-import { CalendarEventsResult } from "../types/events.types"
+import { CalendarData, Months } from "@miti/types"
+import { CalendarEventsResult } from "@miti/types"
 import UpcomingEvents from "./UpcomingEvents"
 
 function Home() {
@@ -61,7 +61,9 @@ function Home() {
     ],
     queryFn: () =>
       fetchUserEvents(
+        // @ts-ignore
         monthData[0].AD_date.ad,
+        // @ts-ignore
         monthData[monthData.length - 1].AD_date.ad
       ),
 

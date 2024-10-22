@@ -10,7 +10,7 @@ import {
 import Spinner from "./Spinner"
 import useLanguage from "../helper/useLanguage"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { CalendarEvent } from "../types/events.types"
+import { CalendarEvent } from "@miti/types"
 import { eventDuration } from "../helper/dates"
 import { deleteEvent } from "../helper/api"
 

@@ -1,5 +1,5 @@
 import { CalendarPayload } from "../components/AddEventModal"
-import { CalendarEvent } from "../types/events.types"
+import { CalendarEvent } from "@miti/types"
 
 export const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
 
