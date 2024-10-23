@@ -11,12 +11,13 @@ import {
 } from "../helper/dates"
 import nepaliNumber from "../helper/nepaliNumber"
 import useLanguage from "../helper/useLanguage"
-import useUser from "../helper/useUser"
+import { useUser } from "@miti/query/user"
 import { classNames } from "../helper/utils"
 import type { DayData } from "@miti/types"
 import type { CalendarEventsResult } from "@miti/types"
 import AddEventModal from "./AddEventModal"
 import SingleUserEvent from "./SingleUserEvent"
+import { apiBaseUrl } from "../helper/api"
 
 const getEventsOfSelectedDay = (events: CalendarEventsResult, day: Date) => {
   if (!events || !events.events.length) return []
@@ -50,7 +51,7 @@ export default function MonthCalendar({
   userEvents?: CalendarEventsResult
 }) {
   const { t, isNepaliLanguage } = useLanguage()
-  const { status } = useUser()
+  const { status } = useUser(apiBaseUrl)
   const today = useMemo(() => new NepaliDate(), [])
   // replace all dots with slash
   const firstDay = useMemo(() => {
@@ -61,6 +62,7 @@ export default function MonthCalendar({
   const [selectedDay, setSelectedDay] = useState<NepaliDate>(
     isSameMonth(today, firstDay) ? today : firstDay
   )
+
   const selectedDayData = useMemo(() => {
     const selectedDayIndex = selectedDay.getDate() - 1
     return monthData[selectedDayIndex] as DayData

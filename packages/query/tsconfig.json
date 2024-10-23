@@ -1,0 +1,15 @@
+{
+  "extends": "@miti/tsconfig/base",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  },
+  "include": ["."],
+  "exclude": ["node_modules"],
+  "buildOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  }
+}

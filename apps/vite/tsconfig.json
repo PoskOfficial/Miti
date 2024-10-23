@@ -3,7 +3,11 @@
   "compilerOptions": {
     "strict": true,
     "types": ["vite-plugin-pwa/client"],
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "declaration": true,
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
   },
   "include": ["**/*.ts", "**/*.tsx", "./index.js"],
   "exclude": ["src/service-worker"]

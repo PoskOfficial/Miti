@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { CalendarIcon, PlusIcon } from "@heroicons/react/20/solid"
 import {
   PencilSquareIcon,
@@ -11,10 +11,11 @@ import { Switch } from "@headlessui/react"
 import NepaliDatePicker from "./NepaliDatePicker"
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { CalendarEvent } from "@miti/types"
-import { toast } from "react-hot-toast"
-import { apiBaseUrl, createEvent, getCalendarList } from "../helper/api"
+import { apiBaseUrl } from "../helper/api"
 import DropDown from "./DropDown"
 import Spinner from "./Spinner"
+import { useCalendarList } from "@miti/query/calendar"
+import { useCreateEvent } from "@miti/query/event"
 
 function getCombinedDateTime(date: Date, time: string) {
   const timeParts = time.split(":")
@@ -22,7 +23,7 @@ function getCombinedDateTime(date: Date, time: string) {
   date.setMinutes(parseInt(timeParts[1] ?? "", 10))
   return date.toISOString()
 }
-//create a type called CalendarPayload which is Partial of CalendarEvent and also includes calendarId
+
 export type CalendarPayload = Partial<CalendarEvent> & { calendarId: string }
 
 function AddEventModal({ startDate }: { startDate: Date }) {
@@ -35,24 +36,23 @@ function AddEventModal({ startDate }: { startDate: Date }) {
   const [selectedCalendar, setSelectedCalendar] = useState<string | number>("")
 
   const queryClient = useQueryClient()
-  const { mutateAsync, isLoading } = useMutation({
-    onSuccess: () => {
-      queryClient.invalidateQueries(["events"])
-      setOpenModel(false)
-    },
-    onError: () => {
-      toast.error("Something went wrong while creating event")
-    },
-    mutationFn: (eventData: CalendarPayload) => createEvent(eventData),
-  })
-  const { data: calendarList, isLoading: isCalendarListLoading } = useQuery({
-    queryKey: ["calendarList"],
-    queryFn: () => getCalendarList(),
-    onSuccess: (data) => {
-      if (selectedCalendar === "") setSelectedCalendar(data[0].value)
-    },
-    networkMode: "offlineFirst",
-  })
+
+  const handleSuccess = () => {
+    queryClient.invalidateQueries(["events"])
+    setOpenModel(false)
+  }
+
+  const { mutateAsync, isPending } = useCreateEvent(apiBaseUrl, handleSuccess)
+
+  const { data: calendarList, isLoading: isCalendarListLoading } =
+    useCalendarList(apiBaseUrl)
+
+  useEffect(() => {}, [])
+
+  useEffect(() => {
+    if (!calendarList) return
+    setSelectedCalendar(calendarList[0]?.value || "")
+  }, [calendarList])
 
   const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -234,7 +234,7 @@ function AddEventModal({ startDate }: { startDate: Date }) {
               </button>
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isPending}
                 className="mt-8 w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-progress disabled:bg-indigo-400"
               >
                 Add Event

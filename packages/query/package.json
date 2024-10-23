@@ -1,0 +1,22 @@
+{
+  "name": "@miti/query",
+  "private": true,
+  "version": "0.1.0",
+  "main": "index.ts",
+  "exports": {
+    "./provider": "./src/query-provider.tsx",
+    "./user": "./src/user/index.ts",
+    "./calendar": "./src/calendar/index.ts",
+    "./event": "./src/event/index.ts"
+  },
+  "devDependencies": {
+    "@miti/tsconfig": "*"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.59.15",
+    "dotenv": "^16.4.5",
+    "nepali-datetime": "^1.2.1",
+    "react": "^18.3.1",
+    "@miti/types": "*"
+  }
+}

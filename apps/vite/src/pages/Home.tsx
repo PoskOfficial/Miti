@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import MonthCalendar from "../components/MonthCalendar"
-import { fetchUserEvents, fetchYearlyData } from "../helper/api"
+import { fetchUserEvents } from "../helper/api"
 import YearMonthPicker from "../components/YearMonthPicker"
 import { useParams } from "react-router-dom"
 import NepaliDate from "nepali-datetime"
@@ -9,6 +9,7 @@ import Spinner from "../components/Spinner"
 import { CalendarData, Months } from "@miti/types"
 import { CalendarEventsResult } from "@miti/types"
 import UpcomingEvents from "./UpcomingEvents"
+import { useYearlyData } from "@miti/query/calendar"
 
 function Home() {
   const { BSYear, BSMonth, pageType = "calendar" } = useParams()
@@ -38,12 +39,7 @@ function Home() {
     )
   }, [currentNepaliDate, pageType])
 
-  const { data: calendarData, isLoading } = useQuery<CalendarData>({
-    queryKey: ["calendar", currentNepaliDate.getYear()],
-    queryFn: () => fetchYearlyData(currentNepaliDate.getYear()),
-    networkMode: "offlineFirst",
-  })
-
+  const { data: calendarData, isLoading } = useYearlyData(currentNepaliDate)
   const currentMonthInHumanForm = (currentNepaliDate.getMonth() + 1)
     .toString()
     .padStart(2, "0") as Months

@@ -6,7 +6,7 @@ vars = { ENVIRONMENT = "development" }
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "demo"
-database_id = "b016f510-a7f5-4596-a596-836314b25841"
+database_id = "67fcc075-4057-4de4-a083-0a62e93efc8f"
 preview_database_id = "DB"
 migrations_dir = "./src/database/migrations"
 

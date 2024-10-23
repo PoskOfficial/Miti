@@ -9,10 +9,11 @@ import {
 } from "@heroicons/react/24/outline"
 import Spinner from "./Spinner"
 import useLanguage from "../helper/useLanguage"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import { CalendarEvent } from "@miti/types"
 import { eventDuration } from "../helper/dates"
-import { deleteEvent } from "../helper/api"
+import { apiBaseUrl } from "../helper/api"
+import { useDeleteEvent } from "@miti/query/event"
 
 export default function EventDetailsDialog({
   modalOpen,
@@ -31,12 +32,12 @@ export default function EventDetailsDialog({
     onClose()
   }
 
-  const { mutateAsync, isLoading } = useMutation(() => deleteEvent(event), {
-    onSuccess: () => {
-      queryClient.invalidateQueries(["events"])
-      closeModal()
-    },
-  })
+  const handleSuccess = () => {
+    queryClient.invalidateQueries(["events"])
+    closeModal()
+  }
+
+  const { mutateAsync, isPending } = useDeleteEvent(apiBaseUrl, handleSuccess)
 
   return (
     <>
@@ -113,21 +114,21 @@ export default function EventDetailsDialog({
                     {(event.accessRole === "owner" ||
                       event.accessRole === "writer") && (
                       <button
-                        disabled={isLoading}
+                        disabled={isPending}
                         onClick={async () => {
-                          await mutateAsync()
+                          await mutateAsync(event)
                           onClose()
                         }}
                         className="ml-auto flex max-w-[140px]  cursor-pointer items-center justify-center gap-1 rounded-md border border-transparent bg-indigo-600 px-3 py-1 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 disabled:bg-indigo-400"
                       >
                         <h1>
-                          {isLoading ? (
+                          {isPending ? (
                             <Spinner className="h-5 w-5 fill-white" />
                           ) : (
                             t("homepage.Delete")
                           )}
                         </h1>
-                        {!isLoading && <TrashIcon className="h-5 w-5" />}
+                        {!isPending && <TrashIcon className="h-5 w-5" />}
                       </button>
                     )}
                   </div>

@@ -1,23 +1,22 @@
-import "./i18next";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "./i18next"
+import { Toaster } from "react-hot-toast"
+import { DarkModeProvider } from "./components/DarkModeProvider"
+import { QueryProvider } from "@miti/query/provider"
 
-import { Toaster } from "react-hot-toast";
-import { DarkModeProvider } from "./components/DarkModeProvider";
-import { BrowserRouter } from "react-router-dom";
-import Body from "./Body";
+import { BrowserRouter } from "react-router-dom"
+import Body from "./Body"
 
-const queryClient = new QueryClient();
 const App = () => {
   return (
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
+      <QueryProvider>
         <DarkModeProvider>
           <Body />
           <Toaster position="bottom-center" />
         </DarkModeProvider>
-      </QueryClientProvider>
+      </QueryProvider>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default App;
+export default App
