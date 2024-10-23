@@ -40,7 +40,7 @@ const getEventsOfSelectedDay = (events: CalendarEventsResult, day: Date) => {
 
 const isSameMonth = (date1: NepaliDate, date2: NepaliDate) => {
   return (
-    date1.getYear() === date2.getYear() && date1.getYear() === date2.getYear()
+    date1.getYear() === date2.getYear() && date1.getMonth() === date2.getMonth()
   )
 }
 export default function MonthCalendar({
