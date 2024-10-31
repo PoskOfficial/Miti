@@ -1,30 +1,33 @@
-import { relativeTimeFromDates } from "../helper/dates"
-import nepaliNumber from "../helper/nepaliNumber"
-import { Event } from "@miti/types"
-import UseLanguage from "../helper/useLanguage"
-import NepaliDate from "nepali-datetime"
+import NepaliDate from 'nepali-datetime';
+
+import { Event } from '@miti/types';
+
+import { relativeTimeFromDates } from '../helper/dates';
+import nepaliNumber from '../helper/nepaliNumber';
+import UseLanguage from '../helper/useLanguage';
+
 function SingleCalendarEvent({
   date,
   events,
 }: {
-  date: NepaliDate
-  week_day: number
-  events: Event[]
+  date: NepaliDate;
+  week_day: number;
+  events: Event[];
 }) {
-  const { isNepaliLanguage } = UseLanguage()
+  const { isNepaliLanguage } = UseLanguage();
   const nepaliEvents = isNepaliLanguage
     ? events.map((event) => event?.jds?.ne)
-    : events.map((event) => event?.jds?.en)
+    : events.map((event) => event?.jds?.en);
 
-  let eventsString = nepaliEvents.join(" / ")
+  let eventsString = nepaliEvents.join(' / ');
   const isToday =
-    new Date().toDateString() === date.getDateObject().toDateString()
+    new Date().toDateString() === date.getDateObject().toDateString();
   eventsString =
     isToday && eventsString.length === 0
       ? isNepaliLanguage
-        ? "कुनै घटना छैन"
-        : "No Event"
-      : eventsString
+        ? 'कुनै घटना छैन'
+        : 'No Event'
+      : eventsString;
   return (
     <div className="relative">
       {eventsString.length > 0 && (
@@ -38,8 +41,8 @@ function SingleCalendarEvent({
             <h2 className="text-center">
               {date
                 .getDateObject()
-                .toLocaleDateString(isNepaliLanguage ? "ne-NP" : "en-US", {
-                  weekday: "long",
+                .toLocaleDateString(isNepaliLanguage ? 'ne-NP' : 'en-US', {
+                  weekday: 'long',
                 })}
             </h2>
           </div>
@@ -48,10 +51,10 @@ function SingleCalendarEvent({
               <h3 className="text-start text-sm">
                 {date
                   .getDateObject()
-                  .toLocaleDateString(isNepaliLanguage ? "ne-NP" : "en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
+                  .toLocaleDateString(isNepaliLanguage ? 'ne-NP' : 'en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
                   })}
               </h3>
               <h1 className="py-1 text-start tracking-wider">{eventsString}</h1>
@@ -63,7 +66,7 @@ function SingleCalendarEvent({
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default SingleCalendarEvent
+export default SingleCalendarEvent;

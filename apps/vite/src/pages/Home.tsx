@@ -1,57 +1,58 @@
-import { useEffect, useMemo, useState } from "react"
-import MonthCalendar from "../components/MonthCalendar"
-import { fetchUserEvents } from "../helper/api"
-import YearMonthPicker from "../components/YearMonthPicker"
-import { useParams } from "react-router-dom"
-import NepaliDate from "nepali-datetime"
-import { useQuery } from "@tanstack/react-query"
-import Spinner from "../components/Spinner"
-import { CalendarData, Months } from "@miti/types"
-import { CalendarEventsResult } from "@miti/types"
-import UpcomingEvents from "./UpcomingEvents"
-import { useYearlyData } from "@miti/query/calendar"
+import { useEffect, useMemo, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import NepaliDate from 'nepali-datetime';
+import { useParams } from 'react-router-dom';
+
+import { useYearlyData } from '@miti/query/calendar';
+import { CalendarData, CalendarEventsResult, Months } from '@miti/types';
+
+import MonthCalendar from '../components/MonthCalendar';
+import Spinner from '../components/Spinner';
+import YearMonthPicker from '../components/YearMonthPicker';
+import { fetchUserEvents } from '../helper/api';
+import UpcomingEvents from './UpcomingEvents';
 
 function Home() {
-  const { BSYear, BSMonth, pageType = "calendar" } = useParams()
+  const { BSYear, BSMonth, pageType = 'calendar' } = useParams();
 
   const validYearAndMonth = useMemo(() => {
-    if (!BSYear || !BSMonth) return new NepaliDate()
-    const year = parseInt(BSYear)
-    const month = parseInt(BSMonth)
-    const isValid = year >= 2075 && year <= 2082 && month >= 1 && month <= 12
+    if (!BSYear || !BSMonth) return new NepaliDate();
+    const year = parseInt(BSYear);
+    const month = parseInt(BSMonth);
+    const isValid = year >= 2075 && year <= 2082 && month >= 1 && month <= 12;
 
-    if (isValid) return new NepaliDate(year, month - 1, 1)
+    if (isValid) return new NepaliDate(year, month - 1, 1);
 
-    return new NepaliDate()
-  }, [BSYear, BSMonth])
+    return new NepaliDate();
+  }, [BSYear, BSMonth]);
   const [currentNepaliDate, setCurrentNepaliDate] =
-    useState<NepaliDate>(validYearAndMonth)
+    useState<NepaliDate>(validYearAndMonth);
 
   useEffect(() => {
-    const fixedPageType = pageType === "upcoming" ? "upcoming" : "calendar"
+    const fixedPageType = pageType === 'upcoming' ? 'upcoming' : 'calendar';
     // set params in url withour reloading
     history.replaceState(
       null,
-      "",
+      '',
       `/${fixedPageType}/${currentNepaliDate.getYear()}/${
         currentNepaliDate.getMonth() + 1
-      }`
-    )
-  }, [currentNepaliDate, pageType])
+      }`,
+    );
+  }, [currentNepaliDate, pageType]);
 
-  const { data: calendarData, isLoading } = useYearlyData(currentNepaliDate)
+  const { data: calendarData, isLoading } = useYearlyData(currentNepaliDate);
   const currentMonthInHumanForm = (currentNepaliDate.getMonth() + 1)
     .toString()
-    .padStart(2, "0") as Months
+    .padStart(2, '0') as Months;
 
   const monthData = useMemo(() => {
-    if (!calendarData) return []
-    return calendarData[currentMonthInHumanForm]
-  }, [calendarData, currentMonthInHumanForm])
+    if (!calendarData) return [];
+    return calendarData[currentMonthInHumanForm];
+  }, [calendarData, currentMonthInHumanForm]);
 
   const { data: userEvents } = useQuery<CalendarEventsResult>({
     queryKey: [
-      "events",
+      'events',
       currentNepaliDate.getYear(),
       currentNepaliDate.getMonth(),
     ],
@@ -60,12 +61,12 @@ function Home() {
         // @ts-ignore
         monthData[0].AD_date.ad,
         // @ts-ignore
-        monthData[monthData.length - 1].AD_date.ad
+        monthData[monthData.length - 1].AD_date.ad,
       ),
 
     enabled: !!calendarData && !!monthData.length,
-    networkMode: "offlineFirst",
-  })
+    networkMode: 'offlineFirst',
+  });
 
   return (
     <>
@@ -77,7 +78,7 @@ function Home() {
           />
           {isLoading ? (
             <Spinner className="h-5 w-5 " />
-          ) : pageType === "upcoming" ? (
+          ) : pageType === 'upcoming' ? (
             <UpcomingEvents monthData={monthData} />
           ) : (
             <MonthCalendar monthData={monthData} userEvents={userEvents} />
@@ -85,7 +86,7 @@ function Home() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

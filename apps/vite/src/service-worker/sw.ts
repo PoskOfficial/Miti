@@ -1,41 +1,42 @@
-declare const self: ServiceWorkerGlobalScope
+import NepaliDate from 'nepali-datetime';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { ExpirationPlugin } from 'workbox-expiration';
+import * as googleAnalytics from 'workbox-google-analytics';
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
+
+import { apiBaseUrl } from '../helper/api';
+
+declare const self: ServiceWorkerGlobalScope;
 
 interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
-  tag: string
+  tag: string;
 }
 
-import { ExpirationPlugin } from "workbox-expiration"
-import { precacheAndRoute } from "workbox-precaching"
-import { registerRoute } from "workbox-routing"
-import { CacheFirst, NetworkFirst } from "workbox-strategies"
-import { CacheableResponsePlugin } from "workbox-cacheable-response"
-import * as googleAnalytics from "workbox-google-analytics"
-import NepaliDate from "nepali-datetime"
+googleAnalytics.initialize();
 
-googleAnalytics.initialize()
-
-const UPDATE_CHECK = "UPDATE_CHECK"
-import { apiBaseUrl } from "../helper/api"
+const UPDATE_CHECK = 'UPDATE_CHECK';
 
 const checkForUpdates = async () => {
-  const year = new NepaliDate().getYear()
-  const month = new NepaliDate().getMonth()
+  const year = new NepaliDate().getYear();
+  const month = new NepaliDate().getMonth();
   const yearData = await fetch(`/data/${year}-calendar.json`).then((res) =>
-    res.json()
-  )
-  const currentMonthInHumanForm = (month + 1).toString().padStart(2, "0")
-  const monthData = yearData[currentMonthInHumanForm]
-  const startDate = monthData[0].AD_date.ad
-  const endDate = monthData[monthData.length - 1].AD_date.ad
-  await fetch(`${apiBaseUrl}/events?timeMin=${startDate}&timeMax=${endDate}`)
-  Promise.resolve()
-}
-precacheAndRoute(self.__WB_MANIFEST || [])
+    res.json(),
+  );
+  const currentMonthInHumanForm = (month + 1).toString().padStart(2, '0');
+  const monthData = yearData[currentMonthInHumanForm];
+  const startDate = monthData[0].AD_date.ad;
+  const endDate = monthData[monthData.length - 1].AD_date.ad;
+  await fetch(`${apiBaseUrl}/events?timeMin=${startDate}&timeMax=${endDate}`);
+  Promise.resolve();
+};
+precacheAndRoute(self.__WB_MANIFEST || []);
 
 registerRoute(
   /^https:\/\/fonts\.googleapis\.com\/.*/i,
   new CacheFirst({
-    cacheName: "google-fonts-cache",
+    cacheName: 'google-fonts-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 10,
@@ -45,13 +46,13 @@ registerRoute(
         statuses: [0, 200],
       }),
     ],
-  })
-)
+  }),
+);
 
 registerRoute(
   /^https:\/\/fonts\.gstatic\.com\/.*/i,
   new CacheFirst({
-    cacheName: "gstatic-fonts-cache",
+    cacheName: 'gstatic-fonts-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 10,
@@ -61,13 +62,13 @@ registerRoute(
         statuses: [0, 200],
       }),
     ],
-  })
-)
+  }),
+);
 
 registerRoute(
   /\/api\/.*/i,
   new NetworkFirst({
-    cacheName: "events-cache",
+    cacheName: 'events-cache',
     plugins: [
       new ExpirationPlugin({
         maxEntries: 10,
@@ -78,24 +79,24 @@ registerRoute(
       }),
     ],
   }),
-  "GET"
-)
-self.addEventListener("install", () => void self.skipWaiting())
-self.addEventListener("activate", () => void self.clients.claim())
+  'GET',
+);
+self.addEventListener('install', () => void self.skipWaiting());
+self.addEventListener('activate', () => void self.clients.claim());
 
-self.addEventListener("notificationclick", (event) => {
-  event.waitUntil(self.clients.openWindow(event.notification.tag))
-  event.notification.close()
-})
+self.addEventListener('notificationclick', (event) => {
+  event.waitUntil(self.clients.openWindow(event.notification.tag));
+  event.notification.close();
+});
 
-self.addEventListener("periodicsync", (event: PeriodicBackgroundSyncEvent) => {
+self.addEventListener('periodicsync', (event: PeriodicBackgroundSyncEvent) => {
   if (event.tag === UPDATE_CHECK) {
-    event.waitUntil(checkForUpdates())
+    event.waitUntil(checkForUpdates());
   }
-})
+});
 
-self.addEventListener("message", (event) => {
+self.addEventListener('message', (event) => {
   if (event.data === UPDATE_CHECK) {
-    event.waitUntil(checkForUpdates())
+    event.waitUntil(checkForUpdates());
   }
-})
+});

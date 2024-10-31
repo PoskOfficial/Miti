@@ -1,21 +1,25 @@
-import React, { useState } from 'react'
-import { classNames } from '../../helper/utils'
-import EventIcon from '../icons/EventIcon'
-import ListIcon from '../icons/ListIcon'
+import React, { useState } from 'react';
 
-const CalendarHeader: React.FC<{ month: string; year: string }> = ({ month, year }) => {
-  const [view, setView] = useState<'calendar' | 'event'>('calendar')
+import { classNames } from '../../helper/utils';
+import EventIcon from '../icons/EventIcon';
+import ListIcon from '../icons/ListIcon';
+
+const CalendarHeader: React.FC<{ month: string; year: string }> = ({
+  month,
+  year,
+}) => {
+  const [view, setView] = useState<'calendar' | 'event'>('calendar');
   return (
-    <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-5">
+    <div className="mb-5 flex flex-col items-center justify-between gap-4 md:flex-row">
       <div className="w-full max-w-7xl">
         <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-4 flex-1">
-            <div className="flex items-center gap-2 flex-1">
-              <div className="bg-gray-200 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-md inline-flex">
+          <div className="flex flex-1 items-center gap-4">
+            <div className="flex flex-1 items-center gap-2">
+              <div className="inline-flex rounded-md border-2 border-gray-200 bg-gray-200 text-sm leading-none text-gray-500">
                 <button
                   className={classNames(
-                    'inline-flex items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-md px-2 py-2 active',
-                    view === 'calendar' ? 'bg-white' : ''
+                    'active inline-flex items-center rounded-md px-2 py-2 transition-colors duration-300 ease-in hover:text-blue-400 focus:text-blue-400 focus:outline-none',
+                    view === 'calendar' ? 'bg-white' : '',
                   )}
                   id="grid"
                   onClick={() => setView('calendar')}
@@ -24,8 +28,8 @@ const CalendarHeader: React.FC<{ month: string; year: string }> = ({ month, year
                 </button>
                 <button
                   className={classNames(
-                    'inline-flex items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-md px-2 py-2',
-                    view === 'event' ? 'bg-white' : ''
+                    'inline-flex items-center rounded-md px-2 py-2 transition-colors duration-300 ease-in hover:text-blue-400 focus:text-blue-400 focus:outline-none',
+                    view === 'event' ? 'bg-white' : '',
                   )}
                   id="list"
                   onClick={() => setView('event')}
@@ -33,14 +37,14 @@ const CalendarHeader: React.FC<{ month: string; year: string }> = ({ month, year
                   <ListIcon />
                 </button>
               </div>
-              <button className="hidden md:flex py-2 pl-1.5 pr-3 rounded-md bg-gray-50 border border-gray-300 items-center gap-1.5 text-xs font-medium text-gray-900 transition-all duration-500 hover:">
+              <button className="hover: hidden items-center gap-1.5 rounded-md border border-gray-300 bg-gray-50 py-2 pl-1.5 pr-3 text-xs font-medium text-gray-900 transition-all duration-500 md:flex">
                 <EventIcon />
                 Today
               </button>
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-1 justify-center">
-            <button className="text-gray-500 rounded transition-all duration-300 hover: hover:text-gray-900">
+          <div className="flex flex-1 items-center justify-center gap-2">
+            <button className="hover: rounded text-gray-500 transition-all duration-300 hover:text-gray-900">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={16}
@@ -57,10 +61,10 @@ const CalendarHeader: React.FC<{ month: string; year: string }> = ({ month, year
                 />
               </svg>
             </button>
-            <h5 className="text-xl leading-8 font-semibold text-gray-900">
+            <h5 className="text-xl font-semibold leading-8 text-gray-900">
               {month} {year}
             </h5>
-            <button className="text-gray-500 rounded transition-all duration-300 hover: hover:text-gray-900">
+            <button className="hover: rounded text-gray-500 transition-all duration-300 hover:text-gray-900">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={16}
@@ -78,21 +82,21 @@ const CalendarHeader: React.FC<{ month: string; year: string }> = ({ month, year
               </svg>
             </button>
           </div>
-          <div className="flex items-center justify-end gap-2 flex-1">
+          <div className="flex flex-1 items-center justify-end gap-2">
             {view === 'event' && (
-              <div className="flex items-center gap-px p-1 rounded-md bg-gray-100">
-                <button className="py-2 px-5 rounded-lg bg-gray-100 text-xs font-medium text-gray-900 transition-all duration-300 hover:bg-white">
+              <div className="flex items-center gap-px rounded-md bg-gray-100 p-1">
+                <button className="rounded-lg bg-gray-100 px-5 py-2 text-xs font-medium text-gray-900 transition-all duration-300 hover:bg-white">
                   Day
                 </button>
-                <button className="py-2 px-5 rounded-lg bg-white text-xs font-medium text-gray-900 transition-all duration-300 hover:bg-white">
+                <button className="rounded-lg bg-white px-5 py-2 text-xs font-medium text-gray-900 transition-all duration-300 hover:bg-white">
                   Week
                 </button>
-                <button className="py-2 px-5 rounded-lg bg-gray-100 text-xs font-medium text-gray-900 transition-all duration-300 hover:bg-white">
+                <button className="rounded-lg bg-gray-100 px-5 py-2 text-xs font-medium text-gray-900 transition-all duration-300 hover:bg-white">
                   Month
                 </button>
               </div>
             )}
-            <button className="hidden sm:flex p-3 text-gray-500 items-center justify-center transition-all duration-300 hover:text-gray-900">
+            <button className="hidden items-center justify-center p-3 text-gray-500 transition-all duration-300 hover:text-gray-900 sm:flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}
@@ -116,7 +120,7 @@ const CalendarHeader: React.FC<{ month: string; year: string }> = ({ month, year
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CalendarHeader
+export default CalendarHeader;

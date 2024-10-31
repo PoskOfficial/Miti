@@ -14,7 +14,7 @@ const Octocat = ({ className }: { className: string }) => {
         transform="scale(64)"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default Octocat
+export default Octocat;

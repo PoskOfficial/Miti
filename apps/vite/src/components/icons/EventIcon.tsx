@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const EventIcon = () => {
   return (
@@ -15,7 +15,7 @@ const EventIcon = () => {
         fill="#6B7280"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default EventIcon
+export default EventIcon;

@@ -1,12 +1,15 @@
-import colors from "../constants/colors"
-import { useState } from "react"
-import useLanguage from "../helper/useLanguage"
-import EventDetailsDialog from "./EventDetailsDialog"
-import { CalendarEvent } from "@miti/types"
-import { eventDuration } from "../helper/dates"
+import { useState } from 'react';
+
+import { CalendarEvent } from '@miti/types';
+
+import colors from '../constants/colors';
+import { eventDuration } from '../helper/dates';
+import useLanguage from '../helper/useLanguage';
+import EventDetailsDialog from './EventDetailsDialog';
+
 function SingleUserEvent({ event }: { event: CalendarEvent }) {
-  const [modalOpen, setModalOpen] = useState(false)
-  const { isNepaliLanguage } = useLanguage()
+  const [modalOpen, setModalOpen] = useState(false);
+  const { isNepaliLanguage } = useLanguage();
 
   return (
     <div
@@ -25,7 +28,7 @@ function SingleUserEvent({ event }: { event: CalendarEvent }) {
         <span
           className=" h-2 w-2 rounded-full"
           style={{
-            backgroundColor: event.colorId ? colors[event.colorId] : "#475569",
+            backgroundColor: event.colorId ? colors[event.colorId] : '#475569',
           }}
         ></span>
         <p>{eventDuration(event, isNepaliLanguage)}</p>
@@ -36,7 +39,7 @@ function SingleUserEvent({ event }: { event: CalendarEvent }) {
         </p>
       </div>
     </div>
-  )
+  );
 }
 
-export default SingleUserEvent
+export default SingleUserEvent;

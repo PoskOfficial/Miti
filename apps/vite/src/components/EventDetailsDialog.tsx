@@ -1,43 +1,45 @@
-import { Dialog, Transition } from "@headlessui/react"
-import { Fragment } from "react"
+import { Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import {
+  Bars3BottomLeftIcon,
+  ClockIcon,
   MapPinIcon,
   TrashIcon,
-  Bars3BottomLeftIcon,
   XMarkIcon,
-  ClockIcon,
-} from "@heroicons/react/24/outline"
-import Spinner from "./Spinner"
-import useLanguage from "../helper/useLanguage"
-import { useQueryClient } from "@tanstack/react-query"
-import { CalendarEvent } from "@miti/types"
-import { eventDuration } from "../helper/dates"
-import { apiBaseUrl } from "../helper/api"
-import { useDeleteEvent } from "@miti/query/event"
+} from '@heroicons/react/24/outline';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { useDeleteEvent } from '@miti/query/event';
+import { CalendarEvent } from '@miti/types';
+
+import { apiBaseUrl } from '../helper/api';
+import { eventDuration } from '../helper/dates';
+import useLanguage from '../helper/useLanguage';
+import Spinner from './Spinner';
 
 export default function EventDetailsDialog({
   modalOpen,
   onClose,
   event,
 }: {
-  modalOpen: boolean
-  onClose: () => void
-  event: CalendarEvent
+  modalOpen: boolean;
+  onClose: () => void;
+  event: CalendarEvent;
 }) {
-  const { isNepaliLanguage, t } = useLanguage()
+  const { isNepaliLanguage, t } = useLanguage();
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   function closeModal() {
-    onClose()
+    onClose();
   }
 
   const handleSuccess = () => {
-    queryClient.invalidateQueries(["events"])
-    closeModal()
-  }
+    queryClient.invalidateQueries(['events']);
+    closeModal();
+  };
 
-  const { mutateAsync, isPending } = useDeleteEvent(apiBaseUrl, handleSuccess)
+  const { mutateAsync, isPending } = useDeleteEvent(apiBaseUrl, handleSuccess);
 
   return (
     <>
@@ -105,19 +107,19 @@ export default function EventDetailsDialog({
                         <div className="flex w-full items-center gap-2 py-1">
                           <MapPinIcon className="h-6 w-6 dark:text-white" />
                           <h1 className="text-gray-500 dark:text-gray-200">
-                            {" "}
+                            {' '}
                             {event.location}
                           </h1>
                         </div>
                       )}
                     </div>
-                    {(event.accessRole === "owner" ||
-                      event.accessRole === "writer") && (
+                    {(event.accessRole === 'owner' ||
+                      event.accessRole === 'writer') && (
                       <button
                         disabled={isPending}
                         onClick={async () => {
-                          await mutateAsync(event)
-                          onClose()
+                          await mutateAsync(event);
+                          onClose();
                         }}
                         className="ml-auto flex max-w-[140px]  cursor-pointer items-center justify-center gap-1 rounded-md border border-transparent bg-indigo-600 px-3 py-1 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 disabled:bg-indigo-400"
                       >
@@ -125,7 +127,7 @@ export default function EventDetailsDialog({
                           {isPending ? (
                             <Spinner className="h-5 w-5 fill-white" />
                           ) : (
-                            t("homepage.Delete")
+                            t('homepage.Delete')
                           )}
                         </h1>
                         {!isPending && <TrashIcon className="h-5 w-5" />}
@@ -139,5 +141,5 @@ export default function EventDetailsDialog({
         </Dialog>
       </Transition>
     </>
-  )
+  );
 }

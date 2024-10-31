@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { classNames } from '../../helper/utils'
-import Panchang from './Panchang'
+import React, { useState } from 'react';
+
+import { classNames } from '../../helper/utils';
+import Panchang from './Panchang';
 
 const Today = ({ isHoliday = true }: { isHoliday: boolean }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className=" bg-white shadow-md flex-row items-center border rounded-lg p-4">
+    <div className=" flex-row items-center rounded-lg border bg-white p-4 shadow-md">
       {/* Top Section */}
       <div className="flex items-center space-x-4 rounded-lg">
-        <div className="bg-gray-200 rounded-lg text-center w-16 h-16 flex flex-col gap-1 items-center justify-center">
+        <div className="flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-lg bg-gray-200 text-center">
           <div>
             <p className="text-2xl font-semibold text-gray-700">१२</p>
             <p className="text-sm font-semibold text-gray-700">सोम</p>
@@ -16,7 +17,7 @@ const Today = ({ isHoliday = true }: { isHoliday: boolean }) => {
         </div>
         <div className="flex-1">
           <span className="flex flex-row">
-            <p className="font-bold text-left flex-1 text-2xl">कार्तिक, २०८१</p>
+            <p className="flex-1 text-left text-2xl font-bold">कार्तिक, २०८१</p>
           </span>
           <p className="text-sm text-gray-600">तृतीया, कार्तिक कृष्णपक्ष</p>
 
@@ -24,7 +25,7 @@ const Today = ({ isHoliday = true }: { isHoliday: boolean }) => {
         </div>
       </div>
 
-      <div className="flex my-4 justify-between">
+      <div className="my-4 flex justify-between">
         <img
           src="https://img.icons8.com/color/48/000000/sunrise.png"
           alt="sunrise"
@@ -41,7 +42,7 @@ const Today = ({ isHoliday = true }: { isHoliday: boolean }) => {
       </div>
       <div className="flex justify-end">
         <button
-          className="text-sm rounded-lg flex-1 items-end text-end transition-all duration-300 text-indigo-500 hover:text-indigo-600"
+          className="flex-1 items-end rounded-lg text-end text-sm text-indigo-500 transition-all duration-300 hover:text-indigo-600"
           onClick={() => setIsOpen(!isOpen)}
         >
           आजको पंचांग <span className="text-xs">{isOpen ? '^' : '⌄'}</span>
@@ -49,7 +50,7 @@ const Today = ({ isHoliday = true }: { isHoliday: boolean }) => {
       </div>
       {isOpen && <Panchang />}
     </div>
-  )
-}
+  );
+};
 
-export default Today
+export default Today;

@@ -1,16 +1,21 @@
-import React from 'react'
-import MetalPriceCard from './MetalPriceCard'
-import fetchGoldSilverRates from '../../helper/bullions'
+import React from 'react';
+
+import fetchGoldSilverRates from '../../helper/bullions';
+import MetalPriceCard from './MetalPriceCard';
 
 const MetalPrice = () => {
   const handleClick = async () => {
-    const data = await fetchGoldSilverRates()
-    console.log(data)
-  }
+    const data = await fetchGoldSilverRates();
+    console.log(data);
+  };
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg flex-1">
-      <h2 className="text-lg font-semibold text-gray-800 mb-4">आजको सुन, चाँदीको दर</h2>
-      <p className="text-sm text-gray-600 mb-6">कात्तिक ०४, २०८१ - 20 Oct, 2024</p>
+    <div className="flex-1 rounded-lg bg-white p-4 shadow-md">
+      <h2 className="mb-4 text-lg font-semibold text-gray-800">
+        आजको सुन, चाँदीको दर
+      </h2>
+      <p className="mb-6 text-sm text-gray-600">
+        कात्तिक ०४, २०८१ - 20 Oct, 2024
+      </p>
       <MetalPriceCard
         metalName="छापावाल"
         metalImage="https://uxwing.com/wp-content/themes/uxwing/download/banking-finance/gold-icon.png"
@@ -31,7 +36,7 @@ const MetalPrice = () => {
       />
       <button onClick={handleClick}>Log</button>
     </div>
-  )
-}
+  );
+};
 
-export default MetalPrice
+export default MetalPrice;

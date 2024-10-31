@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-const bsYears = Array.from({ length: 100 }, (_, i) => 1975 + i) // Example range for B.S. years
+const bsYears = Array.from({ length: 100 }, (_, i) => 1975 + i); // Example range for B.S. years
 const months = [
   'बैशाख',
   'जेठ',
@@ -14,24 +14,24 @@ const months = [
   'माघ',
   'फाल्गुन',
   'चैत',
-]
+];
 
 const DateConverter: React.FC = () => {
-  const [year, setYear] = useState<number>(2081)
-  const [month, setMonth] = useState<string>('कार्तिक')
-  const [day, setDay] = useState<number>(1)
+  const [year, setYear] = useState<number>(2081);
+  const [month, setMonth] = useState<string>('कार्तिक');
+  const [day, setDay] = useState<number>(1);
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg flex-1">
-      <h2 className="text-lg font-semibold mb-4">मिति परिवर्तन</h2>
+    <div className="flex-1 rounded-lg bg-white p-4 shadow-md">
+      <h2 className="mb-4 text-lg font-semibold">मिति परिवर्तन</h2>
 
-      <div className="justify-between mb-4 flex">
-        <div className="p-2 w-full">
-          <label className="block mb-2">वि.सं.</label>
+      <div className="mb-4 flex justify-between">
+        <div className="w-full p-2">
+          <label className="mb-2 block">वि.सं.</label>
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="border p-2 rounded w-full"
+            className="w-full rounded border p-2"
           >
             {bsYears.map((y) => (
               <option key={y} value={y}>
@@ -40,12 +40,12 @@ const DateConverter: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="p-2 w-full">
-          <label className="block mb-2">वि.सं.</label>
+        <div className="w-full p-2">
+          <label className="mb-2 block">वि.सं.</label>
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="border p-2 rounded w-full"
+            className="w-full rounded border p-2"
           >
             {bsYears.map((y) => (
               <option key={y} value={y}>
@@ -55,13 +55,13 @@ const DateConverter: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="justify-between mb-4 flex">
-        <div className="p-2 w-full">
-          <label className="block mb-2">वि.सं.</label>
+      <div className="mb-4 flex justify-between">
+        <div className="w-full p-2">
+          <label className="mb-2 block">वि.सं.</label>
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="border p-2 rounded w-full"
+            className="w-full rounded border p-2"
           >
             {bsYears.map((y) => (
               <option key={y} value={y}>
@@ -70,12 +70,12 @@ const DateConverter: React.FC = () => {
             ))}
           </select>
         </div>
-        <div className="p-2 w-full">
-          <label className="block mb-2">वि.सं.</label>
+        <div className="w-full p-2">
+          <label className="mb-2 block">वि.सं.</label>
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="border p-2 rounded w-full"
+            className="w-full rounded border p-2"
           >
             {bsYears.map((y) => (
               <option key={y} value={y}>
@@ -86,9 +86,11 @@ const DateConverter: React.FC = () => {
         </div>
       </div>
 
-      <button className="w-full bg-blue-500 text-white py-2 rounded">परिवर्तन गर्नुहोस्</button>
+      <button className="w-full rounded bg-blue-500 py-2 text-white">
+        परिवर्तन गर्नुहोस्
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default DateConverter
+export default DateConverter;

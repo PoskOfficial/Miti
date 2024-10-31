@@ -1,0 +1,23 @@
+{
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@ianvs/prettier-plugin-sort-imports"
+  ],
+  "trailingComma": "all",
+  "semi": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "printWidth": 80,
+  "importOrder": [
+    "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
+    "^(next/(.*)$)|^(next$)",
+    "^(expo(.*)$)|^(expo$)",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@miti/(.*)$",
+    "",
+    "^~/",
+    "^[../]",
+    "^[./]"
+  ]
+}
