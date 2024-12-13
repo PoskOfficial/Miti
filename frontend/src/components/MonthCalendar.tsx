@@ -72,12 +72,14 @@ export default function MonthCalendar({
         <div>{t("homepage.F")}</div>
         <div>{t("homepage.Sa")}</div>
       </div>
+
       <div className="isolate mx-1 mt-2 grid auto-rows-cell grid-cols-7 gap-px overflow-hidden rounded-md bg-gray-200 font-sans text-sm shadow ring-1 ring-gray-200 dark:bg-gray-800 dark:text-white dark:ring-gray-600">
         {monthData.map((day, dayIdx) => {
           const { bs_year, bs_month, bs_day } = day.AD_date;
           const dayInNepaliDate = new NepaliDate(`${bs_year}-${bs_month}-${bs_day}`);
           const isSelectedDay = selectedDay.format("YYYY/MM/DD") === dayInNepaliDate.format("YYYY/MM/DD");
           const isToday = today.toString() === dayInNepaliDate.toString();
+
           return (
             <button
               key={day.day}
@@ -88,13 +90,12 @@ export default function MonthCalendar({
               style={dayIdx === 0 ? { gridColumnStart: day.week_day + 1 } : {}}
               className={classNames(
                 "p-1 font-mukta leading-3 hover:bg-gray-100 focus:z-10",
-                (isSelectedDay || isToday) && "font-semibold",
-                isToday && "bg-indigo-200 font-semibold text-indigo-600",
-                !isSelectedDay && "bg-white dark:bg-gray-900",
-                isSelectedDay && " bg-indigo-600  text-white hover:bg-indigo-700",
-                isSelectedDay && "bg-indigo-600",
+                isToday && "bg-indigo-500 text-white font-bold hover:bg-indigo-500", // for today
+                isSelectedDay && !isToday && "bg-indigo-600 text-white font-semibold hover:bg-indigo-700", // selected day (not today)
+                !isSelectedDay && !isToday && "bg-white dark:bg-gray-900 hover:bg-indigo-700 hover:text-white", // unselected days
                 (day.events.find((event) => event.jds?.gh == "1") || day.week_day === 6) && "text-rose-600"
-              )}>
+              )}
+            >
               {!!userEvents?.events?.length &&
                 Array.from(
                   new Set(
@@ -106,13 +107,15 @@ export default function MonthCalendar({
                   <span
                     key={i}
                     style={{ backgroundColor: color ? colors[color] : "#475569" }}
-                    className={classNames(`mx-[1px] inline-block h-1 w-1 rounded-full`)}></span>
+                    className={classNames(`mx-[1px] inline-block h-1 w-1 rounded-full`)}
+                  ></span>
                 ))}
               <time
                 dateTime={day.AD_date.ad}
                 className={classNames(
                   "mx-auto mt-0 flex items-center justify-center rounded-full pt-0 text-xl"
-                )}>
+                )}
+              >
                 {isNepaliLanguage ? nepaliNumber(day.day) : day.day}
               </time>
               <span className="mx-auto my-0 mt-0 py-0 text-[9px] font-extralight">
@@ -122,6 +125,8 @@ export default function MonthCalendar({
           );
         })}
       </div>
+
+
       <div className="px-2">
         <Link
           type="button"

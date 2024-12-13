@@ -2,4 +2,6 @@
 .space
 .env
 start.ps1
+node_modules.envrc
 node_modules
+.envrc
