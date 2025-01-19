@@ -8,9 +8,13 @@ import { DayDetail } from "./DayDetails"
 
 type CalendarGridProps = {
   monthData: NewCalendarData[]
+  timelineMode: boolean
 }
 
-const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
+const CalendarGrid: React.FC<CalendarGridProps> = ({
+  monthData,
+  timelineMode,
+}) => {
   const [dayDialogOpen, setDayDialogOpen] = useState(false)
   const [dayDialogData, setDayDialogData] = useState<NewCalendarData | null>(
     null
@@ -78,16 +82,20 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                   <p className={cn("text-xs")}>
                     {day.calendarInfo.dates.ad.day.np}
                   </p>
-                  <p className="text-xs hidden xl:block">
-                    {day.tithiDetails?.title.np}
-                  </p>
+                  {!timelineMode && (
+                    <p className="text-xs hidden xl:block">
+                      {day.tithiDetails?.title.np}
+                    </p>
+                  )}
                 </div>
                 <p className="grow w-full flex items-center justify-center text-xl md:text-3xl lg:text-4xl text-center font-semibold my-auto line-clamp-1">
                   {day.calendarInfo.dates.bs.day.np}
                 </p>
-                <p className="text-xs flex-1 text-center hidden xl:block">
-                  {day.eventDetails[0]?.title.np}
-                </p>
+                {!timelineMode && (
+                  <p className="text-xs flex-1 text-center hidden xl:block">
+                    {day.eventDetails[0]?.title.np}
+                  </p>
+                )}
               </div>
 
               {index % 3 === 0 && (

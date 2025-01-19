@@ -1,5 +1,6 @@
 import { NewCalendarData } from "@miti/types"
 import NepaliDate from "nepali-datetime"
+import CalendarGrid from "./CalendarGrid"
 
 type TimelineViewProps = {
   monthData: NewCalendarData[]
@@ -27,11 +28,11 @@ const Day = ({ monthData }: { monthData: NewCalendarData[] }) => {
           </div>
         ))}
       </div>
-      <div className="flex-1">
+      <div className="flex-1 divide-y divide-indigo-200">
         {Array.from({ length: 24 }).map((_, i) => (
           <div
             key={i}
-            className="h-[120px] bg-gray-200 flex flex-1 items-center justify-center px-2 text-sm font-semibold"
+            className="h-[120px] flex flex-1 items-center justify-center px-2 text-sm font-semibold"
           >
             {currentTime.getHours() === i && (
               <div className="relative h-full w-full">
@@ -118,7 +119,7 @@ const generateTimeline = (
     case "week":
       return <Week monthData={monthData} />
     case "month":
-      return <div>Month</div>
+      return <CalendarGrid monthData={monthData} timelineMode />
   }
 }
 

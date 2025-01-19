@@ -1,4 +1,5 @@
 import nepaliNumber from "@/helper/nepaliNumber"
+import { cn } from "@/lib/utils"
 import { NewCalendarData } from "@miti/types"
 import NepaliDate from "nepali-datetime"
 
@@ -34,7 +35,7 @@ const PanchangSection = ({
   )
 }
 
-const MuhuratItem = ({ name, time }: { name: string; time: string }) => {
+const MuhuratItem = ({ name, time }: { name: string; time?: string }) => {
   return (
     <li className="flex justify-between p-4 text-black text-start">
       <span>{name}</span>
@@ -100,30 +101,38 @@ const Panchang = ({ data }: { data: NewCalendarData }) => {
       </div>
 
       {/* Shubh Muhurat Section */}
-      <PanchangSection
-        title="आजको शुभ साइत / मुहूर्त"
-        classes="bg-orange-200 px-4 rounded-md text-start text-yellow-700"
-      >
-        {
-          <ul className="flex flex-col gap-4 py-4 rounded-lg">
-            {data.auspiciousMoments.sahits.length > 0
-              ? data.auspiciousMoments.sahits.map((sahit) => (
-                  <li>{sahit.title.np}</li>
-                ))
-              : "आज शुभ साइत / मुहूर्त छैन।"}
-          </ul>
-        }
+
+      <PanchangSection title="आजको शुभ साइत / मुहूर्त">
+        <ul
+          className={cn(
+            "divide-y divide-orange-200 bg-orange-100 rounded-lg",
+            data.auspiciousMoments.sahits.length === 0 && "px-4 py-4"
+          )}
+        >
+          {data.auspiciousMoments.sahits.length > 0
+            ? data.auspiciousMoments.sahits.map((sahit) => (
+                <MuhuratItem name={sahit.title.np ?? ""} />
+              ))
+            : "आज शुभ साइत / मुहूर्त छैन।"}
+        </ul>
       </PanchangSection>
 
       {/* Kala Muhurat Section */}
       <PanchangSection title="आजको काल / मुहूर्तम्">
-        <ul className="divide-y divide-emerald-200 bg-emerald-100 rounded-lg">
-          {data.auspiciousMoments.muhurats.map((muhurat) => {
-            if (!muhurat.periodName || !muhurat.duration) return null
-            return (
-              <MuhuratItem name={muhurat.periodName} time={muhurat.duration} />
-            )
-          })}
+        <ul
+          className={cn(
+            "divide-y divide-emerald-200 bg-emerald-100 rounded-lg",
+            data.auspiciousMoments.muhurats.length === 0 && "px-4 py-4"
+          )}
+        >
+          {data.auspiciousMoments.muhurats.length > 0
+            ? data.auspiciousMoments.muhurats.map((muhurat) => (
+                <MuhuratItem
+                  name={muhurat.periodName ?? ""}
+                  time={muhurat.duration ?? ""}
+                />
+              ))
+            : "आज काल / मुहूर्तम् छैन।"}
         </ul>
       </PanchangSection>
     </div>

@@ -35,7 +35,7 @@ const EventList: React.FC<{
   })
 
   return (
-    <div className="p-4 bg-white shadow-md rounded-lg min-w-80 w-80">
+    <div className="p-4 bg-white shadow-md rounded-lg min-w-80 ">
       <h2 className="text-xl font-bold text-gray-700 mb-2 text-center">
         {title}
       </h2>
@@ -62,10 +62,6 @@ const EventList: React.FC<{
                 !isBefore(new Date(event.enDate), new Date())
             )
             .map((event, index) => <UpcomingEvent key={index} event={event} />)}
-
-        {/* {newEventDetails.map((event, index) => (
-          <UpcomingEvent key={index} event={event} />
-        ))} */}
       </div>
     </div>
   )

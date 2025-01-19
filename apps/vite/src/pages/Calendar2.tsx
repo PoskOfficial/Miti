@@ -90,7 +90,7 @@ const Calendar2 = () => {
                 setScope={setScope}
               />
               {view === "calendar" ? (
-                <CalendarGrid monthData={monthData} />
+                <CalendarGrid monthData={monthData} timelineMode={false} />
               ) : (
                 <TimelineView monthData={monthData} scope={scope} />
               )}
