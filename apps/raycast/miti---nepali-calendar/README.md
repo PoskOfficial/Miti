@@ -1,1 +1,0 @@
-# Miti - Nepali Calendar

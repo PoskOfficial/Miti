@@ -5,16 +5,23 @@ import { env } from "hono/adapter";
 import { getCookie, setCookie } from "hono/cookie";
 import { z } from "zod";
 
+import { deleteSessionTokenCookie, invalidateSession, validateSessionToken } from "../../auth/oslo-auth";
 import type { AppContext } from "../../context";
 import { createGoogleSession, getGoogleAuthorizationUrl } from "./google";
 
 const AuthController = new Hono<AppContext>()
   .get("/logout", async (c) => {
-    const sessionId = getCookie(c, "session");
-    if (!sessionId) {
+    const sessionToken = getCookie(c, "session");
+    if (!sessionToken) {
       return c.json({ error: "Not logged in" }, 400);
     }
-    await c.get("lucia").invalidateSession(sessionId);
+
+    const session = c.get("session");
+    if (session) {
+      await invalidateSession(c, session.id);
+    }
+    deleteSessionTokenCookie(c);
+
     return c.redirect(env(c).WEB_DOMAIN);
   })
   .get(
@@ -40,8 +47,9 @@ const AuthController = new Hono<AppContext>()
         secure: env(c).WORKER_ENV === "production",
       });
       if (sessionToken) {
-        const session = await c.get("lucia").validateSession(sessionToken);
-        if (session.user) {
+        // validate session using oslo-auth
+        const { session, user } = await validateSessionToken(c, sessionToken);
+        if (user) {
           // for account linking
           setCookie(c, "sessionToken", sessionToken, {
             httpOnly: true,

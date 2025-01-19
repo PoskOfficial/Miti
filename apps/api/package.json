@@ -13,14 +13,14 @@
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.1",
-    "@lucia-auth/adapter-drizzle": "1.0.7",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
     "@tsndr/cloudflare-worker-jwt": "^2.5.3",
     "arctic": "^1.7.0",
     "better-sqlite3": "^9.6.0",
     "cross-env": "^7.0.3",
     "drizzle-orm": "^0.30.9",
     "hono": "^4.2.8",
-    "lucia": "^3.2.0",
     "oslo": "^1.2.0",
     "zod": "^3.23.4"
   },

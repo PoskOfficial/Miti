@@ -13,6 +13,9 @@ migrations_dir = "./src/database/migrations"
 [env.production]
 vars = { ENVIRONMENT = "production" }
 d1_databases = [
-  { binding = "DB", database_name = "demo", database_id = "b016f510-a7f5-4596-a596-836314b25841" }
+  { binding = "DB", database_name = "miti", database_id = "4040a4d7-69e7-4cba-9975-4cc418134b2e" }
 ]
 
+[observability]
+enabled = true
+head_sampling_rate = 1

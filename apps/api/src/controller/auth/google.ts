@@ -1,12 +1,14 @@
+import { generateRandomString } from "@oslojs/crypto/random";
+import type { RandomReader } from "@oslojs/crypto/random";
 import { Google } from "arctic";
 import type { Context } from "hono";
 import { env } from "hono/adapter";
-import { generateId } from "lucia";
 
-import type { DatabaseUserAttributes } from "../../auth/lucia-auth";
+import { createSession, generateSessionToken, setSessionTokenCookie, validateSessionToken } from "../../auth/oslo-auth";
 import type { AppContext } from "../../context";
 import { oauthAccountTable } from "../../database/oauth.accounts";
 import { userTable } from "../../database/users";
+import type { DatabaseUserAttributes } from "../../types";
 import { fetchRefreshToken } from "../user/user.controller";
 
 const googleClient = (c: Context<AppContext>) =>
@@ -68,9 +70,9 @@ const createGoogleSession = async ({
   });
   let existingUser: DatabaseUserAttributes | null = null;
   if (sessionToken) {
-    const sessionUser = await c.get("lucia").validateSession(sessionToken);
-    if (sessionUser.user) {
-      existingUser = sessionUser.user as DatabaseUserAttributes;
+    const { session, user } = await validateSessionToken(c, sessionToken);
+    if (user) {
+      existingUser = user as DatabaseUserAttributes;
     }
   } else {
     const response = await c.get("db").query.users.findFirst({
@@ -86,21 +88,25 @@ const createGoogleSession = async ({
       provider: "google",
       userId: existingUser.id,
     });
-    const session = await c.get("lucia").createSession(existingUser.id, {});
+    const token = generateSessionToken();
+    const session = await createSession(c, token, existingUser.id);
+    setSessionTokenCookie(c, token, session.expiresAt);
     return session;
   }
 
   if (existingAccount) {
-    const session = await c.get("lucia").createSession(existingAccount.userId, {});
+    const token = generateSessionToken();
+    const session = await createSession(c, token, existingAccount.userId);
+    setSessionTokenCookie(c, token, session.expiresAt);
     return session;
   }
-  const userId = generateId(15);
+  const userId = generateRandomString(random, "abcdefghijklmnopqrstuvwxyz0123456789", 15);
   let username = user.name;
   const existingUsername = await c.get("db").query.users.findFirst({
     where: (u, { eq }) => eq(u.username, username),
   });
   if (existingUsername) {
-    username = `${username}-${generateId(5)}`;
+    username = `${username}-${generateRandomString(random, "abcdefghijklmnopqrstuvwxyz0123456789", 5)}`;
   }
   await c
     .get("db")
@@ -118,7 +124,9 @@ const createGoogleSession = async ({
     provider: "google",
     userId,
   });
-  const session = await c.get("lucia").createSession(userId, {});
+  const token = generateSessionToken();
+  const session = await createSession(c, token, userId);
+  setSessionTokenCookie(c, token, session.expiresAt);
   return session;
 };
 
@@ -130,6 +138,12 @@ const getAccessToken = async (c: Context<AppContext>) => {
   }
   const tokens = await google.refreshAccessToken(refreshToken);
   return tokens.accessToken;
+};
+
+const random: RandomReader = {
+  read(bytes: Uint8Array): void {
+    crypto.getRandomValues(bytes);
+  },
 };
 
 export { getGoogleAuthorizationUrl, createGoogleSession, getAccessToken, googleClient };
