@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { CalendarEvent, CalendarPayload } from "@miti/types"
 
 export const useCreateEvent = (
@@ -33,11 +33,14 @@ export const createEvent = async (
 }
 
 export const deleteEvent = async (apiBaseUrl: string, event: CalendarEvent) => {
-  await fetch(`${apiBaseUrl}/calendar/google/delete/${event.id}`, {
-    method: "DELETE",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
+  await fetch(
+    `${apiBaseUrl}/calendar/google/delete/${encodeURIComponent(event.id)}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  )
 }

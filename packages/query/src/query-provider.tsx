@@ -1,4 +1,5 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
+import { memo } from "react"
 
 const queryClient = new QueryClient()
 
@@ -6,8 +7,12 @@ type QueryProviderProps = {
   children: React.ReactNode
 }
 
-export function QueryProvider({ children }: QueryProviderProps) {
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
+type QueryProviderExtendedProps = QueryProviderProps & {
+  client?: QueryClient
 }
+
+export const QueryProvider = memo(
+  ({ children, client = queryClient }: QueryProviderExtendedProps) => {
+    return <QueryClientProvider client={client}>{children}</QueryClientProvider>
+  }
+)

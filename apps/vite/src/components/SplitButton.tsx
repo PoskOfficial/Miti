@@ -1,5 +1,5 @@
-import React from 'react'
-import { classNames } from '../helper/utils'
+import React from "react"
+import { cn } from "@/lib/utils"
 
 const SplitButton = ({
   buttons,
@@ -15,9 +15,9 @@ const SplitButton = ({
       {buttons.map((button) => (
         <button
           key={button.id}
-          className={classNames(
-            'inline-flex items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-md px-2 py-2',
-            selectedView === button.id ? 'bg-white' : ''
+          className={cn(
+            "inline-flex items-center transition-colors duration-300 ease-in focus:outline-none hover:text-blue-400 focus:text-blue-400 rounded-md px-2 py-2",
+            selectedView === button.id ? "bg-white" : ""
           )}
           id={button.id}
           onClick={() => setView(button.id)}

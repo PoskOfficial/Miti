@@ -47,8 +47,6 @@ function AddEventModal({ startDate }: { startDate: Date }) {
   const { data: calendarList, isLoading: isCalendarListLoading } =
     useCalendarList(apiBaseUrl)
 
-  useEffect(() => {}, [])
-
   useEffect(() => {
     if (!calendarList) return
     setSelectedCalendar(calendarList[0]?.value || "")

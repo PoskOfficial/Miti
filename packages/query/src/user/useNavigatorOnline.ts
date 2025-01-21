@@ -1,17 +1,18 @@
-import React from "react"
+import React, { useCallback } from "react"
 
 const getOnLineStatus = () =>
   typeof navigator !== "undefined" && typeof navigator.onLine === "boolean"
     ? navigator.onLine
     : true
 
-const useNavigatorOnLine = () => {
+const useNavigatorOnLine = (): Boolean => {
   const [status, setStatus] = React.useState(getOnLineStatus())
 
-  const setOnline = () => setStatus(true)
-  const setOffline = () => setStatus(false)
+  const setOnline = () => useCallback(() => setStatus(true), [])
+  const setOffline = () => useCallback(() => setStatus(false), [])
 
   React.useEffect(() => {
+    if (typeof window === "undefined") return
     window.addEventListener("online", setOnline)
     window.addEventListener("offline", setOffline)
 

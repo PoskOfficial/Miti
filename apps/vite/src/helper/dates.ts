@@ -26,6 +26,7 @@ export function getTithiNepali(index: number): string {
   }
   return tithiName[index] || ""
 }
+
 export function getTithiEnglish(index: number): string {
   const tithiName: {
     [key: number]: string
@@ -84,6 +85,7 @@ export function getChandramaNepali(index: number): string {
     chandraNames[Math.floor(index - 1)]
   )
 }
+
 export function getChandramaEnglish(index: number): string {
   const chandraNames = [
     "Kartik Shuklapaksha",

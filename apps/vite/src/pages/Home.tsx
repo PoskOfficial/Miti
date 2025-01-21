@@ -57,10 +57,8 @@ function Home() {
     ],
     queryFn: () =>
       fetchUserEvents(
-        // @ts-ignore
-        monthData[0].AD_date.ad,
-        // @ts-ignore
-        monthData[monthData.length - 1].AD_date.ad
+        monthData[0]?.AD_date.ad ?? "",
+        monthData[monthData.length - 1]?.AD_date.ad ?? ""
       ),
 
     enabled: !!calendarData && !!monthData.length,

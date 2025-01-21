@@ -1,40 +1,43 @@
 {
-	"name": "api",
-	"scripts": {
-		"lint": "eslint . --fix",
-		"format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
-		"dev": "wrangler dev src/index.ts",
-		"deploy": "wrangler deploy --minify src/index.ts",
-		"db:generate": "drizzle-kit generate:sqlite",
-		"db:migrate": "wrangler d1 migrations apply demo --local",
-		"db:migrate:prod": "wrangler d1 migrations apply demo --remote",
-		"db:studio": "drizzle-kit studio",
-		"db:studio:local": "cross-env LOCAL_DB_PATH=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit studio"
-	},
-	"dependencies": {
-		"@hono/zod-validator": "^0.2.1",
-		"@oslojs/crypto": "^1.0.1",
-		"@oslojs/encoding": "^1.1.0",
-		"@tsndr/cloudflare-worker-jwt": "^2.5.3",
-		"arctic": "^1.7.0",
-		"better-sqlite3": "^9.6.0",
-		"cross-env": "^7.0.3",
-		"drizzle-orm": "^0.30.9",
-		"hono": "^4.2.8",
-		"oslo": "^1.2.0",
-		"zod": "^3.23.4"
-	},
-	"devDependencies": {
-		"@miti/eslint-config": "workspace:*",
-		"@miti/prettier-config": "workspace:*",
-		"@miti/tsconfig": "workspace:*",
-		"@cloudflare/workers-types": "^4.20240423.0",
-		"drizzle-kit": "^0.20.17",
-		"wrangler": "^3.52.0"
-	},
-	"eslintConfig": {
-		"root": true,
-		"extends": ["@miti/eslint-config/base", "@miti/eslint-config/react"]
-	},
-	"prettier": "@miti/prettier-config"
+  "name": "api",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "db:generate": "drizzle-kit generate:sqlite",
+    "db:migrate": "wrangler d1 migrations apply demo --local",
+    "db:migrate:prod": "wrangler d1 migrations apply demo --remote",
+    "db:studio": "drizzle-kit studio",
+    "db:studio:local": "cross-env LOCAL_DB_PATH=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit studio"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.2.1",
+    "@oslojs/crypto": "^1.0.1",
+    "@oslojs/encoding": "^1.1.0",
+    "@tsndr/cloudflare-worker-jwt": "^2.5.3",
+    "arctic": "^1.7.0",
+    "better-sqlite3": "^9.6.0",
+    "cross-env": "^7.0.3",
+    "drizzle-orm": "^0.30.9",
+    "hono": "^4.2.8",
+    "oslo": "^1.2.0",
+    "zod": "^3.23.4"
+  },
+  "devDependencies": {
+    "@miti/eslint-config": "workspace:*",
+    "@miti/prettier-config": "workspace:*",
+    "@miti/tsconfig": "workspace:*",
+    "@cloudflare/workers-types": "^4.20240423.0",
+    "drizzle-kit": "^0.20.17",
+    "wrangler": "^3.52.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "@miti/eslint-config/base",
+      "@miti/eslint-config/react"
+    ]
+  },
+  "prettier": "@miti/prettier-config"
 }

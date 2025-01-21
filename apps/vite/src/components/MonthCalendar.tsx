@@ -12,7 +12,7 @@ import {
 import nepaliNumber from "../helper/nepaliNumber"
 import useLanguage from "../helper/useLanguage"
 import { useUser } from "@miti/query/user"
-import { classNames } from "../helper/utils"
+import { cn } from "@/lib/utils"
 import type { DayData } from "@miti/types"
 import type { CalendarEventsResult } from "@miti/types"
 import AddEventModal from "./AddEventModal"
@@ -101,7 +101,7 @@ export default function MonthCalendar({
                 setSelectedDay(dayInNepaliDate)
               }}
               style={dayIdx === 0 ? { gridColumnStart: day.week_day + 1 } : {}}
-              className={classNames(
+              className={cn(
                 "p-1 font-mukta leading-3 hover:bg-gray-100 focus:z-10",
                 (isSelectedDay || isToday) && "font-semibold",
                 isToday && "bg-indigo-200 font-semibold text-indigo-600",
@@ -130,14 +130,12 @@ export default function MonthCalendar({
                     style={{
                       backgroundColor: color ? colors[color] : "#475569",
                     }}
-                    className={classNames(
-                      `mx-[1px] inline-block h-1 w-1 rounded-full`
-                    )}
+                    className={cn(`mx-[1px] inline-block h-1 w-1 rounded-full`)}
                   ></span>
                 ))}
               <time
                 dateTime={day.AD_date.ad}
-                className={classNames(
+                className={cn(
                   "mx-auto mt-0 flex items-center justify-center rounded-full pt-0 text-xl"
                 )}
               >

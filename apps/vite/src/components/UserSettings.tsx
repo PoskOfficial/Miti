@@ -3,7 +3,7 @@ import { Menu, Transition } from "@headlessui/react"
 import { Cog6ToothIcon, MoonIcon, SunIcon } from "@heroicons/react/24/outline"
 import { useTranslation } from "react-i18next"
 import { DarkModeContext } from "./DarkModeProvider"
-import { classNames } from "../helper/utils"
+import { cn } from "@/lib/utils"
 import { apiBaseUrl } from "../helper/api"
 
 function LoginWithGoogle({ darkMode }: { darkMode: boolean }) {
@@ -36,7 +36,7 @@ const UserSettings = ({
               alt="user image"
             />
             <span
-              className={classNames(
+              className={cn(
                 "absolute bottom-0 left-0 h-2 w-2 rounded-full bg-gray-500 ring-2 ring-white dark:ring-gray-300",
                 status == "LOGGED_IN" && "bg-green-500",
                 status == "NOT_LOGGED_IN" && "bg-orange-500"
@@ -72,7 +72,7 @@ const UserSettings = ({
                       : `${apiBaseUrl}/auth/logout`
                   }
                   target="_self"
-                  className={classNames(
+                  className={cn(
                     active ? "bg-gray-200 dark:bg-gray-800" : "",
                     "block cursor-pointer rounded-md text-sm text-gray-700 dark:text-white"
                   )}
