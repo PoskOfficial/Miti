@@ -58,7 +58,6 @@ const createGoogleSession = async ({
   const google = googleClient(c);
 
   const tokens = await google.validateAuthorizationCode(idToken, codeVerifier);
-  console.log({ tokens });
   const response = await fetch("https://openidconnect.googleapis.com/v1/userinfo", {
     headers: {
       Authorization: `Bearer ${tokens.accessToken}`,

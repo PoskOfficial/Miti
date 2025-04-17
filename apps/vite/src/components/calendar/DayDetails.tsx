@@ -1,11 +1,16 @@
 import { cn } from "@/lib/utils"
 import { NewCalendarData } from "@miti/types"
 import Panchang from "./Panchang"
+import { CalendarFold, User } from "lucide-react"
+import CalendarEvents from "./CalendarEvents"
+import UserEvents from "./UserEvents"
 
 export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
   const isHoliday =
     dayData.eventDetails.filter((event) => event.isHoliday).length !== 0 ||
     dayData.calendarInfo.days.codes.en === "7"
+  const calendarEvents = dayData.eventDetails
+
   return (
     <div className="overflow-y-auto">
       <div className="flex items-center space-x-4 rounded-lg">
@@ -62,6 +67,10 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
             </p>
           </div>
         </div>
+      </div>
+      <div className="my-4">
+        <UserEvents />
+        <CalendarEvents events={calendarEvents} />
       </div>
       <div>
         <Panchang data={dayData} />

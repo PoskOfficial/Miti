@@ -57,7 +57,7 @@ export async function validateSessionToken(c: Context<AppContext>, token: string
 
   const { user, session } = result;
 
-  if (Date.now() >= Date.now() - session.expiresAt) {
+  if (Date.now() >= Date.now() + session.expiresAt) {
     await db.delete(sessionTable).where(eq(sessionTable.id, session.id));
     return { session: null, user: null };
   }

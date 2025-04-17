@@ -9,7 +9,8 @@ import DateConverter from "./pages/DateConverter"
 import GoogleApiDisclosure from "./pages/GoogleApiDisclosure"
 import Home from "./pages/Home"
 import PrivacyPolicy from "./pages/PrivacyPolicy"
-import Calendar2 from "./pages/Calendar2"
+import Calendar from "./pages/Calendar"
+import UpcomingEvents from "./pages/UpcomingEvents"
 
 const Body = () => {
   const { darkMode } = useContext(DarkModeContext)
@@ -20,12 +21,16 @@ const Body = () => {
       <Navbar />
       <div className="flex-grow">
         <Routes>
-          {/* <Route path="/:pageType?/:BSYear?/:BSMonth?" element={<Home />} /> */}
-          <Route path="/" element={<Calendar2 />} />
-          <Route path="/calendar/:BSYear?/:BSMonth?" element={<Calendar2 />} />
+          <Route path="/" element={<Calendar />} />
+          <Route path="/calendar/:BSYear?/:BSMonth?" element={<Calendar />} />
+          <Route
+            path="/events/:BSYear?/:BSMonth?"
+            element={<UpcomingEvents />}
+          />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/converter" element={<DateConverter />} />
           <Route path="/about" element={<About />} />
+
           <Route
             path="/google-api-disclosure"
             element={<GoogleApiDisclosure />}

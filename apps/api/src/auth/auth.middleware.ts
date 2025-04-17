@@ -1,10 +1,9 @@
-import type { Context } from "hono";
 import { env } from "hono/adapter";
-import { getCookie, setCookie } from "hono/cookie";
+import { getCookie } from "hono/cookie";
 import { createMiddleware } from "hono/factory";
 
 import type { AppContext } from "../context";
-import { generateSessionToken, validateSessionToken } from "./oslo-auth";
+import { validateSessionToken } from "./oslo-auth";
 
 export const authMiddleware = createMiddleware<AppContext>(async (c, next) => {
   if (c.req.path.startsWith("/auth")) {

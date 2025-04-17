@@ -1,21 +1,35 @@
-import { useEffect, useState } from "react"
-import { CalendarIcon, PlusIcon } from "@heroicons/react/20/solid"
-import {
-  PencilSquareIcon,
-  MapPinIcon,
-  Bars3BottomLeftIcon,
-  SwatchIcon,
-} from "@heroicons/react/24/outline"
+import { ReactNode, useEffect, useState } from "react"
 import colors from "../constants/colors"
-import { Switch } from "@headlessui/react"
 import NepaliDatePicker from "./NepaliDatePicker"
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query"
+import { useQueryClient } from "@tanstack/react-query"
 import { CalendarEvent } from "@miti/types"
 import { apiBaseUrl } from "../helper/api"
 import DropDown from "./DropDown"
 import Spinner from "./Spinner"
 import { useCalendarList } from "@miti/query/calendar"
 import { useCreateEvent } from "@miti/query/event"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Switch } from "@/components/ui/switch"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+import useMediaQuery from "@/hooks/useMediaQuery"
+import { Calendar, MapIcon, Pencil, SwatchBook, Text } from "lucide-react"
 
 function getCombinedDateTime(date: Date, time: string) {
   const timeParts = time.split(":")
@@ -26,20 +40,27 @@ function getCombinedDateTime(date: Date, time: string) {
 
 export type CalendarPayload = Partial<CalendarEvent> & { calendarId: string }
 
-function AddEventModal({ startDate }: { startDate: Date }) {
-  const [openModel, setOpenModel] = useState(false)
+function AddEventModal({
+  startDate,
+  children,
+}: {
+  startDate: Date
+  children: ReactNode
+}) {
+  const [open, setOpen] = useState(false)
   const [isAllDayEvent, setIsAllDayEvent] = useState(false)
   const [eventStartDate, setEventStartDate] = useState(startDate)
   const [eventEndDate, setEventEndDate] = useState(
     new Date(startDate.getTime() + 24 * 60 * 60 * 1000)
   )
   const [selectedCalendar, setSelectedCalendar] = useState<string | number>("")
+  const isDesktop = useMediaQuery("(min-width: 768px)")
 
   const queryClient = useQueryClient()
 
   const handleSuccess = () => {
     queryClient.invalidateQueries(["events"])
-    setOpenModel(false)
+    setOpen(false)
   }
 
   const { mutateAsync, isPending } = useCreateEvent(apiBaseUrl, handleSuccess)
@@ -52,7 +73,7 @@ function AddEventModal({ startDate }: { startDate: Date }) {
     setSelectedCalendar(calendarList[0]?.value || "")
   }, [calendarList])
 
-  const handelSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const startEndDates = isAllDayEvent
       ? {
@@ -92,156 +113,212 @@ function AddEventModal({ startDate }: { startDate: Date }) {
     }
     await mutateAsync(eventData)
   }
-  if (!openModel)
-    return (
-      <button
-        className="shadowfocus:outline-none fixed bottom-2 right-2 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-indigo-600  text-white md:bottom-5"
-        onClick={() => setOpenModel(true)}
-      >
-        <PlusIcon className="m-3" />
-      </button>
-    )
-  return (
-    <div className="fixed inset-0 flex items-end bg-gray-900/50 md:items-center md:justify-center ">
-      <div className="flex-end w-full rounded-t-lg bg-white px-4 pb-4 dark:bg-gray-800 md:w-2/3 md:rounded-b-lg lg:w-2/4">
-        <div className="border-b py-6 text-center font-bold text-gray-900 dark:text-white">
-          Create an Event
+
+  const EventForm = () => (
+    <form onSubmit={handleSubmit} className="space-y-6 px-2">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Label htmlFor="all-day" className="font-medium">
+            All day event
+          </Label>
+          <Switch
+            id="all-day"
+            checked={isAllDayEvent}
+            onCheckedChange={() => {
+              setIsAllDayEvent(!isAllDayEvent)
+              setEventStartDate(new Date(eventStartDate))
+              setEventEndDate(new Date(eventEndDate))
+            }}
+          />
         </div>
-        <div className="modal-body">
-          <form onSubmit={handelSubmit}>
-            <div className="py-4">
-              <div className="my-2 flex w-full items-center gap-2">
-                <span className="font-sans dark:text-white">All day</span>
-                <Switch
-                  checked={isAllDayEvent}
-                  onChange={() => {
-                    setIsAllDayEvent(!isAllDayEvent)
-                    setEventStartDate(new Date(eventStartDate))
-                    setEventEndDate(new Date(eventEndDate))
-                  }}
-                  className={`${
-                    isAllDayEvent
-                      ? "border bg-indigo-600"
-                      : "border bg-gray-200 dark:bg-gray-800"
-                  }  inline-flex h-6 w-11 items-center rounded-full transition-all duration-100 ease-linear`}
-                >
-                  <span className="sr-only">toggle all day event</span>
-                  <span
-                    className={`${
-                      isAllDayEvent ? "translate-x-6" : "translate-x-1"
-                    } inline-block h-4 w-4 transform rounded-full bg-white ring-1 ring-gray-600`}
-                  />
-                </Switch>
-              </div>
-              <div className="my-2 flex w-full items-center gap-2 dark:text-white">
-                <span>From: </span>
+
+        <Separator />
+
+        <div className="space-y-4">
+          <div className="flex flex-col space-y-2">
+            <Label className="font-medium">From</Label>
+            <div className="flex flex-wrap items-center gap-2">
+              <div>
                 <NepaliDatePicker
                   setDate={setEventStartDate}
                   date={eventStartDate}
                 />
-                {!isAllDayEvent && (
-                  <input
-                    required
-                    type="time"
-                    name="startTime"
-                    className="rounded-md border p-1 dark:bg-gray-800"
-                  />
-                )}
               </div>
-              <div className="my-2 flex w-full items-center gap-2 dark:text-white">
-                <span>To:</span>
+              {!isAllDayEvent && (
+                <input
+                  required
+                  type="time"
+                  name="startTime"
+                  className="w-24 border p-1.5 rounded-lg"
+                />
+              )}
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <Label className="font-medium">To</Label>
+            <div className="flex flex-wrap items-center gap-2">
+              <div>
                 <NepaliDatePicker
                   setDate={setEventEndDate}
                   date={eventEndDate}
                 />
-                {!isAllDayEvent && (
-                  <input
-                    required
-                    type="time"
-                    name="endTime"
-                    className="rounded-md border p-1 dark:bg-gray-800"
-                  />
-                )}
               </div>
-              <div className="my-2 flex w-full items-center gap-2 dark:text-white">
-                <CalendarIcon className="h-6 w-6 dark:text-white" />
-                {!isCalendarListLoading ? (
-                  <DropDown
-                    items={calendarList}
-                    selected={selectedCalendar}
-                    setSelected={setSelectedCalendar}
-                    className="w-full text-start"
-                  />
-                ) : (
-                  <Spinner />
-                )}
-              </div>
-              <div className="my-2 flex w-full items-center gap-2">
-                <PencilSquareIcon className="h-6 w-6 dark:text-white" />
+              {!isAllDayEvent && (
                 <input
-                  type="text"
-                  name="summary"
-                  className="w-full flex-1 rounded-md border border-gray-400 px-2 py-1 outline-none focus:outline-indigo-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-200"
-                  placeholder="summary"
+                  required
+                  type="time"
+                  name="endTime"
+                  className="w-24 border p-1.5 rounded-lg"
                 />
-              </div>
-              <div className="my-2 flex w-full items-center gap-2">
-                <MapPinIcon className="h-6 w-6 dark:text-white" />
+              )}
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-2">
+          <Label className="font-medium flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
+            Calendar
+          </Label>
+          {!isCalendarListLoading ? (
+            <DropDown
+              items={calendarList}
+              selected={selectedCalendar}
+              setSelected={setSelectedCalendar}
+              className="w-full"
+            />
+          ) : (
+            <Spinner />
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label
+            htmlFor="summary"
+            className="font-medium flex items-center gap-2"
+          >
+            <Pencil className="h-4 w-4" />
+            Summary
+          </Label>
+          <Input
+            id="summary"
+            name="summary"
+            placeholder="Add event title"
+            className="w-full"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label
+            htmlFor="location"
+            className="font-medium flex items-center gap-2"
+          >
+            <MapIcon className="h-4 w-4" />
+            Location
+          </Label>
+          <Input
+            id="location"
+            name="location"
+            placeholder="Add location"
+            className="w-full"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label
+            htmlFor="description"
+            className="font-medium flex items-center gap-2"
+          >
+            <Text className="h-4 w-4" />
+            Description
+          </Label>
+          <Textarea
+            id="description"
+            name="description"
+            placeholder="Add description"
+            className="w-full resize-none min-h-24"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label className="font-medium flex items-center gap-2">
+            <SwatchBook className="h-4 w-4" />
+            Color
+          </Label>
+          <div className="flex flex-wrap gap-2">
+            {Object.keys(colors).map((color, idx) => (
+              <div key={idx} className="relative">
                 <input
-                  type="text"
-                  name="location"
-                  className="w-full flex-1 rounded-md border border-gray-400 px-2 py-1 outline-none focus:outline-indigo-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-200"
-                  placeholder="location"
+                  type="radio"
+                  id={`color-${color}`}
+                  name="colorId"
+                  value={color}
+                  className="peer sr-only"
                 />
+                <label
+                  htmlFor={`color-${color}`}
+                  style={{ backgroundColor: colors[color] }}
+                  className="block h-8 w-8 rounded-full border-2 border-transparent cursor-pointer transition-all duration-200 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-indigo-600"
+                ></label>
               </div>
-              <div className="my-2 flex w-full items-start gap-2">
-                <Bars3BottomLeftIcon className="h-6 w-6 dark:text-white" />
-                <textarea
-                  name="description"
-                  className="w-full flex-1 resize-none rounded-md border border-gray-400 px-2 py-1 outline-none focus:outline-indigo-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-200"
-                  placeholder="description"
-                />
-              </div>
-              <div className="my-2 flex w-full items-start gap-2">
-                <SwatchIcon className="h-6 w-6 dark:text-white" />
-                <div className="flex flex-wrap">
-                  {Object.keys(colors).map((color, idx) => {
-                    return (
-                      <input
-                        key={idx}
-                        type="radio"
-                        name="colorId"
-                        value={color}
-                        style={{
-                          backgroundColor: colors[color],
-                        }}
-                        className={`m-1 h-6 w-6 cursor-pointer appearance-none rounded-full border border-gray-300 shadow-sm outline-none focus:outline-blue-600`}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-4 ">
-              <button
-                className="shadowfocus:outline-none mt-8
-                w-full rounded-md border border-indigo-600 border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-indigo-600 focus:ring-2  focus:ring-indigo-500 focus:ring-offset-2 dark:bg-gray-200  "
-                onClick={() => setOpenModel(false)}
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                disabled={isPending}
-                className="mt-8 w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-progress disabled:bg-indigo-400"
-              >
-                Add Event
-              </button>
-            </div>
-          </form>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className="flex gap-4 pt-2">
+        <Button
+          type="button"
+          variant="outline"
+          className="flex-1"
+          onClick={() => setOpen(false)}
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="flex-1 bg-indigo-600 hover:bg-indigo-800"
+          disabled={isPending}
+        >
+          {isPending ? "Creating..." : "Create Event"}
+        </Button>
+      </div>
+    </form>
+  )
+
+  if (!isDesktop) {
+    return (
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerContent className="h-[90vh] rounded-t-xl border-0">
+          <DrawerHeader className="text-left">
+            <DrawerTitle>Create Event</DrawerTitle>
+          </DrawerHeader>
+          <div className="py-6 overflow-y-auto max-h-[calc(90vh-60px)]">
+            <EventForm />
+          </div>
+        </DrawerContent>
+      </Drawer>
+    )
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden gap-0 max-h-[90vh]">
+        <DialogHeader className="px-6 py-4 border-b sticky top-0 bg-background z-10">
+          <DialogTitle className="text-xl font-semibold">
+            Create Event
+          </DialogTitle>
+        </DialogHeader>
+        <div className="px-6 py-6 overflow-y-auto max-h-[calc(90vh-60px)]">
+          <EventForm />
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }
 

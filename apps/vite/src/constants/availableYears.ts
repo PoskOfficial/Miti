@@ -31,5 +31,5 @@ const availableYears = [
     en: 2082,
     np: "२०८२",
   },
-];
-export { availableYears };
+]
+export { availableYears }

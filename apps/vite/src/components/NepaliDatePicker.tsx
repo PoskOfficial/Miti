@@ -40,7 +40,6 @@ function Picker({
             }
             if (title === "month") {
               oldDate.setMonth(+value - 1)
-              // console.log("day modified", oldDate);
             }
             if (title === "day") {
               oldDate.setDate(+value)
@@ -96,7 +95,7 @@ function Picker({
                     {({ selected, active }) => (
                       <>
                         <span
-                          className={`block truncate ${
+                          className={`block truncate ml-2 text-sm ${
                             selected ? "font-medium" : "font-normal"
                           }`}
                         >
@@ -104,9 +103,9 @@ function Picker({
                         </span>
                         {selected ? (
                           <span
-                            className={`absolute inset-y-0 left-0 flex items-center ${
-                              active ? "text-white" : "text-orange-600"
-                            }`}
+                            className={
+                              "absolute inset-y-0 left-0 flex items-center text-orange-600"
+                            }
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
@@ -130,7 +129,6 @@ function NepaliDatePicker({
   setDate: Dispatch<React.SetStateAction<Date>>
   date: Date
 }) {
-  // console.log("date", date);
   const monthData = [
     { value: "0", label: "1" },
     { value: "1", label: "2" },

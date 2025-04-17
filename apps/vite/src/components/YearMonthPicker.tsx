@@ -34,68 +34,98 @@ const YearMonthPicker = ({
       setCurrentNepaliDate(new NepaliDate(currentYear, currentMonth - 1, 1))
     }
   }
+
+  const isPrevDisabled =
+    currentMonth === 0 && currentYear === availableYears[0]?.en
+  const isNextDisabled =
+    currentMonth === 11 &&
+    currentYear === availableYears[availableYears.length - 1]?.en
+
   return (
-    <div className={cn(className)}>
-      <div className={cn("flex items-center gap-2 text-gray-900")}>
+    <div className={cn("", className)}>
+      <div className={cn("flex items-center justify-between  p-2 ")}>
+        {/* Previous Month Button */}
         <button
           type="button"
-          disabled={currentMonth === 0 && currentYear === availableYears[0]?.en}
+          disabled={isPrevDisabled}
           className={cn(
-            "flex flex-none items-center justify-center rounded-lg bg-indigo-600 p-1.5 text-white hover:bg-indigo-700  disabled:cursor-not-allowed disabled:bg-blue-600 disabled:text-white disabled:opacity-20 disabled:hover:cursor-not-allowed disabled:hover:bg-blue-600 disabled:hover:text-white"
+            "flex items-center justify-center rounded-lg p-2 transition-all duration-200",
+            isPrevDisabled
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
           )}
           onClick={handlePrevMonth}
+          aria-label="Previous month"
         >
-          <span className="sr-only">Previous month</span>
           <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
         </button>
-        <div className="flex flex-auto items-center justify-center gap-4 font-mukta font-semibold">
-          <DropDown
-            selected={currentYear}
-            setSelected={(selectedYear) =>
-              setCurrentNepaliDate(
-                new NepaliDate(selectedYear as number, currentMonth, 1)
-              )
-            }
-            items={
-              isNepaliLanguage
-                ? availableYears.map((year) => ({
-                    value: year.en,
-                    label: year.np,
-                  }))
-                : availableYears.map((year) => ({
-                    value: year.en,
-                    label: `${year.en}`,
-                  }))
-            }
-          />
-          <DropDown
-            selected={currentMonth}
-            setSelected={(selectedMonth) =>
-              setCurrentNepaliDate(
-                new NepaliDate(currentYear, selectedMonth as number, 1)
-              )
-            }
-            items={nepaliMonths.map((month, index) => ({
-              label: isNepaliLanguage ? month.np : month.en,
-              value: index,
-            }))}
-          />
+
+        {/* Month and Year Selector */}
+        <div className="flex items-center justify-center gap-3 px-2">
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Current Month Display/Dropdown */}
+            <div className="relative">
+              <DropDown
+                selected={currentMonth}
+                setSelected={(selectedMonth) =>
+                  setCurrentNepaliDate(
+                    new NepaliDate(currentYear, selectedMonth as number, 1)
+                  )
+                }
+                items={nepaliMonths.map((month, index) => ({
+                  label: isNepaliLanguage ? month.np : month.en,
+                  value: index,
+                }))}
+                className="min-w-[120px] font-semibold text-indigo-800 border-indigo-200"
+              />
+            </div>
+
+            {/* Current Year Display/Dropdown */}
+            <div className="relative">
+              <DropDown
+                selected={currentYear}
+                setSelected={(selectedYear) =>
+                  setCurrentNepaliDate(
+                    new NepaliDate(selectedYear as number, currentMonth, 1)
+                  )
+                }
+                items={
+                  isNepaliLanguage
+                    ? availableYears.map((year) => ({
+                        value: year.en,
+                        label: year.np,
+                      }))
+                    : availableYears.map((year) => ({
+                        value: year.en,
+                        label: `${year.en}`,
+                      }))
+                }
+                className="min-w-[120px] font-semibold text-indigo-800 border-indigo-200 "
+              />
+            </div>
+          </div>
+
+          {/* Optional: AD Month Display */}
+          {nepaliMonths[currentMonth]?.ad && (
+            <span className="hidden sm:inline-block text-sm px-2 py-1 rounded-full bg-gray-100 text-gray-600">
+              {nepaliMonths[currentMonth]?.ad}
+            </span>
+          )}
         </div>
-        {/* <p className="text-sm text-gray-700 dark:text-gray-400">
-          {nepaliMonths[currentMonth]?.ad}
-        </p> */}
+
+        {/* Next Month Button */}
         <button
           type="button"
-          disabled={
-            currentMonth === 11 &&
-            currentYear === availableYears[availableYears.length - 1]?.en
-          }
+          disabled={isNextDisabled}
           className={cn(
-            "flex flex-none items-center justify-center rounded-lg  bg-indigo-600 p-1.5 text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-blue-600 disabled:text-white disabled:opacity-20 disabled:hover:cursor-not-allowed disabled:hover:bg-blue-600 "
+            "flex items-center justify-center rounded-lg p-2 transition-all duration-200",
+            isNextDisabled
+              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
           )}
           onClick={handleNextMonth}
+          aria-label="Next month"
         >
-          <span className="sr-only">Next month</span>
           <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>

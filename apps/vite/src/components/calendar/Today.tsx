@@ -1,9 +1,6 @@
-import React, { useState } from "react"
-import { cn } from "@/lib/utils"
-import Panchang from "./Panchang"
 import { NewCalendarData } from "@miti/types"
-import NepaliDate from "nepali-datetime"
-import { CaretDownIcon, CaretUpIcon } from "@radix-ui/react-icons"
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
+import { Sun, Moon, Sunrise, Sunset } from "lucide-react"
 
 type TodayProps = {
   data: NewCalendarData | undefined
@@ -11,87 +8,67 @@ type TodayProps = {
 }
 
 const Today = ({ data, isLoading }: TodayProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const today = new NepaliDate()
-
   return (
-    <div className=" bg-white shadow-md flex-row items-center border rounded-lg min-w-80 p-4">
-      {/* Top Section */}
-      <div>
-        {!isLoading && data ? (
-          <>
-            <div className="flex items-center space-x-4 rounded-lg">
-              <div
-                className={cn(
-                  "rounded-lg bg-gray-200 text-center w-16 h-16 flex flex-col gap-1 items-center justify-center",
-                  (data.eventDetails.find((event) => event.isHoliday) ||
-                    data.calendarInfo.days.codes.en === "7") &&
-                    "text-red-500 bg-red-100"
-                )}
-              >
-                <div>
-                  <p className="text-2xl font-semibold ">
-                    {data.calendarInfo.dates.bs.day.np}
-                  </p>
-                  <p className="text-sm font-semibold ">
-                    {data.calendarInfo.days.dayOfWeek.np}
-                  </p>
+    <div className="md:mt-14 min-w-full">
+      {!isLoading && data ? (
+        <div className="flex border rounded-xl min-w-80 shadow-md">
+          <div className="bg-gradient-to-br from-indigo-400 to-blue-500 p-3 rounded-l-xl shadow-inner flex flex-col items-center justify-center">
+            <div className="text-4xl font-bold text-white">
+              {data.calendarInfo.dates.ad.day.np}
+            </div>
+            <div className="text-sm text-white uppercase tracking-wide">
+              {data.calendarInfo.days.dayOfWeek.np}
+            </div>
+          </div>
+
+          {/* Right content area */}
+          <div className="p-4 flex-grow bg-white rounded-r-2xl">
+            <div className="flex justify-between items-start">
+              <div>
+                <div className="text-lg font-bold text-gray-800">
+                  {data.calendarInfo.dates.bs.month.np},{" "}
+                  {data.calendarInfo.dates.bs.year.np}
                 </div>
-              </div>
-              <div className="flex-1">
-                <span className="flex flex-row">
-                  <p className="font-bold text-left flex-1 text-2xl">
-                    {data.calendarInfo.dates.bs.month.np},
-                    {data.calendarInfo.dates.bs.year.np}
-                  </p>
-                </span>
-                <p className="text-sm text-gray-600">
-                  {data.tithiDetails?.title.np},{" "}
-                  {data.panchangaDetails?.pakshya.np}
-                </p>
-                <p className="text-xs text-gray-500">
+                <div className="text-sm text-gray-600">
                   ने.सं. {data.calendarInfo.nepaliEra.nepalSambat.year.np},{" "}
                   {data.calendarInfo.nepaliEra.nepalSambat.month.np}
-                </p>
+                </div>
+              </div>
+
+              <div className="bg-gray-100 rounded-full px-3 py-1 text-xs text-gray-700">
+                Today
               </div>
             </div>
-            <div className="flex my-4 justify-between">
-              <img
-                src="https://img.icons8.com/color/48/000000/sunrise.png"
-                alt="sunrise"
-                className="h-6 w-6"
-              />
-              <p className="text-sm text-gray-600">
-                सूर्योदय: {data.panchangaDetails?.times.sunrise}
-              </p>
-              <img
-                src="https://img.icons8.com/color/48/000000/sunset.png"
-                alt="sunrise"
-                className="h-6 w-6"
-              />
-              <p className="text-sm text-gray-600">
-                सूर्यास्त: {data.panchangaDetails?.times.sunset}
-              </p>
+
+            {/* Sun/Moon times with custom styling */}
+            <div className="mt-4 flex items-center gap-8">
+              <div className="flex items-end gap-2">
+                <img
+                  src="https://img.icons8.com/color/48/000000/sunrise.png"
+                  alt="sunrise"
+                  className="size-6"
+                />
+                <div className="text-sm text-gray-500 font-medium">
+                  {data.panchangaDetails?.times.sunrise ?? "--:--"}
+                </div>
+              </div>
+
+              <div className="flex items-end gap-2">
+                <img
+                  src="https://img.icons8.com/color/48/000000/sunset.png"
+                  alt="sunset"
+                  className="size-6"
+                />
+                <div className="text-sm text-gray-500 font-medium">
+                  {data.panchangaDetails?.times.sunset ?? "--:--"}
+                </div>
+              </div>
             </div>
-            <div className="flex justify-end">
-              <button
-                className="text-sm rounded-lg flex-1 items-end text-end transition-all duration-300 text-indigo-500 hover:text-indigo-600"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                आजको पंचांग{" "}
-                {isOpen ? (
-                  <CaretUpIcon className="inline" />
-                ) : (
-                  <CaretDownIcon className="inline" />
-                )}
-              </button>
-            </div>
-          </>
-        ) : (
-          Today.skeleton
-        )}
-      </div>
-      {isOpen && data && <Panchang data={data} />}
+          </div>
+        </div>
+      ) : (
+        Today.skeleton
+      )}
     </div>
   )
 }

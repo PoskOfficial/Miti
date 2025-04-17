@@ -1,19 +1,24 @@
-import nepaliNumber from "@/helper/nepaliNumber"
 import { cn } from "@/lib/utils"
 import { NewCalendarData } from "@miti/types"
 import NepaliDate from "nepali-datetime"
+import { Calendar, Clock, Moon, Sun, Star, Wind, Earth } from "lucide-react"
 
-const PanchangTableRow = ({
+export const PanchangTableRow = ({
   label,
   value,
+  icon,
 }: {
   label: string
   value: string
+  icon?: React.ReactNode
 }) => {
   return (
-    <div className="flex justify-between">
-      <p className="font-semibold">{label}:</p>
-      <p>{value}</p>
+    <div className="flex items-center px-5 justify-between py-3 ">
+      <div className="flex items-center gap-2">
+        {icon && <span className="text-orange-600">{icon}</span>}
+        <p className="font-medium text-gray-700">{label}:</p>
+      </div>
+      <p className="text-gray-900">{value}</p>
     </div>
   )
 }
@@ -22,35 +27,48 @@ const PanchangSection = ({
   title,
   children,
   classes,
+  icon,
 }: {
   title: string
   children: React.ReactNode
   classes?: string
+  icon?: React.ReactNode
 }) => {
   return (
-    <div className={`my-8`}>
-      <h3 className="text-lg font-bold text-gray-800 mb-2">{title}</h3>
-      <div className={classes}>{children}</div>
+    <div className="my-8">
+      <div className="flex items-center gap-2 mb-4">
+        {icon && <span className="text-orange-600">{icon}</span>}
+        <h3 className="text-lg font-bold text-gray-800">{title}</h3>
+      </div>
+      <div className={cn("rounded-xl border border-gray-200 ", classes)}>
+        {children}
+      </div>
     </div>
   )
 }
 
 const MuhuratItem = ({ name, time }: { name: string; time?: string }) => {
   return (
-    <li className="flex justify-between p-4 text-black text-start">
-      <span>{name}</span>
-      <span>{time}</span>
+    <li className="flex justify-between p-4 text-black text-start hover:bg-opacity-70 transition-colors">
+      <span className="font-medium">{name}</span>
+      <span className="text-gray-700">{time}</span>
     </li>
   )
 }
+
 const Panchang = ({ data }: { data: NewCalendarData }) => {
   return (
-    <div className="">
-      {/* Header */}
-      <div className="flex items-center space-x-3 mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">पञ्चाङ्ग</h2>
+    <div className="max-w-2xl my-5 mx-auto bg-white rounded-xl ">
+      <div className="flex items-center gap-2 mb-4">
+        {
+          <span className="text-orange-600">
+            <Earth />
+          </span>
+        }
+        <h3 className="text-lg font-bold text-gray-800">पञ्चाङ्ग</h3>
       </div>
-      <div>
+
+      <div className="bg-gradient-to-br divide-y divide-orange-100 from-amber-50 to-orange-50  py-2 rounded-xl border border-orange-100  mb-6">
         <PanchangTableRow
           label="तारिख"
           value={new NepaliDate(data.calendarInfo.dates.bs.full.en ?? "")
@@ -60,17 +78,29 @@ const Panchang = ({ data }: { data: NewCalendarData }) => {
               day: "numeric",
               year: "numeric",
             })}
+          icon={<Calendar size={18} />}
         />
 
         <PanchangTableRow
           label="चन्द्र राशि"
           value={data.panchangaDetails?.chandraRashi.time.np ?? "-"}
+          icon={<Moon size={18} />}
         />
         <PanchangTableRow
           label="सूर्य राशि"
           value={data.panchangaDetails?.suryaRashi.np ?? "-"}
+          icon={<Sun size={18} />}
         />
-        <PanchangTableRow label="नक्षत्र समाप्ति समय" value="१७:४३" />
+        <PanchangTableRow
+          label="ऋतु"
+          value={data.hrituDetails?.title.np ?? "-"}
+          icon={<Wind size={18} />}
+        />
+        <PanchangTableRow
+          label="नक्षत्र समाप्ति समय"
+          value="१७:४३"
+          icon={<Star size={18} />}
+        />
         <PanchangTableRow
           label="करण १"
           value={data.panchangaDetails?.karans.first.np ?? "-"}
@@ -78,10 +108,6 @@ const Panchang = ({ data }: { data: NewCalendarData }) => {
         <PanchangTableRow
           label="करण २"
           value={data.panchangaDetails?.karans.second.np ?? "-"}
-        />
-        <PanchangTableRow
-          label="ऋतु"
-          value={data.hrituDetails?.title.np ?? "-"}
         />
         <PanchangTableRow
           label="पक्ष"
@@ -99,40 +125,45 @@ const Panchang = ({ data }: { data: NewCalendarData }) => {
           }
         />
       </div>
-
-      {/* Shubh Muhurat Section */}
-
-      <PanchangSection title="आजको शुभ साइत / मुहूर्त">
+      <PanchangSection title="शुभ साइत / मुहूर्त" icon={<Sun size={20} />}>
         <ul
           className={cn(
-            "divide-y divide-orange-200 bg-orange-100 rounded-lg",
-            data.auspiciousMoments.sahits.length === 0 && "px-4 py-4"
+            "bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl overflow-hidden",
+            data.auspiciousMoments.sahits.length === 0 && "p-4"
           )}
         >
-          {data.auspiciousMoments.sahits.length > 0
-            ? data.auspiciousMoments.sahits.map((sahit) => (
-                <MuhuratItem name={sahit.title.np ?? ""} />
-              ))
-            : "आज शुभ साइत / मुहूर्त छैन।"}
+          {data.auspiciousMoments.sahits.length > 0 ? (
+            data.auspiciousMoments.sahits.map((sahit, index) => (
+              <MuhuratItem key={index} name={sahit.title.np ?? ""} />
+            ))
+          ) : (
+            <p className="text-gray-500 text-center italic">
+              आज शुभ साइत / मुहूर्त छैन।
+            </p>
+          )}
         </ul>
       </PanchangSection>
 
-      {/* Kala Muhurat Section */}
-      <PanchangSection title="आजको काल / मुहूर्तम्">
+      <PanchangSection title="काल / मुहूर्तम्" icon={<Clock size={20} />}>
         <ul
           className={cn(
-            "divide-y divide-emerald-200 bg-emerald-100 rounded-lg",
-            data.auspiciousMoments.muhurats.length === 0 && "px-4 py-4"
+            "divide-y divide-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl overflow-hidden",
+            data.auspiciousMoments.muhurats.length === 0 && "p-4"
           )}
         >
-          {data.auspiciousMoments.muhurats.length > 0
-            ? data.auspiciousMoments.muhurats.map((muhurat) => (
-                <MuhuratItem
-                  name={muhurat.periodName ?? ""}
-                  time={muhurat.duration ?? ""}
-                />
-              ))
-            : "आज काल / मुहूर्तम् छैन।"}
+          {data.auspiciousMoments.muhurats.length > 0 ? (
+            data.auspiciousMoments.muhurats.map((muhurat, index) => (
+              <MuhuratItem
+                key={index}
+                name={muhurat.periodName ?? ""}
+                time={muhurat.duration ?? ""}
+              />
+            ))
+          ) : (
+            <p className="text-gray-500 text-center italic">
+              आज काल / मुहूर्तम् छैन।
+            </p>
+          )}
         </ul>
       </PanchangSection>
     </div>

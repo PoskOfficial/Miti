@@ -119,7 +119,7 @@ const generateTimeline = (
     case "week":
       return <Week monthData={monthData} />
     case "month":
-      return <CalendarGrid monthData={monthData} timelineMode />
+      return <CalendarGrid monthData={monthData} />
   }
 }
 

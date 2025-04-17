@@ -27,7 +27,7 @@ export function DayDialog({
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent className="overflow-y-auto min-w-[500px]">
           <SheetHeader>
-            <SheetTitle>आजको विवरण</SheetTitle>
+            <SheetTitle>मिति विवरण</SheetTitle>
           </SheetHeader>
           {children}
         </SheetContent>
@@ -39,7 +39,7 @@ export function DayDialog({
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          <DrawerTitle>आजको विवरण</DrawerTitle>
+          <DrawerTitle>मिति विवरण</DrawerTitle>
         </DrawerHeader>
         {children}
         <DrawerFooter className="pt-2"></DrawerFooter>

@@ -2,7 +2,6 @@ import React from "react"
 import { cn } from "@/lib/utils"
 import { Event } from "./EventList"
 import { relativeTimeFromDates } from "@/helper/dates"
-import NepaliDate from "nepali-datetime"
 
 const UpcomingEvent: React.FC<{
   event: Event
@@ -20,7 +19,7 @@ const UpcomingEvent: React.FC<{
         <p className="text-xs font-semibold">{event.day}</p>
       </div>
       <div className="flex-1">
-        <span className="flex flex-row">
+        <span className="flex flex-row items-start">
           <p
             className={cn(
               "font-bold text-left w-10 flex-1 text-ellipsis",
@@ -29,7 +28,7 @@ const UpcomingEvent: React.FC<{
           >
             {event.title}
           </p>
-          <p className="text-xs text-gray-500 text-right bg-gray-100 rounded-xl px-1 py-[0.1rem]">
+          <p className="text-xs text-gray-500  flex items-center justify-center px-1.5 py-1 rounded-xl bg-gray-100 ">
             {relativeTimeFromDates(new Date(event.enDate))}
           </p>
         </span>
