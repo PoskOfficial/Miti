@@ -1,11 +1,14 @@
 import { cn } from "@/lib/utils"
 import { NewCalendarData } from "@miti/types"
 import Panchang from "./Panchang"
-import { CalendarFold, User } from "lucide-react"
 import CalendarEvents from "./CalendarEvents"
 import UserEvents from "./UserEvents"
 
+import { useUser } from "@miti/query/user"
+import { apiBaseUrl } from "@/helper/api"
+
 export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
+  const { status } = useUser(apiBaseUrl)
   const isHoliday =
     dayData.eventDetails.filter((event) => event.isHoliday).length !== 0 ||
     dayData.calendarInfo.days.codes.en === "7"
@@ -69,7 +72,13 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
         </div>
       </div>
       <div className="my-4">
-        <UserEvents />
+        {status === "LOGGED_IN" && (
+          <UserEvents
+            selectedDate={
+              new Date(dayData.calendarInfo.dates.ad.full.en ?? new Date())
+            }
+          />
+        )}
         <CalendarEvents events={calendarEvents} />
       </div>
       <div>

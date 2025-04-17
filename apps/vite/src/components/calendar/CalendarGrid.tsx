@@ -5,7 +5,8 @@ import NepaliDate from "nepali-datetime"
 import { isSameDay } from "date-fns"
 import { DayDialog } from "./DayDialog"
 import { DayDetail } from "./DayDetails"
-import { is } from "date-fns/locale"
+import { useQuery } from "@tanstack/react-query"
+import { fetchUserEvents } from "@/helper/api"
 
 type CalendarGridProps = {
   monthData: NewCalendarData[]
@@ -21,6 +22,19 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
     setDayDialogData(dayData)
     setDayDialogOpen(true)
   }
+
+  const { data: userEvents } = useQuery({
+    queryKey: [
+      "userEvents",
+      monthData[0]?.calendarInfo.dates.bs.year.en,
+      monthData[0]?.calendarInfo.dates.bs.month.en,
+    ],
+    queryFn: () =>
+      fetchUserEvents(
+        monthData[0]?.calendarInfo.dates.ad.full.en ?? "",
+        monthData[monthData.length - 1]?.calendarInfo.dates.ad.full.en ?? ""
+      ),
+  })
 
   return (
     <div className="rounded-xl max-w-4xl shadow-md overflow-hidden border ">
