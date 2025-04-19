@@ -51,7 +51,7 @@ const GoogleCalendarController = new Hono<AppContext>()
     }
   })
   .delete(
-    "/delete/:eventId",
+    "/events/:eventId",
     zValidator(
       "param",
       z.object({

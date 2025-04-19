@@ -74,9 +74,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
       <div className="my-4">
         {status === "LOGGED_IN" && (
           <UserEvents
-            selectedDate={
-              new Date(dayData.calendarInfo.dates.ad.full.en ?? new Date())
-            }
+            selectedDate={dayData.calendarInfo.dates.ad.full.en ?? ""}
           />
         )}
         <CalendarEvents events={calendarEvents} />

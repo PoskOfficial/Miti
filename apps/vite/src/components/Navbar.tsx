@@ -13,9 +13,7 @@ import {
   SheetClose,
 } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-
-import { Menu, X } from "lucide-react"
+import { Menu } from "lucide-react"
 
 export default function Navbar() {
   const navigation = [
@@ -125,7 +123,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <UserSettings status={status} photoUrl={data?.profilePictureUrl} />
+          <UserSettings status={status} userData={data} />
         </div>
       </div>
     </header>

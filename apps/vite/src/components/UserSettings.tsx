@@ -40,18 +40,17 @@ function LoginWithGoogle({ darkMode }: { darkMode: boolean }) {
 }
 
 const UserSettings = ({
-  photoUrl,
+  userData,
   status,
 }: {
-  photoUrl?: string | null
-  status: string
+  userData?: any
+  status: "LOGGED_IN" | "NOT_LOGGED_IN" | "OFFLINE"
 }) => {
   const { t, i18n } = useTranslation()
   const { toggleDarkMode, darkMode } = useContext(DarkModeContext)
 
   const isLoggedIn = status === "LOGGED_IN"
   const isOffline = status === "OFFLINE"
-  console.log({ photoUrl })
   return (
     <TooltipProvider>
       <DropdownMenu>
@@ -62,12 +61,14 @@ const UserSettings = ({
                 <AvatarImage
                   referrerPolicy="no-referrer"
                   src={
-                    photoUrl ??
+                    userData?.profilePictureUrl ??
                     "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
                   }
                   alt="User"
                 />
-                <AvatarFallback>U</AvatarFallback>
+                <AvatarFallback>
+                  {userData?.username?.charAt(0).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <Badge
                 className={cn(

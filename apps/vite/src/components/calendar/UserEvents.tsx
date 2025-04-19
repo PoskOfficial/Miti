@@ -16,7 +16,7 @@ import AddEventModal from "../AddEventModal"
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { fetchUserEvents, deleteEvent } from "@/helper/api"
 import { CalendarEvent } from "@miti/types"
-import { add, format } from "date-fns"
+import { add, startOfDay } from "date-fns"
 import {
   Accordion,
   AccordionContent,
@@ -34,16 +34,17 @@ import {
 import { Button } from "@/components/ui/button"
 import { getEventColorInTwClasses } from "@/constants/colors"
 
-const UserEvents = ({ selectedDate }: { selectedDate: Date }) => {
-  const selectedDateString = format(new Date(selectedDate), "yyyy-MM-dd")
-  const nextDayString = format(
-    add(new Date(selectedDate), { days: 1 }),
-    "yyyy-MM-dd"
-  )
+const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
+  console.log({ selectedDate })
+  const baseDate = new Date(selectedDate)
+
+  const timeMin = startOfDay(baseDate).toISOString()
+  const timeMax = add(baseDate, { days: 1 }).toISOString()
 
   const { data: dayUserEvents } = useQuery<{ events: CalendarEvent[] }>({
     queryKey: ["userEvents", selectedDate],
-    queryFn: () => fetchUserEvents(selectedDateString, nextDayString),
+    queryFn: () => fetchUserEvents(timeMin, timeMax),
+    enabled: !!selectedDate,
   })
 
   return (
@@ -57,7 +58,7 @@ const UserEvents = ({ selectedDate }: { selectedDate: Date }) => {
           <h3 className="text-lg font-bold text-gray-800">User Events</h3>
         </div>
         <div>
-          <AddEventModal startDate={selectedDate}>
+          <AddEventModal startDate={baseDate}>
             <button className="bg-orange-600 hover:bg-orange-700 transition-colors text-white px-3 py-2 rounded-md flex items-center gap-1 text-xs shadow-sm">
               <Plus className="text-white text-sm" />
               Create Event
@@ -72,12 +73,7 @@ const UserEvents = ({ selectedDate }: { selectedDate: Date }) => {
             <EventListItem key={event.id} event={event} />
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center py-8 bg-gray-50 rounded-lg border border-gray-200">
-            <CalendarDays className="text-gray-400 mb-2" size={32} />
-            <p className="text-gray-500 text-sm">
-              No events scheduled for this day
-            </p>
-          </div>
+          <p className="text-gray-500">No events scheduled</p>
         )}
       </div>
     </div>
@@ -110,7 +106,10 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
   const formatTime = (dateTimeString?: string, dateString?: string) => {
     if (dateTimeString) {
       const date = new Date(dateTimeString)
-      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      })
     } else if (dateString) {
       return "All day"
     }
@@ -148,11 +147,6 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
                     {startTime !== "All day" ? ` - ${endTime}` : ""}
                   </span>
                 </div>
-                <div className="w-1 h-1 bg-gray-300 rounded-full flex-shrink-0"></div>
-                <div className="flex items-center gap-1 min-w-0">
-                  <CalendarDays size={12} className="flex-shrink-0" />
-                  <span className="truncate">{event.calendarSummary}</span>
-                </div>
               </div>
             </div>
           </AccordionTrigger>
@@ -174,6 +168,22 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
             )}
 
             <div className="grid grid-cols-1 gap-4">
+              {event.calendarId && (
+                <div className="flex items-start gap-2">
+                  <CalendarDays
+                    size={14}
+                    className="mt-0.5 text-gray-500 flex-shrink-0"
+                  />
+                  <div className="min-w-0">
+                    <span className="text-xs font-medium text-gray-600 block mb-1">
+                      Calendar
+                    </span>
+                    <p className="text-sm text-gray-700 break-words">
+                      {event.calendarId}
+                    </p>
+                  </div>
+                </div>
+              )}
               {event.location && (
                 <div className="flex items-start gap-2">
                   <MapPin
@@ -238,17 +248,20 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
                 </div>
               )}
 
-              <div className="mt-4 pt-4 border-t border-gray-100">
-                <Button
-                  onClick={handleDeleteClick}
-                  variant="destructive"
-                  className="flex items-center gap-2 text-sm"
-                  size="sm"
-                >
-                  <Trash2 size={16} />
-                  Delete Event
-                </Button>
-              </div>
+              {(event.accessRole === "owner" ||
+                event.accessRole === "writer") && (
+                <div className="pt-4 border-t border-gray-100">
+                  <Button
+                    onClick={handleDeleteClick}
+                    variant="destructive"
+                    className="flex items-center gap-2 text-sm"
+                    size="sm"
+                  >
+                    <Trash2 size={16} />
+                    Delete Event
+                  </Button>
+                </div>
+              )}
             </div>
           </AccordionContent>
         </AccordionItem>

@@ -10,7 +10,7 @@ export const fetchUserEvents = async (startDate: string, endDate: string) => {
 }
 
 export const getCalendarList = async () => {
-  const res = await fetch(`/api/calendars`)
+  const res = await fetch(`${apiBaseUrl}/calendars`)
   const data = await res.json()
   return (
     data.calendars?.items
@@ -26,8 +26,9 @@ export const getCalendarList = async () => {
 }
 
 export const deleteEvent = async (id: string) => {
-  await fetch(`/api/delete/${id}`, {
+  await fetch(`${apiBaseUrl}/calendar/google/events/${id}`, {
     method: "DELETE",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },

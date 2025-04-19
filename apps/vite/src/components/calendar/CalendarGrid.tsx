@@ -1,4 +1,4 @@
-import { NewCalendarData } from "@miti/types"
+import { CalendarEvent, NewCalendarData } from "@miti/types"
 import React, { useState } from "react"
 import { cn } from "@/lib/utils"
 import NepaliDate from "nepali-datetime"
@@ -7,6 +7,8 @@ import { DayDialog } from "./DayDialog"
 import { DayDetail } from "./DayDetails"
 import { useQuery } from "@tanstack/react-query"
 import { fetchUserEvents } from "@/helper/api"
+import colors from "@/constants/colors"
+import { getEventsOfSelectedDay } from "@/helper/events"
 
 type CalendarGridProps = {
   monthData: NewCalendarData[]
@@ -23,7 +25,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
     setDayDialogOpen(true)
   }
 
-  const { data: userEvents } = useQuery({
+  const { data: userEventsData } = useQuery<{ events: CalendarEvent[] }>({
     queryKey: [
       "userEvents",
       monthData[0]?.calendarInfo.dates.bs.year.en,
@@ -34,7 +36,10 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
         monthData[0]?.calendarInfo.dates.ad.full.en ?? "",
         monthData[monthData.length - 1]?.calendarInfo.dates.ad.full.en ?? ""
       ),
+    enabled: monthData.length > 0,
   })
+
+  const userEvents = userEventsData?.events || []
 
   return (
     <div className="rounded-xl max-w-4xl shadow-md overflow-hidden border ">
@@ -53,35 +58,39 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
       </div>
 
       <div className="grid grid-cols-7 gap-px sm:p-2 bg-white sm:gap-2">
-        {monthData?.map((day, index) => {
-          const isToday = isSameDay(
-            new Date(),
-            new NepaliDate(
-              day.calendarInfo.dates.bs.full.en ?? ""
-            ).getDateObject()
-          )
+        {monthData.map((day) => {
+          const dayDate = new NepaliDate(
+            day.calendarInfo.dates.bs.full.en || ""
+          ).getDateObject()
 
+          const isToday = isSameDay(new Date(), dayDate)
           const isHoliday =
             day.eventDetails.filter((event) => event.isHoliday).length > 0 ||
             day.calendarInfo.days.codes.en === "7"
-
-          const eventCount = day.eventDetails.length || 0
-          console.log(index === 0 && day.eventDetails)
+          const singleDayUserEvents = Array.from(
+            new Set(
+              getEventsOfSelectedDay(
+                userEvents,
+                new Date(day.calendarInfo.dates.ad.full.en ?? new Date())
+              ).map((event) => {
+                return event?.colorId || false
+              })
+            )
+          )
+          const eventsCount = singleDayUserEvents.length
 
           return (
             <button
               key={day.calendarInfo.dates.bs.day.np}
               className={cn(
-                "h-auto min-h-[60px] sm:aspect-square sm:min-h-[80px] p-1 sm:p-2 transition-all duration-200 hover:bg-indigo-50 relative group  sm:rounded-lg",
+                "h-auto min-h-[60px] sm:aspect-square sm:min-h-[80px] p-1 sm:p-2 transition-all duration-200 hover:bg-indigo-50 group sm:rounded-lg",
                 isHoliday && "bg-red-50/80 hover:bg-red-100/80",
                 isToday && "bg-indigo-50",
                 isHoliday && isToday && "bg-red-100"
               )}
               style={
-                index === 0
-                  ? {
-                      gridColumnStart: day.calendarInfo.days.codes.en!,
-                    }
+                monthData.indexOf(day) === 0
+                  ? { gridColumnStart: day.calendarInfo.days.codes.en! }
                   : {}
               }
               onClick={() => handleDayClick(day)}
@@ -114,17 +123,26 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                 </p>
 
                 <div className="mt-auto">
-                  {eventCount > 0 && (
-                    <div className="flex justify-center items-center gap-1">
-                      {[...Array(Math.min(eventCount, 3))].map((_, i) => (
-                        <div
-                          key={i}
-                          className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-indigo-500"
-                        />
-                      ))}
-                      {eventCount > 3 && (
-                        <span className="text-[10px] sm:text-xs text-indigo-600">
-                          +{eventCount - 3}
+                  {eventsCount > 0 && (
+                    <div className="flex justify-center items-center mt-1">
+                      <div className="flex justify-center items-center">
+                        {singleDayUserEvents
+                          .splice(0, Math.min(eventsCount, 2))
+                          .map((color, i) => (
+                            <span
+                              key={i}
+                              style={{
+                                backgroundColor: color
+                                  ? colors[color]
+                                  : "#475569",
+                              }}
+                              className={`mx-[1px] inline-block size-1 rounded-full`}
+                            ></span>
+                          ))}
+                      </div>
+                      {eventsCount > 2 && (
+                        <span className="text-[10px] text-gray-500">
+                          +{eventsCount - 2}
                         </span>
                       )}
                     </div>
@@ -137,21 +155,11 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                   )}
                 </div>
               </div>
-
-              {index % 3 === 0 && (
-                <div className="absolute bottom-1 left-1 right-1 p-1 sm:p-1.5 rounded bg-emerald-50 border border-emerald-200 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
-                  <p className="text-[10px] sm:text-xs font-medium text-emerald-700 truncate">
-                    Developer Meetup
-                  </p>
-                  <p className="text-[10px] sm:text-xs text-emerald-600 truncate hidden md:block">
-                    10:00 AM - 12:00 PM
-                  </p>
-                </div>
-              )}
             </button>
           )
         })}
       </div>
+
       {dayDialogData && (
         <DayDialog
           open={dayDialogOpen}

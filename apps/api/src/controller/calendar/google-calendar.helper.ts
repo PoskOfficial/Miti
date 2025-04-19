@@ -7,7 +7,7 @@ const getCalendarEvents = async (accessToken: string, timeMin: string, timeMax: 
       : (await getUserCalendarList(accessToken)).items?.map((calendar: any) => calendar.id);
     if (!calendarList) return [];
     const events = await Promise.all(
-      calendarList.map(async (calendarId, index) => {
+      calendarList.map(async (calendarId) => {
         const url = new URL(`${googleCalendarBaseURL}/calendars/${calendarId}/events`);
         url.searchParams.append("timeMin", new Date(timeMin).toISOString());
         url.searchParams.append("timeMax", new Date(timeMax).toISOString());
