@@ -13,11 +13,22 @@
   "navbar": {
     "Home": "Home",
     "Events": "Events",
+    "Holidays": "Holidays",
     "Date_Converter": "Date Converter",
     "About": "About",
     "Login": "Login",
     "offline": "offline",
-    "Sign_out": "Sign Out"
+    "Sign_out": "Sign Out",
+    "Upcoming_Events": "Upcoming Events",
+    "Holidays_only": "Holidays only",
+    "All_Events": "All Events",
+    "Upcoming_Holidays": "Upcoming Holidays",
+    "today": "Today"
+  },
+  "modal": {
+    "Day_Details": "Day Details",
+    "Calendar_Events": "Calendar Events",
+    "User_Events": "User Events"
   },
   "dc": {
     "Date_Converter": "Date Converter",

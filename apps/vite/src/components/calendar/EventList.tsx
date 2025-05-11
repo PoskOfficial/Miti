@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 import NepaliDate from "nepali-datetime"
 import { isBefore } from "date-fns"
+import useLanguage from "@/helper/useLanguage"
 
 export type Event = {
   date: string
@@ -13,6 +14,7 @@ export type Event = {
   day: string
   title: string
   fullDate: string
+  npDate: string
 }
 
 const EventList: React.FC<{
@@ -21,6 +23,7 @@ const EventList: React.FC<{
   title?: string
 }> = ({ data, isHoliday, title }) => {
   const { BSYear, BSMonth } = useParams()
+  const { isNepaliLanguage } = useLanguage()
 
   const today = new NepaliDate()
   const isThisMonth = useMemo(
@@ -46,6 +49,7 @@ const EventList: React.FC<{
         newEventDetails.push({
           date: day.calendarInfo.dates.bs.day.np ?? "",
           enDate: day.calendarInfo.dates.ad.full.en ?? "",
+          npDate: day.calendarInfo.dates.bs.full.np ?? "",
           isHoliday: event.isHoliday,
           day: day.calendarInfo.days.dayOfWeek.np ?? "",
           title: event.title.np ?? "",

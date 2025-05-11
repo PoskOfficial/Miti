@@ -33,10 +33,12 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { getEventColorInTwClasses } from "@/constants/colors"
+import { useTranslation } from "react-i18next"
 
 const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
   console.log({ selectedDate })
   const baseDate = new Date(selectedDate)
+  const { t } = useTranslation()
 
   const timeMin = startOfDay(baseDate).toISOString()
   const timeMax = add(baseDate, { days: 1 }).toISOString()
@@ -51,15 +53,17 @@ const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
     <div className="mb-6">
       <div className="flex items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-orange-600">
+          <span className="text-indigo-600">
             <User />
           </span>
 
-          <h3 className="text-lg font-bold text-gray-800">User Events</h3>
+          <h3 className="text-lg font-bold text-gray-800">
+            {t("modal.User_Events")}
+          </h3>
         </div>
         <div>
           <AddEventModal startDate={baseDate}>
-            <button className="bg-orange-600 hover:bg-orange-700 transition-colors text-white px-3 py-2 rounded-md flex items-center gap-1 text-xs shadow-sm">
+            <button className="bg-indigo-600 hover:bg-indigo-700 transition-colors text-white px-3 py-2 rounded-md flex items-center gap-1 text-xs shadow-sm">
               <Plus className="text-white text-sm" />
               Create Event
             </button>

@@ -13,11 +13,22 @@
   "navbar": {
     "Home": "गृहपृष्ठ",
     "Events": "कार्यक्रमहरु",
+    "Holidays": "बिदाहरु",
     "Date_Converter": "मिती परिवर्तन",
     "About": "बारेमा",
     "Login": "लगईन",
     "offline": "अफलाईन",
-    "Sign_out": "साईन आउट"
+    "Sign_out": "साईन आउट",
+    "Upcoming_Events": "आगामी कार्यक्रमहरु",
+    "Holidays_only": "बिदाहरु मात्र",
+    "All_Events": "सबै कार्यक्रमहरु",
+    "Upcoming_Holidays": "आगामी बिदाहरु",
+    "today": "आज"
+  },
+  "modal": {
+    "Day_Details": "मिति विवरण",
+    "Calendar_Events": "क्यालेन्डर कार्यक्रमहरु",
+    "User_Events": "प्रयोगकर्ता कार्यक्रमहरु"
   },
   "dc": {
     "Date_Converter": "मिती परिवर्तन",

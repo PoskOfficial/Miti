@@ -1,6 +1,6 @@
+import useLanguage from "@/helper/useLanguage"
 import { NewCalendarData } from "@miti/types"
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
-import { Sun, Moon, Sunrise, Sunset } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 type TodayProps = {
   data: NewCalendarData | undefined
@@ -8,16 +8,24 @@ type TodayProps = {
 }
 
 const Today = ({ data, isLoading }: TodayProps) => {
+  const { isNepaliLanguage } = useLanguage()
+  const { t } = useTranslation()
   return (
     <div className="md:mt-14 min-w-full">
       {!isLoading && data ? (
-        <div className="flex border rounded-xl min-w-80 shadow-md">
-          <div className="bg-gradient-to-br from-indigo-400 to-blue-500 p-3 rounded-l-xl shadow-inner flex flex-col items-center justify-center">
-            <div className="text-4xl font-bold text-white">
-              {data.calendarInfo.dates.ad.day.np}
+        <div className="flex border rounded-xl min-w-80  shadow-md">
+          <div className=" bg-gradient-to-br from-indigo-400 to-blue-500 p-3 px-6 rounded-l-xl shadow-inner flex flex-col items-center justify-center">
+            <div className="text-3xl font-semibold text-white">
+              {/* {data.calendarInfo.dates.ad.day.np} */}
+              {isNepaliLanguage
+                ? data.calendarInfo.dates.bs.day.np
+                : data.calendarInfo.dates.ad.day.en}
             </div>
-            <div className="text-sm text-white uppercase tracking-wide">
-              {data.calendarInfo.days.dayOfWeek.np}
+            <div className="text-sm text-white tracking-wide">
+              {/* {data.calendarInfo.days.dayOfWeek.np} */}
+              {isNepaliLanguage
+                ? data.calendarInfo.days.dayOfWeek.np
+                : data.calendarInfo.days.dayOfWeek.en}
             </div>
           </div>
 
@@ -26,8 +34,14 @@ const Today = ({ data, isLoading }: TodayProps) => {
             <div className="flex justify-between items-start">
               <div>
                 <div className="text-lg font-bold text-gray-800">
-                  {data.calendarInfo.dates.bs.month.np},{" "}
-                  {data.calendarInfo.dates.bs.year.np}
+                  {/* {data.calendarInfo.dates.bs.month.np},{" "}
+                  {data.calendarInfo.dates.bs.year.np} */}
+                  {isNepaliLanguage
+                    ? data.calendarInfo.dates.bs.month.np
+                    : data.calendarInfo.dates.ad.month.en}{" "}
+                  {isNepaliLanguage
+                    ? data.calendarInfo.dates.bs.year.np
+                    : data.calendarInfo.dates.ad.year.en}
                 </div>
                 <div className="text-sm text-gray-600">
                   ने.सं. {data.calendarInfo.nepaliEra.nepalSambat.year.np},{" "}
@@ -36,7 +50,7 @@ const Today = ({ data, isLoading }: TodayProps) => {
               </div>
 
               <div className="bg-gray-100 rounded-full px-3 py-1 text-xs text-gray-700">
-                Today
+                {t("navbar.today")}
               </div>
             </div>
 

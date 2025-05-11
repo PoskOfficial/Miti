@@ -1,18 +1,24 @@
+import useLanguage from "@/helper/useLanguage"
 import { cn } from "@/lib/utils"
 import { EventDetail } from "@miti/types"
 import { CalendarFold } from "lucide-react"
+import { useTranslation } from "react-i18next"
 interface CalendarEventsProps {
   events: EventDetail[]
 }
 const CalendarEvents = ({ events }: CalendarEventsProps) => {
+  const { t } = useTranslation()
+  const { isNepaliLanguage } = useLanguage()
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-orange-600">
+        <span className="text-indigo-600">
           <CalendarFold />
         </span>
 
-        <h3 className="text-lg font-bold text-gray-800">Calendar Events</h3>
+        <h3 className="text-lg font-bold text-gray-800">
+          {t("modal.Calendar_Events")}
+        </h3>
       </div>
       <div className="flex flex-col gap-2">
         {events.length > 0 ? (
@@ -31,9 +37,15 @@ const CalendarEvents = ({ events }: CalendarEventsProps) => {
                     event.isHoliday && "text-red-600"
                   )}
                 >
-                  {event.title.np}
+                  {isNepaliLanguage
+                    ? event.title.np
+                    : event.title.en ?? event.title.np}
                 </h4>
-                <p className="text-sm text-gray-600">{event.details.np}</p>
+                <p className="text-sm text-gray-600">
+                  {isNepaliLanguage
+                    ? event.details.np
+                    : event.details.en ?? event.details.np}
+                </p>
               </div>
             </div>
           ))

@@ -6,6 +6,7 @@ import UserEvents from "./UserEvents"
 
 import { useUser } from "@miti/query/user"
 import { apiBaseUrl } from "@/helper/api"
+import useLanguage from "@/helper/useLanguage"
 
 export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
   const { status } = useUser(apiBaseUrl)
@@ -14,6 +15,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
     dayData.calendarInfo.days.codes.en === "7"
   const calendarEvents = dayData.eventDetails
 
+  const { isNepaliLanguage } = useLanguage()
   return (
     <div className="overflow-y-auto">
       <div className="flex items-center space-x-4 rounded-lg">
@@ -25,18 +27,28 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
         >
           <div>
             <p className="text-2xl font-semibold ">
-              {dayData.calendarInfo.dates.bs.day.np}
+              {isNepaliLanguage
+                ? dayData.calendarInfo.dates.bs.day.np
+                : dayData.calendarInfo.dates.ad.day.en}
             </p>
-            <p className="text-sm font-semibold ">
-              {dayData.calendarInfo.days.dayOfWeek.np}
+            <p className="text-xs">
+              {/* {dayData.calendarInfo.days.dayOfWeek.np} */}
+              {isNepaliLanguage
+                ? dayData.calendarInfo.days.dayOfWeek.np
+                : dayData.calendarInfo.days.dayOfWeek.en}
             </p>
           </div>
         </div>
         <div className="flex-1">
           <span className="flex flex-row">
             <p className="font-bold text-left flex-1 text-2xl">
-              {dayData.calendarInfo.dates.bs.month.np},
-              {dayData.calendarInfo.dates.bs.year.np}
+              {isNepaliLanguage
+                ? dayData.calendarInfo.dates.bs.month.np
+                : dayData.calendarInfo.dates.ad.month.en}
+              ,
+              {isNepaliLanguage
+                ? dayData.calendarInfo.dates.bs.year.np
+                : dayData.calendarInfo.dates.ad.year.en}
             </p>
           </span>
           <p className="text-sm text-gray-600">

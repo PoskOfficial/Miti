@@ -1,10 +1,9 @@
 import { NewCalendarData } from "@miti/types"
 import NepaliDate from "nepali-datetime"
-import CalendarGrid from "./CalendarGrid"
 
 type TimelineViewProps = {
   monthData: NewCalendarData[]
-  scope: "month" | "week" | "day"
+  scope: "week" | "day"
 }
 
 const currentTime = new Date()
@@ -118,8 +117,6 @@ const generateTimeline = (
       return <Day monthData={monthData} />
     case "week":
       return <Week monthData={monthData} />
-    case "month":
-      return <CalendarGrid monthData={monthData} />
   }
 }
 

@@ -1,17 +1,20 @@
 import NepaliDate from "nepali-datetime"
 import { NewCalendarData } from "@miti/types"
 import { useParams, useSearchParams, useNavigate } from "react-router-dom"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useTransition } from "react"
 import { useCalendarData } from "@miti/query/calendar"
 import { Event } from "@/components/calendar/EventList"
 import { Calendar, Calendar1, Clock } from "lucide-react"
 import YearMonthPicker from "@/components/YearMonthPicker"
 import { nepaliMonths } from "@/constants/mahina"
 import { relativeTimeFromDates } from "@/helper/dates"
+import useLanguage from "@/helper/useLanguage"
+import { useTranslation } from "react-i18next"
 function UpcomingEvents() {
   const { BSYear, BSMonth } = useParams()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const onlyHolidays = searchParams.get("onlyHolidays") === "true"
 
   const validYearAndMonth = useMemo(() => {
@@ -91,7 +94,9 @@ function UpcomingEvents() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 mt-6">
         <div>
           <h2 className="text-2xl font-bold mb-2">
-            {onlyHolidays ? "आगामी बिदाहरू" : "आगामी कार्यक्रमहरू"}
+            {onlyHolidays
+              ? t("navbar.Upcoming_Holidays")
+              : t("navbar.Upcoming_Events")}
             <span className="text-xl font-medium text-gray-600 ml-2">
               - {currentMonthName?.np} {currentNepaliDate.getYear()}
             </span>
@@ -108,7 +113,7 @@ function UpcomingEvents() {
         <div className="mt-4 md:mt-0">
           <label className="inline-flex items-center cursor-pointer">
             <span className="mr-3 text-sm font-medium text-gray-700">
-              सबै कार्यक्रमहरू
+              {t("navbar.All_Events")}
             </span>
             <div className="relative">
               <input
@@ -120,7 +125,7 @@ function UpcomingEvents() {
               <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-500"></div>
             </div>
             <span className="ml-3 text-sm font-medium text-gray-700">
-              बिदाहरू मात्र
+              {t("navbar.Holidays_only")}
               {holidayCount > 0 && (
                 <span className="text-xs bg-red-100 text-red-800 ml-1 px-2 py-0.5 rounded-full">
                   {holidayCount}
@@ -154,6 +159,8 @@ function UpcomingEvents() {
 }
 
 function EventCard({ event }: { event: Event }) {
+  const { isNepaliLanguage } = useLanguage()
+  console.log({ isNepaliLanguage })
   return (
     <div
       className={`rounded-lg border shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md `}
@@ -185,8 +192,7 @@ function EventCard({ event }: { event: Event }) {
             </div>
           </div>
           <span className="inline-flex text-nowrap items-center rounded-full bg-gray-100 text-gray-700 px-2 py-1 text-xs font-medium">
-            {relativeTimeFromDates(new Date(event.enDate), true)}
-            {/* NOTE: true for Nepali */}
+            {relativeTimeFromDates(new Date(event.enDate), isNepaliLanguage)}
           </span>
         </div>
       </div>

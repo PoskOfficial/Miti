@@ -12,11 +12,13 @@ import NepaliDate from "nepali-datetime"
 import { useCalendarData, useTodayData } from "@miti/query/calendar"
 import { NewCalendarData } from "@miti/types"
 import TimelineView from "@/components/calendar/TimelineView"
+import { useTranslation } from "react-i18next"
 
 const Calendar = () => {
   const { BSYear, BSMonth } = useParams()
   const [view, setView] = useState<"calendar" | "event">("calendar")
-  const [scope, setScope] = useState<"month" | "week" | "day">("week")
+  const [scope, setScope] = useState<"week" | "day">("week")
+  const { t } = useTranslation()
 
   const validYearAndMonth = useMemo(() => {
     if (!BSYear || !BSMonth) return new NepaliDate()
@@ -58,7 +60,7 @@ const Calendar = () => {
   return (
     <section className="relative bg-white container">
       <Debugger />
-      <div className="w-full pt-4 max-w-7xl mx-auto">
+      <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col  lg:flex-row gap-2">
           <div className="px-2">
             <CalendarHeader
@@ -78,12 +80,14 @@ const Calendar = () => {
           <div className="mt-4 mx-2">
             <Today data={todayData} isLoading={todayDataLoading} />
             <div className="mt-6">
-              <h2 className="text-xl font-bold text-gray-700 mb-2 ">Events</h2>
+              <h2 className="text-xl font-bold text-gray-700 mb-2 ">
+                {t("navbar.Events")}
+              </h2>
               <EventList data={monthData} />
             </div>
             <div className="mt-6">
               <h2 className="text-xl font-bold text-gray-700 mb-2 ">
-                Holidays
+                {t("navbar.Holidays")}
               </h2>
               <EventList data={monthData} isHoliday />
             </div>

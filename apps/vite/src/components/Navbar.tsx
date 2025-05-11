@@ -36,7 +36,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 md:gap-4">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon" className="mr-2">
+              <Button variant="secondary" size="icon" className="mr-2">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -49,7 +49,6 @@ export default function Navbar() {
                     alt="Miti"
                     className="h-8 w-auto mr-2"
                   />
-                  <span className="font-bold text-lg">Miti</span>
                 </Link>
                 <nav className="flex flex-col space-y-1">
                   {navigation.map((item) => (
@@ -57,7 +56,7 @@ export default function Navbar() {
                       <Link
                         to={item.href}
                         className={cn(
-                          "flex items-center py-3 px-4 rounded-md text-sm font-medium transition-colors",
+                          "flex items-center py-3 px-4 rounded-md text-sm font-medium dark:text-accent-foreground transition-colors",
                           item.href === location.pathname
                             ? "bg-accent text-accent-foreground"
                             : "hover:bg-accent hover:text-accent-foreground"
@@ -87,9 +86,6 @@ export default function Navbar() {
               alt="Miti"
               className="h-8 w-auto"
             />
-            <span className="font-bold text-lg hidden md:inline-block">
-              Miti
-            </span>
           </Link>
         </div>
 
@@ -99,10 +95,10 @@ export default function Navbar() {
               key={item.name}
               to={item.href}
               className={cn(
-                "px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3 py-2 text-sm font-medium rounded-md transition-colors text-accent-foreground",
                 item.href === location.pathname
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                  ? "bg-accent"
+                  : "text-muted-foreground hover:bg-accent "
               )}
               aria-current={
                 item.href === location.pathname ? "page" : undefined

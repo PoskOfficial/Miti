@@ -57,7 +57,7 @@
     --grid-auto-rows-md: 1fr;
     --grid-auto-rows-sm: 1fr;
   }
-  .dark {
+  /* .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -77,6 +77,32 @@
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  } */
+  .dark {
+    --background: 220 20% 9%;
+    --foreground: 220 10% 98%;
+    --card: 220 20% 11%;
+    --card-foreground: 220 10% 98%;
+    --popover: 220 20% 9%;
+    --popover-foreground: 220 10% 98%;
+    --primary: 220 40% 65%;
+    --primary-foreground: 220 10% 98%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 220 10% 90%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 220 20% 18%;
+    --accent-foreground: 220 10% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 220 10% 98%;
+    --border: 220 15% 18%;
+    --input: 220 15% 18%;
+    --ring: 220 40% 65%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;

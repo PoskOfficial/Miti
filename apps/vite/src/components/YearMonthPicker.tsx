@@ -2,9 +2,17 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid"
 import useLanguage from "../helper/useLanguage"
 import { availableYears } from "../constants/availableYears"
 import { cn } from "@/lib/utils"
-import DropDown from "./DropDown"
 import NepaliDate from "nepali-datetime"
 import { nepaliMonths } from "../constants/mahina"
+import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
 
 const YearMonthPicker = ({
   currentNepaliDate,
@@ -43,13 +51,13 @@ const YearMonthPicker = ({
 
   return (
     <div className={cn("", className)}>
-      <div className={cn("flex items-center justify-between  p-2 ")}>
-        {/* Previous Month Button */}
-        <button
-          type="button"
+      <div className={cn("flex items-center justify-between p-2")}>
+        <Button
+          variant="outline"
+          size="icon"
           disabled={isPrevDisabled}
           className={cn(
-            "flex items-center justify-center rounded-lg p-2 transition-all duration-200",
+            "flex items-center justify-center rounded-lg transition-all duration-200",
             isPrevDisabled
               ? "bg-gray-100 text-gray-400 cursor-not-allowed"
               : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
@@ -58,67 +66,66 @@ const YearMonthPicker = ({
           aria-label="Previous month"
         >
           <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
+        </Button>
 
-        {/* Month and Year Selector */}
         <div className="flex items-center justify-center gap-3 px-2">
           <div className="flex items-center gap-2 sm:gap-4">
-            {/* Current Month Display/Dropdown */}
-            <div className="relative">
-              <DropDown
-                selected={currentMonth}
-                setSelected={(selectedMonth) =>
-                  setCurrentNepaliDate(
-                    new NepaliDate(currentYear, selectedMonth as number, 1)
-                  )
-                }
-                items={nepaliMonths.map((month, index) => ({
-                  label: isNepaliLanguage ? month.np : month.en,
-                  value: index,
-                }))}
-                className="min-w-[120px] font-semibold text-indigo-800 border-indigo-200"
-              />
-            </div>
-
-            {/* Current Year Display/Dropdown */}
-            <div className="relative">
-              <DropDown
-                selected={currentYear}
-                setSelected={(selectedYear) =>
-                  setCurrentNepaliDate(
-                    new NepaliDate(selectedYear as number, currentMonth, 1)
-                  )
-                }
-                items={
-                  isNepaliLanguage
-                    ? availableYears.map((year) => ({
-                        value: year.en,
-                        label: year.np,
-                      }))
-                    : availableYears.map((year) => ({
-                        value: year.en,
-                        label: `${year.en}`,
-                      }))
-                }
-                className="min-w-[120px] font-semibold text-indigo-800 border-indigo-200 "
-              />
-            </div>
+            <Select
+              value={currentYear.toString()}
+              onValueChange={(value) => {
+                setCurrentNepaliDate(
+                  new NepaliDate(parseInt(value), currentMonth, 1)
+                )
+              }}
+            >
+              <SelectTrigger className="min-w-[120px] font-semibold text-indigo-800 outline-none ring-0 focus:ring-0">
+                <SelectValue placeholder="Year" className="select-none" />
+              </SelectTrigger>
+              <SelectContent className="max-h-48">
+                {availableYears.map((year) => (
+                  <SelectItem key={year.en} value={year.en.toString()}>
+                    {isNepaliLanguage ? year.np : `${year.en}`}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select
+              value={currentMonth.toString()}
+              onValueChange={(value) => {
+                setCurrentNepaliDate(
+                  new NepaliDate(currentYear, parseInt(value), 1)
+                )
+              }}
+            >
+              <SelectTrigger className="min-w-[120px] font-semibold text-indigo-800 outline-none ring-0 focus:ring-0">
+                <SelectValue placeholder="Month" className="select-none" />
+              </SelectTrigger>
+              <SelectContent className="max-h-48">
+                {nepaliMonths.map((month, index) => (
+                  <SelectItem key={index} value={index.toString()}>
+                    {isNepaliLanguage ? month.np : month.en}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
-          {/* Optional: AD Month Display */}
           {nepaliMonths[currentMonth]?.ad && (
-            <span className="hidden sm:inline-block text-sm px-2 py-1 rounded-full bg-gray-100 text-gray-600">
+            <Badge
+              variant="secondary"
+              className="hidden sm:inline-block text-sm rounded-full bg-gray-100 text-gray-600"
+            >
               {nepaliMonths[currentMonth]?.ad}
-            </span>
+            </Badge>
           )}
         </div>
 
-        {/* Next Month Button */}
-        <button
-          type="button"
+        <Button
+          variant="outline"
+          size="icon"
           disabled={isNextDisabled}
           className={cn(
-            "flex items-center justify-center rounded-lg p-2 transition-all duration-200",
+            "flex items-center justify-center rounded-lg transition-all duration-200",
             isNextDisabled
               ? "bg-gray-100 text-gray-400 cursor-not-allowed"
               : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
@@ -127,7 +134,7 @@ const YearMonthPicker = ({
           aria-label="Next month"
         >
           <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
+        </Button>
       </div>
     </div>
   )

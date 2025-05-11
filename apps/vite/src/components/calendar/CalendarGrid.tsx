@@ -9,6 +9,8 @@ import { useQuery } from "@tanstack/react-query"
 import { fetchUserEvents } from "@/helper/api"
 import colors from "@/constants/colors"
 import { getEventsOfSelectedDay } from "@/helper/events"
+import useLanguage from "@/helper/useLanguage"
+import nepaliNumber from "@/helper/nepaliNumber"
 
 type CalendarGridProps = {
   monthData: NewCalendarData[]
@@ -19,6 +21,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
   const [dayDialogData, setDayDialogData] = useState<NewCalendarData | null>(
     null
   )
+  const { isNepaliLanguage } = useLanguage()
 
   const handleDayClick = (dayData: NewCalendarData) => {
     setDayDialogData(dayData)
@@ -103,7 +106,10 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                       isHoliday ? "text-red-700" : "text-gray-600"
                     )}
                   >
-                    {day.calendarInfo.dates.ad.day.np}
+                    {/* {day.calendarInfo.dates.ad.day.np} */}
+                    {isNepaliLanguage
+                      ? day.calendarInfo.dates.ad.day.np
+                      : day.calendarInfo.dates.ad.day.en}
                   </p>
 
                   <p className="text-[10px] sm:text-xs text-gray-500 hidden md:block truncate max-w-[60%]">
@@ -113,13 +119,15 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
 
                 <p
                   className={cn(
-                    "text-center text-base sm:text-lg md:text-2xl font-medium",
+                    "text-center text-base sm:text-lg md:text-2xl",
                     isHoliday && "text-red-600",
                     isToday && "text-indigo-700 font-bold",
                     isToday && isHoliday && "text-red-700"
                   )}
                 >
-                  {day.calendarInfo.dates.bs.day.np}
+                  {isNepaliLanguage
+                    ? day.calendarInfo.dates.bs.day.np
+                    : day.calendarInfo.dates.bs.day.en}
                 </p>
 
                 <div className="mt-auto">
@@ -142,15 +150,20 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                       </div>
                       {eventsCount > 2 && (
                         <span className="text-[10px] text-gray-500">
-                          +{eventsCount - 2}
+                          {isNepaliLanguage
+                            ? nepaliNumber((+eventsCount - 2).toString())
+                            : +eventsCount - 2}
                         </span>
                       )}
                     </div>
                   )}
 
                   {day.eventDetails.length > 0 && (
-                    <p className="text-[10px] mt-1 sm:text-xs text-center hidden sm:block truncate text-indigo-700 font-medium">
-                      {day.eventDetails[0]?.title.np}
+                    <p className="text-[10px] mt-1 sm:text-xs text-center hidden sm:block truncate text-indigo-700">
+                      {/* {day.eventDetails[0]?.title.np} */}
+                      {isNepaliLanguage
+                        ? day.eventDetails[0]?.title.np
+                        : day.eventDetails[0]?.title.en}
                     </p>
                   )}
                 </div>

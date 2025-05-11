@@ -4,14 +4,15 @@ import EventIcon from "../icons/EventIcon"
 import ListIcon from "../icons/ListIcon"
 import YearMonthPicker from "../YearMonthPicker"
 import NepaliDate from "nepali-datetime"
+import { useTranslation } from "react-i18next"
 
 type CalendarHeaderProps = {
   currentNepaliDate: NepaliDate
   setCurrentNepaliDate: (date: NepaliDate) => void
   view: "calendar" | "event"
   setView: (view: "calendar" | "event") => void
-  scope: "month" | "week" | "day"
-  setScope: (scope: "month" | "week" | "day") => void
+  scope: "week" | "day"
+  setScope: (scope: "week" | "day") => void
 }
 const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   currentNepaliDate,
@@ -21,10 +22,11 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   scope,
   setScope,
 }) => {
+  const { t } = useTranslation()
   return (
     <div className="grid grid-cols-2 grid-rows-2 md:grid-rows-1 md:grid-cols-4 place-content-center  items-center my-2">
       <div className="flex gap-2">
-        <div className="bg-gray-200 w-fit h-fit rounded-lg">
+        {/* <div className="bg-gray-200 w-fit h-fit rounded-lg">
           <button
             className={cn(
               "p-2 rounded-md bg-gray-200 border-2 border-gray-200 inline-flex",
@@ -43,13 +45,13 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
           >
             <ListIcon />
           </button>
-        </div>
+        </div> */}
         <div>
           <button
             className="flex py-2 px-2 rounded-md bg-gray-50 border border-gray-300 items-center gap-1.5 text-xs font-medium text-gray-900 transition-all duration-500 hover:bg-gray-200"
             onClick={() => setCurrentNepaliDate(new NepaliDate())}
           >
-            Today
+            {t("navbar.today")}
           </button>
         </div>
       </div>
@@ -58,7 +60,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         currentNepaliDate={currentNepaliDate}
         setCurrentNepaliDate={setCurrentNepaliDate}
       />
-      <div className="col-start-2 row-start-1 md:row-start-1 md:col-start-4">
+      {/* <div className="col-start-2 row-start-1 md:row-start-1 md:col-start-4">
         <div className="flex items-center justify-end gap-2 flex-1">
           {view === "event" && (
             <div className="flex items-center gap-px p-1 rounded-md bg-gray-100">
@@ -102,7 +104,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
             </svg>
           </button>{" "}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
