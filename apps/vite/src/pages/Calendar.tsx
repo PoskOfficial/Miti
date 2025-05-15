@@ -13,6 +13,7 @@ import { useCalendarData, useTodayData } from "@miti/query/calendar"
 import { NewCalendarData } from "@miti/types"
 import TimelineView from "@/components/calendar/TimelineView"
 import { useTranslation } from "react-i18next"
+import { Loader2 } from "lucide-react"
 
 const Calendar = () => {
   const { BSYear, BSMonth } = useParams()
@@ -44,7 +45,8 @@ const Calendar = () => {
     )
   }, [currentNepaliDate, navigate])
 
-  const { data: calendarData } = useCalendarData(currentNepaliDate)
+  const { data: calendarData, isLoading: monthDataLoading } =
+    useCalendarData(currentNepaliDate)
 
   const currentMonth = currentNepaliDate.getMonth() + 1
 
@@ -72,7 +74,15 @@ const Calendar = () => {
               setScope={setScope}
             />
             {view === "calendar" ? (
-              <CalendarGrid monthData={monthData} />
+              <>
+                {monthDataLoading ? (
+                  <div className="flex justify-center items-center h-[50vh]">
+                    <Loader2 className="animate-spin text-gray-500" size={32} />
+                  </div>
+                ) : (
+                  <CalendarGrid monthData={monthData} />
+                )}
+              </>
             ) : (
               <TimelineView monthData={monthData} scope={scope} />
             )}
@@ -83,13 +93,17 @@ const Calendar = () => {
               <h2 className="text-xl font-bold text-gray-700 mb-2 ">
                 {t("navbar.Events")}
               </h2>
-              <EventList data={monthData} />
+              <EventList data={monthData} isLoading={monthDataLoading} />
             </div>
             <div className="mt-6">
               <h2 className="text-xl font-bold text-gray-700 mb-2 ">
                 {t("navbar.Holidays")}
               </h2>
-              <EventList data={monthData} isHoliday />
+              <EventList
+                data={monthData}
+                isHoliday
+                isLoading={monthDataLoading}
+              />
             </div>
           </div>
         </div>

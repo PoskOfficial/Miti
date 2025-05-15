@@ -25,6 +25,11 @@
     "Upcoming_Holidays": "Upcoming Holidays",
     "today": "Today"
   },
+  "today": {
+    "Tithi": "Tithi",
+    "Sunrise": "Sunrise",
+    "Sunset": "Sunset"
+  },
   "modal": {
     "Day_Details": "Day Details",
     "Calendar_Events": "Calendar Events",

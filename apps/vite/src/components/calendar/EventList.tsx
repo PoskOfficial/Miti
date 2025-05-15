@@ -1,11 +1,12 @@
 import React, { useMemo } from "react"
 import UpcomingEvent from "./UpcomingEvent"
 import { EventDetail, NewCalendarData } from "@miti/types"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Calendar, Loader2 } from "lucide-react"
 import { useNavigate, useParams } from "react-router-dom"
 import NepaliDate from "nepali-datetime"
 import { isBefore } from "date-fns"
 import useLanguage from "@/helper/useLanguage"
+import { cn } from "@/lib/utils"
 
 export type Event = {
   date: string
@@ -21,9 +22,11 @@ const EventList: React.FC<{
   data: NewCalendarData[]
   isHoliday?: boolean
   title?: string
-}> = ({ data, isHoliday, title }) => {
+  isLoading?: boolean
+}> = ({ data, isHoliday, title, isLoading }) => {
   const { BSYear, BSMonth } = useParams()
   const { isNepaliLanguage } = useLanguage()
+  const navigate = useNavigate()
 
   const today = new NepaliDate()
   const isThisMonth = useMemo(
@@ -58,50 +61,79 @@ const EventList: React.FC<{
       })
     }
   })
-  const router = useNavigate()
+
+  const filteredEvents = isHoliday
+    ? newEventDetails.filter((event) => event.isHoliday)
+    : newEventDetails
+
+  const hasEvents = filteredEvents.length > 0
+
+  const handleViewAll = () => {
+    const path = isHoliday
+      ? `/events/${BSYear}/${BSMonth}/?onlyHolidays=true`
+      : `/events/${BSYear}/${BSMonth}`
+    navigate(path)
+  }
+
+  const renderEmptyState = () => (
+    <div
+      className={cn(
+        "flex gap-4 items-center p-4 rounded-lg border border-dashed border-gray-200",
+        isHoliday ? "bg-rose-50" : "bg-indigo-50"
+      )}
+    >
+      <Calendar
+        className={cn(isHoliday ? "text-rose-600" : "text-indigo-600")}
+        size={24}
+      />
+      <h3 className="text-gray-700 text-sm font-semibold">
+        {/* {isHoliday ? "No holidays" : "No events"} */}
+        {isNepaliLanguage
+          ? isHoliday
+            ? "छुट्टी छैन"
+            : "कार्यक्रम छैन"
+          : isHoliday
+          ? "No holidays"
+          : "No events"}
+      </h3>
+    </div>
+  )
 
   return (
-    <div className=" bg-white min-w-80 ">
-      <h2 className="text-xl font-bold text-gray-700 mb-2 text-center">
+    <div className="bg-white min-w-80 rounded-lg ">
+      <h2 className="text-xl font-bold text-gray-700 mb-4 text-center">
         {title}
       </h2>
-      {isHoliday && (
-        <div className="space-y-2">
-          {newEventDetails
-            .filter((event) => event.isHoliday)
-            .splice(0, 5)
-            .map((event, index) => (
-              <UpcomingEvent key={index} event={event} isHoliday />
-            ))}
-          <div className="flex justify-end">
-            <button
-              className="gap-1 flex items-center justify-center"
-              onClick={() => {
-                router(`/events/${BSYear}/${BSMonth}/?onlyHolidays=true`)
-              }}
-            >
-              view all
-              <ArrowRight size={14} />
-            </button>
-          </div>
+
+      {isLoading && (
+        <div className="flex justify-center items-center h-40">
+          <Loader2 className="animate-spin text-gray-500" size={32} />
         </div>
       )}
-      {!isHoliday && (
-        <div className="space-y-2">
-          {newEventDetails.splice(0, 5).map((event, index) => (
-            <UpcomingEvent key={index} event={event} />
+
+      {!isLoading && !hasEvents && renderEmptyState()}
+
+      {!isLoading && hasEvents && (
+        <div className="space-y-3">
+          {filteredEvents.slice(0, 5).map((event, index) => (
+            <UpcomingEvent
+              key={index}
+              event={event}
+              isHoliday={isHoliday && event.isHoliday}
+            />
           ))}
-          <div className="flex justify-end">
-            <button
-              className="gap-1 flex items-center justify-center"
-              onClick={() => {
-                router(`/events/${BSYear}/${BSMonth}`)
-              }}
-            >
-              view all
-              <ArrowRight size={14} />
-            </button>
-          </div>
+
+          {filteredEvents.length > 5 && (
+            <div className="flex justify-end pt-2">
+              <button
+                className="text-indigo-600 hover:text-indigo-800 text-sm font-medium gap-1 flex items-center justify-center transition-colors"
+                onClick={handleViewAll}
+              >
+                View all
+                <ArrowRight size={14} />
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>

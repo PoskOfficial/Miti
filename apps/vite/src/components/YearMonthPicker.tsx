@@ -57,9 +57,9 @@ const YearMonthPicker = ({
           size="icon"
           disabled={isPrevDisabled}
           className={cn(
-            "flex items-center justify-center rounded-lg transition-all duration-200",
+            "flex items-center justify-center flex-shrink-0 disabled:cursor-not-allowed rounded-lg transition-all duration-200",
             isPrevDisabled
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              ? "bg-gray-100 text-gray-400"
               : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
           )}
           onClick={handlePrevMonth}
@@ -125,9 +125,9 @@ const YearMonthPicker = ({
           size="icon"
           disabled={isNextDisabled}
           className={cn(
-            "flex items-center justify-center rounded-lg transition-all duration-200",
+            "flex items-center justify-center disabled:cursor-not-allowed flex-shrink-0 rounded-lg transition-all duration-200",
             isNextDisabled
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+              ? "bg-gray-100 text-gray-400"
               : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
           )}
           onClick={handleNextMonth}

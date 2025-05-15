@@ -25,6 +25,11 @@
     "Upcoming_Holidays": "आगामी बिदाहरु",
     "today": "आज"
   },
+  "today": {
+    "Tithi": "तिथि",
+    "Sunrise": "सूर्य उदय",
+    "Sunset": "सूर्य अस्त"
+  },
   "modal": {
     "Day_Details": "मिति विवरण",
     "Calendar_Events": "क्यालेन्डर कार्यक्रमहरु",

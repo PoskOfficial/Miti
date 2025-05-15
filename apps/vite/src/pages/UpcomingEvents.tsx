@@ -69,6 +69,7 @@ function UpcomingEvents() {
           day: day.calendarInfo.days.dayOfWeek.np ?? "",
           title: event.title.np ?? "",
           fullDate: day.calendarInfo.dates.bs.full.np ?? "",
+          npDate: day.calendarInfo.dates.bs.full.np ?? "",
         })
       })
     }
