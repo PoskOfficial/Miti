@@ -1,7 +1,0 @@
-{
-	"extends": ["expo/tsconfig.base", "@miti/tsconfig/base"],
-	"compilerOptions": {
-		"strict": true
-	},
-	"include": ["**/*.ts", "**/*.tsx", "./index.js"]
-}
