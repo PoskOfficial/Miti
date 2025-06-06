@@ -64,14 +64,18 @@ registerRoute(
   })
 )
 
+// Add version number to help with cache busting
+const VERSION = new Date().getTime()
+
+// Modify the NetworkFirst strategy to include cache busting
 registerRoute(
   /\/api\/.*/i,
   new NetworkFirst({
     cacheName: "events-cache",
     plugins: [
       new ExpirationPlugin({
-        maxEntries: 10,
-        maxAgeSeconds: 60 * 60 * 24 * 10, // 10 days
+        maxEntries: 50, // Increased cache entries
+        maxAgeSeconds: 60 * 60 * 24 * 3, // 3 days cache
       }),
       new CacheableResponsePlugin({
         statuses: [0, 200],
@@ -80,8 +84,14 @@ registerRoute(
   }),
   "GET"
 )
-self.addEventListener("install", () => void self.skipWaiting())
-self.addEventListener("activate", () => void self.clients.claim())
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(Promise.all([checkForUpdates(), self.skipWaiting()]))
+})
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(Promise.all([checkForUpdates(), self.clients.claim()]))
+})
 
 self.addEventListener("notificationclick", (event) => {
   event.waitUntil(self.clients.openWindow(event.notification.tag))
