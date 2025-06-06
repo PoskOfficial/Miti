@@ -59,7 +59,7 @@ function AddEventModal({
   const queryClient = useQueryClient()
 
   const handleSuccess = () => {
-    queryClient.invalidateQueries(["events"])
+    queryClient.invalidateQueries({ queryKey: ["events"] })
     setOpen(false)
   }
 

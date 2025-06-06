@@ -33,7 +33,7 @@ export default function EventDetailsDialog({
   }
 
   const handleSuccess = () => {
-    queryClient.invalidateQueries(["events"])
+    queryClient.invalidateQueries({ queryKey: ["events"] })
     closeModal()
   }
 
