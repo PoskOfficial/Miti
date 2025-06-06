@@ -1,19 +1,25 @@
 {
-  "extends": ["expo/tsconfig.base", "@miti/tsconfig/base"],
   "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
     "strict": true,
-    "types": ["vite-plugin-pwa/client", "node", "react", "react-dom"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "./index.js", "vite.config.ts"],
-  "exclude": ["src/service-worker"],
+  "include": ["src", "**/*.ts", "**/*.tsx", "./index.js", "vite.config.ts"],
+  "exclude": ["src/service-worker", "node_modules", "dist"],
   "references": [
     {
       "path": "./tsconfig.node.json"

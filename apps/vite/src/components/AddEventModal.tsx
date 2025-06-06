@@ -45,7 +45,7 @@ function AddEventModal({
   children,
 }: {
   startDate: Date
-  children: ReactNode
+  children?: ReactNode
 }) {
   const [open, setOpen] = useState(false)
   const [isAllDayEvent, setIsAllDayEvent] = useState(false)
@@ -149,7 +149,7 @@ function AddEventModal({
                   required
                   type="time"
                   name="startTime"
-                  className="w-24 border p-1.5 rounded-lg"
+                  className="w-24 rounded-lg border p-1.5"
                 />
               )}
             </div>
@@ -169,7 +169,7 @@ function AddEventModal({
                   required
                   type="time"
                   name="endTime"
-                  className="w-24 border p-1.5 rounded-lg"
+                  className="w-24 rounded-lg border p-1.5"
                 />
               )}
             </div>
@@ -179,7 +179,7 @@ function AddEventModal({
         <Separator />
 
         <div className="space-y-2">
-          <Label className="font-medium flex items-center gap-2">
+          <Label className="flex items-center gap-2 font-medium">
             <Calendar className="h-4 w-4" />
             Calendar
           </Label>
@@ -198,7 +198,7 @@ function AddEventModal({
         <div className="space-y-2">
           <Label
             htmlFor="summary"
-            className="font-medium flex items-center gap-2"
+            className="flex items-center gap-2 font-medium"
           >
             <Pencil className="h-4 w-4" />
             Summary
@@ -214,7 +214,7 @@ function AddEventModal({
         <div className="space-y-2">
           <Label
             htmlFor="location"
-            className="font-medium flex items-center gap-2"
+            className="flex items-center gap-2 font-medium"
           >
             <MapIcon className="h-4 w-4" />
             Location
@@ -230,7 +230,7 @@ function AddEventModal({
         <div className="space-y-2">
           <Label
             htmlFor="description"
-            className="font-medium flex items-center gap-2"
+            className="flex items-center gap-2 font-medium"
           >
             <Text className="h-4 w-4" />
             Description
@@ -239,12 +239,12 @@ function AddEventModal({
             id="description"
             name="description"
             placeholder="Add description"
-            className="w-full resize-none min-h-24"
+            className="min-h-24 w-full resize-none"
           />
         </div>
 
         <div className="space-y-2">
-          <Label className="font-medium flex items-center gap-2">
+          <Label className="flex items-center gap-2 font-medium">
             <SwatchBook className="h-4 w-4" />
             Color
           </Label>
@@ -261,7 +261,7 @@ function AddEventModal({
                 <label
                   htmlFor={`color-${color}`}
                   style={{ backgroundColor: colors[color] }}
-                  className="block h-8 w-8 rounded-full border-2 border-transparent cursor-pointer transition-all duration-200 peer-checked:ring-2 peer-checked:ring-offset-2 peer-checked:ring-indigo-600"
+                  className="block h-8 w-8 cursor-pointer rounded-full border-2 border-transparent transition-all duration-200 peer-checked:ring-2 peer-checked:ring-indigo-600 peer-checked:ring-offset-2"
                 ></label>
               </div>
             ))}
@@ -297,7 +297,7 @@ function AddEventModal({
           <DrawerHeader className="text-left">
             <DrawerTitle>Create Event</DrawerTitle>
           </DrawerHeader>
-          <div className="py-6 overflow-y-auto max-h-[calc(90vh-60px)]">
+          <div className="max-h-[calc(90vh-60px)] overflow-y-auto py-6">
             <EventForm />
           </div>
         </DrawerContent>
@@ -308,13 +308,13 @@ function AddEventModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden gap-0 max-h-[90vh]">
-        <DialogHeader className="px-6 py-4 border-b sticky top-0 bg-background z-10">
+      <DialogContent className="max-h-[90vh] gap-0 overflow-hidden p-0 sm:max-w-[600px]">
+        <DialogHeader className="bg-background sticky top-0 z-10 border-b px-6 py-4">
           <DialogTitle className="text-xl font-semibold">
             Create Event
           </DialogTitle>
         </DialogHeader>
-        <div className="px-6 py-6 overflow-y-auto max-h-[calc(90vh-60px)]">
+        <div className="max-h-[calc(90vh-60px)] overflow-y-auto px-6 py-6">
           <EventForm />
         </div>
       </DialogContent>

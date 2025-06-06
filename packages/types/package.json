@@ -9,6 +9,6 @@
     }
   },
   "devDependencies": {
-    "@miti/tsconfig": "*"
+    "@miti/tsconfig": "workspace:*"
   }
 }

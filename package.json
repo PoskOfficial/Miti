@@ -1,18 +1,14 @@
 {
   "name": "miti-monorepo",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "native": "bun run --cwd apps/expo dev:client",
-    "start": "bun run --cwd apps/expo start",
-    "web": "bun run --cwd apps/vite dev",
-    "chrome": "bun run --cwd apps/plasmo dev",
-    "android": "bun run --cwd apps/expo android",
-    "ios": "bun run --cwd apps/expo ios",
-    "api": "bun run --cwd ./apps/api dev",
+    "native": "pnpm run --filter expo-app dev:client",
+    "start": "pnpm run --filter expo-app start",
+    "web": "pnpm run --filter miti-web dev",
+    "chrome": "pnpm run --filter miti-extension dev",
+    "android": "pnpm run --filter expo-app android",
+    "ios": "pnpm run --filter expo-app ios",
+    "api": "pnpm run --filter api dev",
     "check-deps": "check-dependency-version-consistency .",
     "lint": "turbo lint",
     "format": "turbo format",
@@ -35,11 +31,10 @@
     "turbo": "^2.1.3",
     "typescript": "^5.4.5"
   },
-  "packageManager": "bun@1.1.31",
+  "packageManager": "pnpm@9.0.0",
   "trustedDependencies": [
     "@parcel/watcher",
     "@swc/core",
-    "better-sqlite3",
     "bufferutil",
     "core-js",
     "es5-ext",
