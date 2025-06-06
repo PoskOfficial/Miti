@@ -80,7 +80,7 @@ const EventList: React.FC<{
       className={cn(
         "flex gap-4 items-center p-4 rounded-lg border border-dashed border-gray-200 dark:border-gray-700",
         isHoliday
-          ? "bg-rose-50 dark:bg-rose-700"
+          ? "bg-rose-50 dark:bg-rose-900/30"
           : "bg-indigo-50 dark:bg-indigo-900"
       )}
     >
