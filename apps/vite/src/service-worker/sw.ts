@@ -5,7 +5,7 @@ interface PeriodicBackgroundSyncEvent extends ExtendableEvent {
 }
 
 import { ExpirationPlugin } from "workbox-expiration"
-import { precacheAndRoute } from "workbox-precaching"
+import { precacheAndRoute, cleanupOutdatedCaches } from "workbox-precaching"
 import { registerRoute } from "workbox-routing"
 import { CacheFirst, NetworkFirst } from "workbox-strategies"
 import { CacheableResponsePlugin } from "workbox-cacheable-response"
@@ -16,6 +16,42 @@ googleAnalytics.initialize()
 
 const UPDATE_CHECK = "UPDATE_CHECK"
 import { apiBaseUrl } from "../helper/api"
+
+const APP_VERSION = "1.0.0" // Change this when deploying new versions
+const CACHE_PREFIX = "miti-app-v1"
+
+// Clean up old precached assets
+cleanupOutdatedCaches()
+
+// Precache and route all build assets (__WB_MANIFEST is replaced by Workbox at build time)
+precacheAndRoute(self.__WB_MANIFEST || [])
+
+// Cache strategy for HTML - Network First to ensure latest version
+registerRoute(
+  ({ request }) => request.mode === "navigate",
+  new NetworkFirst({
+    cacheName: `${CACHE_PREFIX}-html`,
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+)
+
+// Cache strategy for JS/CSS files - Stale While Revalidate to balance speed and freshness
+registerRoute(
+  ({ request }) =>
+    request.destination === "script" || request.destination === "style",
+  new NetworkFirst({
+    cacheName: `${CACHE_PREFIX}-assets`,
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  })
+)
 
 const checkForUpdates = async () => {
   const year = new NepaliDate().getYear()
@@ -30,12 +66,11 @@ const checkForUpdates = async () => {
   await fetch(`${apiBaseUrl}/events?timeMin=${startDate}&timeMax=${endDate}`)
   Promise.resolve()
 }
-precacheAndRoute(self.__WB_MANIFEST || [])
 
 registerRoute(
   /^https:\/\/fonts\.googleapis\.com\/.*/i,
   new CacheFirst({
-    cacheName: "google-fonts-cache",
+    cacheName: `${CACHE_PREFIX}-google-fonts-cache`,
     plugins: [
       new ExpirationPlugin({
         maxEntries: 10,
@@ -51,7 +86,7 @@ registerRoute(
 registerRoute(
   /^https:\/\/fonts\.gstatic\.com\/.*/i,
   new CacheFirst({
-    cacheName: "gstatic-fonts-cache",
+    cacheName: `${CACHE_PREFIX}-gstatic-fonts-cache`,
     plugins: [
       new ExpirationPlugin({
         maxEntries: 10,
@@ -71,7 +106,7 @@ const VERSION = new Date().getTime()
 registerRoute(
   /\/api\/.*/i,
   new NetworkFirst({
-    cacheName: "events-cache",
+    cacheName: `${CACHE_PREFIX}-events-cache`,
     plugins: [
       new ExpirationPlugin({
         maxEntries: 50, // Increased cache entries
@@ -90,7 +125,24 @@ self.addEventListener("install", (event) => {
 })
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(Promise.all([checkForUpdates(), self.clients.claim()]))
+  // Clear all old caches that don't match our current version
+  event.waitUntil(
+    Promise.all([
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            // Delete any old cache that doesn't match our current version prefix
+            if (!cacheName.startsWith(CACHE_PREFIX)) {
+              return caches.delete(cacheName)
+            }
+            return Promise.resolve()
+          })
+        )
+      }),
+      checkForUpdates(),
+      self.clients.claim(),
+    ])
+  )
 })
 
 self.addEventListener("notificationclick", (event) => {
