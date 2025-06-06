@@ -27,7 +27,7 @@ export function DayDialog({
   if (isDesktop) {
     return (
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent className="overflow-y-auto min-w-[500px]">
+        <SheetContent className="min-w-[500px] overflow-y-auto text-black dark:text-white">
           <SheetHeader>
             <SheetTitle>{t("modal.Day_Details")}</SheetTitle>
           </SheetHeader>
@@ -40,7 +40,7 @@ export function DayDialog({
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent>
-        <DrawerHeader className="text-left">
+        <DrawerHeader className="text-left text-black dark:text-white">
           <DrawerTitle>{t("modal.Day_Details")}</DrawerTitle>
         </DrawerHeader>
         {children}
