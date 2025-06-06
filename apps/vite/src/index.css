@@ -110,3 +110,24 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+@layer utilities {
+  .scrollbar-thin-transparent::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-thin-transparent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin-transparent::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 100, 100, 0.5); /* Adjust thumb color */
+    border-radius: 9999px;
+  }
+
+  .scrollbar-thin-transparent {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 100, 100, 0.5) transparent;
+  }
+}

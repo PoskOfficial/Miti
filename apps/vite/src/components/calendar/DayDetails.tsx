@@ -17,13 +17,13 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
 
   const { isNepaliLanguage } = useLanguage()
   return (
-    <div className="overflow-y-auto">
+    <div className="scrollbar-thin-transparent overflow-y-auto">
       <div className="flex items-center space-x-4 rounded-lg">
         <div
           className={cn(
-            "rounded-lg bg-gray-200 dark:bg-gray-700 text-center w-16 h-16 flex flex-col gap-1 items-center justify-center",
+            "flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-lg bg-gray-200 text-center dark:bg-gray-700",
             isHoliday &&
-              "text-red-500 dark:text-red-400 bg-red-100 dark:bg-red-900/50"
+              "bg-red-100 text-red-500 dark:bg-red-900/50 dark:text-red-400"
           )}
         >
           <div>
@@ -42,7 +42,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
         </div>
         <div className="flex-1">
           <span className="flex flex-row">
-            <p className="font-bold text-left flex-1 text-2xl dark:text-gray-100">
+            <p className="flex-1 text-left text-2xl font-bold dark:text-gray-100">
               {isNepaliLanguage
                 ? dayData.calendarInfo.dates.bs.month.np
                 : dayData.calendarInfo.dates.ad.month.en}
@@ -61,7 +61,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
             {dayData.calendarInfo.nepaliEra.nepalSambat.month.np}
           </p>
         </div>
-        <div className="flex flex-col my-4 justify-between">
+        <div className="my-4 flex flex-col justify-between">
           <div className="flex items-center gap-2">
             <img
               src="https://img.icons8.com/color/48/000000/sunrise.png"
