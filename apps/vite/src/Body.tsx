@@ -16,7 +16,12 @@ const Body = () => {
   const { darkMode } = useContext(DarkModeContext)
 
   return (
-    <div className={(darkMode ? "dark" : "") + " flex min-h-screen flex-col"}>
+    <div
+      className={
+        (darkMode ? "dark" : "") +
+        " flex min-h-screen flex-col dark:bg-gray-900"
+      }
+    >
       {/* <AnnouncementAlert /> */}
       <Navbar />
       <div className="flex-grow">

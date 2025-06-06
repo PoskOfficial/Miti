@@ -33,7 +33,7 @@ const UserSettings = ({
         <Button
           variant="outline"
           size="icon"
-          className="rounded-full h-9 w-9 p-0 border-2"
+          className="h-9 w-9 rounded-full border-2 p-0"
         >
           {isLoggedIn ? (
             <Avatar className="h-full w-full">
@@ -50,7 +50,7 @@ const UserSettings = ({
               </AvatarFallback>
             </Avatar>
           ) : (
-            <Settings className="h-5 w-5" />
+            <Settings className="h-5 w-5 dark:text-white" />
           )}
         </Button>
       </DropdownMenuTrigger>
@@ -69,7 +69,7 @@ const UserSettings = ({
                 className="cursor-pointer"
               >
                 {isLoggedIn ? (
-                  <div className="p-2 flex items-center">
+                  <div className="flex items-center p-2">
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>{t("navbar.Sign_out")}</span>
                   </div>
