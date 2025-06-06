@@ -78,7 +78,7 @@ const EventList: React.FC<{
   const renderEmptyState = () => (
     <div
       className={cn(
-        "flex gap-4 items-center p-4 rounded-lg border border-dashed border-gray-200 dark:border-gray-700",
+        "flex items-center gap-4 rounded-lg border border-dashed border-gray-200 p-4 dark:border-gray-700",
         isHoliday
           ? "bg-rose-50 dark:bg-rose-900/30"
           : "bg-indigo-50 dark:bg-indigo-900"
@@ -88,11 +88,11 @@ const EventList: React.FC<{
         className={cn(isHoliday ? "text-rose-600" : "text-indigo-600")}
         size={24}
       />
-      <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold">
+      <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">
         {/* {isHoliday ? "No holidays" : "No events"} */}
         {isNepaliLanguage
           ? isHoliday
-            ? "छुट्टी छैन"
+            ? "कुनै बिदाहरु छैनन्"
             : "कार्यक्रम छैन"
           : isHoliday
           ? "No holidays"
@@ -102,13 +102,13 @@ const EventList: React.FC<{
   )
 
   return (
-    <div className="bg-white dark:bg-gray-900 min-w-80 rounded-lg">
-      <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200 mb-4 text-center">
+    <div className="min-w-80 rounded-lg bg-white dark:bg-gray-900">
+      <h2 className="mb-4 text-center text-xl font-bold text-gray-700 dark:text-gray-200">
         {title}
       </h2>
 
       {isLoading && (
-        <div className="flex justify-center items-center h-40">
+        <div className="flex h-40 items-center justify-center">
           <Loader2
             className="animate-spin text-gray-500 dark:text-gray-400"
             size={32}
@@ -131,7 +131,7 @@ const EventList: React.FC<{
           {filteredEvents.length > 5 && (
             <div className="flex justify-end pt-2">
               <button
-                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium gap-1 flex items-center justify-center transition-colors"
+                className="flex items-center justify-center gap-1 text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
                 onClick={handleViewAll}
               >
                 View all
