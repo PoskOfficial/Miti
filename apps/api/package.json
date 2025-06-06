@@ -17,7 +17,7 @@
     "@oslojs/encoding": "^1.1.0",
     "@tsndr/cloudflare-worker-jwt": "^2.5.3",
     "arctic": "^1.7.0",
-    "better-sqlite3": "^9.6.0",
+    "better-sqlite3": "^11.10.0",
     "cross-env": "^7.0.3",
     "drizzle-orm": "^0.30.9",
     "hono": "^4.2.8",
@@ -25,10 +25,10 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240423.0",
     "@miti/eslint-config": "workspace:*",
     "@miti/prettier-config": "workspace:*",
     "@miti/tsconfig": "workspace:*",
-    "@cloudflare/workers-types": "^4.20240423.0",
     "drizzle-kit": "^0.20.17",
     "wrangler": "^3.52.0"
   },
