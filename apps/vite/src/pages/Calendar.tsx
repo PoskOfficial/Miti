@@ -60,10 +60,10 @@ const Calendar = () => {
   )
 
   return (
-    <section className="relative bg-white dark:bg-gray-900 container">
-      <Debugger />
-      <div className="w-full max-w-7xl mx-auto">
-        <div className="flex flex-col  lg:flex-row gap-2">
+    <section className="container relative bg-white dark:bg-gray-900">
+      {/* <Debugger /> */}
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="flex flex-col  gap-2 lg:flex-row">
           <div className="px-2">
             <CalendarHeader
               currentNepaliDate={currentNepaliDate}
@@ -76,7 +76,7 @@ const Calendar = () => {
             {view === "calendar" ? (
               <>
                 {monthDataLoading ? (
-                  <div className="flex justify-center items-center h-[50vh]">
+                  <div className="flex h-[50vh] items-center justify-center">
                     <Loader2 className="animate-spin text-gray-500" size={32} />
                   </div>
                 ) : (
@@ -87,16 +87,16 @@ const Calendar = () => {
               <TimelineView monthData={monthData} scope={scope} />
             )}
           </div>
-          <div className="mt-4 mx-2">
+          <div className="mx-2 mt-4">
             <Today data={todayData} isLoading={todayDataLoading} />
             <div className="mt-6">
-              <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200 mb-2">
+              <h2 className="mb-2 text-xl font-bold text-gray-700 dark:text-gray-200">
                 {t("navbar.Events")}
               </h2>
               <EventList data={monthData} isLoading={monthDataLoading} />
             </div>
             <div className="mt-6">
-              <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200 mb-2">
+              <h2 className="mb-2 text-xl font-bold text-gray-700 dark:text-gray-200">
                 {t("navbar.Holidays")}
               </h2>
               <EventList
