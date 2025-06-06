@@ -21,17 +21,18 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
       <div className="flex items-center space-x-4 rounded-lg">
         <div
           className={cn(
-            "rounded-lg bg-gray-200 text-center w-16 h-16 flex flex-col gap-1 items-center justify-center",
-            isHoliday && "text-red-500 bg-red-100"
+            "rounded-lg bg-gray-200 dark:bg-gray-700 text-center w-16 h-16 flex flex-col gap-1 items-center justify-center",
+            isHoliday &&
+              "text-red-500 dark:text-red-400 bg-red-100 dark:bg-red-900/50"
           )}
         >
           <div>
-            <p className="text-2xl font-semibold ">
+            <p className="text-2xl font-semibold dark:text-gray-100">
               {isNepaliLanguage
                 ? dayData.calendarInfo.dates.bs.day.np
                 : dayData.calendarInfo.dates.ad.day.en}
             </p>
-            <p className="text-xs">
+            <p className="text-xs dark:text-gray-300">
               {/* {dayData.calendarInfo.days.dayOfWeek.np} */}
               {isNepaliLanguage
                 ? dayData.calendarInfo.days.dayOfWeek.np
@@ -41,7 +42,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
         </div>
         <div className="flex-1">
           <span className="flex flex-row">
-            <p className="font-bold text-left flex-1 text-2xl">
+            <p className="font-bold text-left flex-1 text-2xl dark:text-gray-100">
               {isNepaliLanguage
                 ? dayData.calendarInfo.dates.bs.month.np
                 : dayData.calendarInfo.dates.ad.month.en}
@@ -51,11 +52,11 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
                 : dayData.calendarInfo.dates.ad.year.en}
             </p>
           </span>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {dayData.tithiDetails?.title.np},{" "}
             {dayData.panchangaDetails?.pakshya.np}
           </p>
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-gray-500 dark:text-gray-500">
             ने.सं. {dayData.calendarInfo.nepaliEra.nepalSambat.year.np},{" "}
             {dayData.calendarInfo.nepaliEra.nepalSambat.month.np}
           </p>
@@ -67,7 +68,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
               alt="sunrise"
               className="size-8"
             />
-            <p className="text-md text-gray-600">
+            <p className="text-md text-gray-600 dark:text-gray-400">
               {dayData.panchangaDetails?.times.sunrise}
             </p>
           </div>
@@ -77,7 +78,7 @@ export function DayDetail({ dayData }: { dayData: NewCalendarData }) {
               alt="sunrise"
               className="size-8"
             />
-            <p className="text-md text-gray-600">
+            <p className="text-md text-gray-600 dark:text-gray-400">
               {dayData.panchangaDetails?.times.sunset}
             </p>
           </div>

@@ -60,7 +60,7 @@ const Calendar = () => {
   )
 
   return (
-    <section className="relative bg-white container">
+    <section className="relative bg-white dark:bg-gray-900 container">
       <Debugger />
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex flex-col  lg:flex-row gap-2">
@@ -90,13 +90,13 @@ const Calendar = () => {
           <div className="mt-4 mx-2">
             <Today data={todayData} isLoading={todayDataLoading} />
             <div className="mt-6">
-              <h2 className="text-xl font-bold text-gray-700 mb-2 ">
+              <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200 mb-2">
                 {t("navbar.Events")}
               </h2>
               <EventList data={monthData} isLoading={monthDataLoading} />
             </div>
             <div className="mt-6">
-              <h2 className="text-xl font-bold text-gray-700 mb-2 ">
+              <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200 mb-2">
                 {t("navbar.Holidays")}
               </h2>
               <EventList

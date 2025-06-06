@@ -12,11 +12,11 @@ const CalendarEvents = ({ events }: CalendarEventsProps) => {
   return (
     <div>
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-indigo-600">
+        <span className="text-indigo-600 dark:text-indigo-400">
           <CalendarFold />
         </span>
 
-        <h3 className="text-lg font-bold text-gray-800">
+        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
           {t("modal.Calendar_Events")}
         </h3>
       </div>
@@ -26,22 +26,22 @@ const CalendarEvents = ({ events }: CalendarEventsProps) => {
             <div
               key={index}
               className={cn(
-                "p-4 bg-gray-100 rounded-lg shadow-sm",
-                event.isHoliday && "bg-red-100 "
+                "p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm",
+                event.isHoliday && "bg-red-100 dark:bg-red-900/50"
               )}
             >
               <div>
                 <h4
                   className={cn(
-                    "text-sm font-semibold text-gray-800",
-                    event.isHoliday && "text-red-600"
+                    "text-sm font-semibold text-gray-800 dark:text-gray-100",
+                    event.isHoliday && "text-red-600 dark:text-red-400"
                   )}
                 >
                   {isNepaliLanguage
                     ? event.title.np
                     : event.title.en ?? event.title.np}
                 </h4>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   {isNepaliLanguage
                     ? event.details.np
                     : event.details.en ?? event.details.np}
@@ -50,7 +50,9 @@ const CalendarEvents = ({ events }: CalendarEventsProps) => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No events available</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            No events available
+          </p>
         )}
       </div>
     </div>

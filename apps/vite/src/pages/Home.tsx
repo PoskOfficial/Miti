@@ -67,16 +67,16 @@ function Home() {
 
   return (
     <>
-      <div>
-        <div className="mx-auto mt-1 max-w-lg text-center lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
+      <div className="bg-white dark:bg-gray-900 min-h-screen">
+        <div className="mx-auto mt-1 max-w-lg text-center text-gray-900 dark:text-gray-100 lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
           <YearMonthPicker
             currentNepaliDate={currentNepaliDate}
             setCurrentNepaliDate={setCurrentNepaliDate}
           />
           {isLoading ? (
-            <Spinner className="h-5 w-5 " />
+            <Spinner className="h-5 w-5" />
           ) : pageType === "upcoming" ? (
-            <UpcomingEvents monthData={monthData} />
+            <UpcomingEvents />
           ) : (
             <MonthCalendar monthData={monthData} userEvents={userEvents} />
           )}

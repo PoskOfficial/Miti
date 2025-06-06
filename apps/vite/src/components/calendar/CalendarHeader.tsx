@@ -48,7 +48,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = ({
         </div> */}
         <div>
           <button
-            className="flex py-2 px-2 rounded-md bg-gray-50 border border-gray-300 items-center gap-1.5 text-xs font-medium text-gray-900 transition-all duration-500 hover:bg-gray-200"
+            className="flex py-2 px-2 rounded-md bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 items-center gap-1.5 text-xs font-medium text-gray-900 dark:text-gray-100 transition-all duration-500 hover:bg-gray-200 dark:hover:bg-gray-700"
             onClick={() => setCurrentNepaliDate(new NepaliDate())}
           >
             {t("navbar.today")}

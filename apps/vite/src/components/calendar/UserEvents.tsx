@@ -53,17 +53,17 @@ const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
     <div className="mb-6">
       <div className="flex items-center justify-between gap-2 mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-indigo-600">
+          <span className="text-indigo-600 dark:text-indigo-400">
             <User />
           </span>
 
-          <h3 className="text-lg font-bold text-gray-800">
+          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">
             {t("modal.User_Events")}
           </h3>
         </div>
         <div>
           <AddEventModal startDate={baseDate}>
-            <button className="bg-indigo-600 hover:bg-indigo-700 transition-colors text-white px-3 py-2 rounded-md flex items-center gap-1 text-xs shadow-sm">
+            <button className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-800 transition-colors text-white px-3 py-2 rounded-md flex items-center gap-1 text-xs shadow-sm">
               <Plus className="text-white text-sm" />
               Create Event
             </button>
@@ -77,7 +77,9 @@ const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
             <EventListItem key={event.id} event={event} />
           ))
         ) : (
-          <p className="text-gray-500">No events scheduled</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            No events scheduled
+          </p>
         )}
       </div>
     </div>
@@ -130,20 +132,20 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem
           value={event.id}
-          className={`rounded-lg overflow-hidden shadow-sm ${colorStyle.border} border`}
+          className={`rounded-lg overflow-hidden shadow-sm ${colorStyle.border} border dark:border-opacity-20`}
         >
           <AccordionTrigger
-            className={`p-3 hover:bg-opacity-80 transition-colors ${colorStyle.bg} !no-underline`}
+            className={`p-3 hover:bg-opacity-80 transition-colors ${colorStyle.bg} dark:bg-opacity-20 !no-underline`}
           >
             <div className="flex-1 min-w-0 text-left">
               <div className="flex items-center gap-2 w-[320px] ">
                 <h4
-                  className={`font-medium text-sm ${colorStyle.text} w-full truncate`}
+                  className={`font-medium text-sm ${colorStyle.text} dark:text-opacity-90 w-full truncate`}
                 >
                   {event.summary}
                 </h4>
               </div>
-              <div className="flex items-center text-xs text-gray-600 mt-1.5 gap-2 overflow-hidden">
+              <div className="flex items-center text-xs text-gray-600 dark:text-gray-400 mt-1.5 gap-2 overflow-hidden">
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <Clock size={12} className="flex-shrink-0" />
                   <span>
@@ -154,18 +156,21 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
               </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="p-4 bg-white border-t border-gray-100 pb-4">
+          <AccordionContent className="p-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 pb-4">
             {event.description && (
-              <div className="mb-4 pb-3 border-b border-gray-100">
+              <div className="mb-4 pb-3 border-b border-gray-100 dark:border-gray-800">
                 <div className="flex items-center gap-2 mb-1.5">
-                  <FileText size={14} className="text-gray-500 flex-shrink-0" />
-                  <span className="text-xs font-medium text-gray-600">
+                  <FileText
+                    size={14}
+                    className="text-gray-500 dark:text-gray-400 flex-shrink-0"
+                  />
+                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
                     Description
                   </span>
                 </div>
 
                 <div
-                  className="text-sm text-gray-700 pl-6 break-words [&>a]:text-indigo-400"
+                  className="text-sm text-gray-700 dark:text-gray-300 pl-6 break-words [&>a]:text-indigo-400 dark:[&>a]:text-indigo-300"
                   dangerouslySetInnerHTML={{ __html: event.description }}
                 ></div>
               </div>
@@ -176,13 +181,13 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
                 <div className="flex items-start gap-2">
                   <CalendarDays
                     size={14}
-                    className="mt-0.5 text-gray-500 flex-shrink-0"
+                    className="mt-0.5 text-gray-500 dark:text-gray-400 flex-shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-xs font-medium text-gray-600 block mb-1">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-400 block mb-1">
                       Calendar
                     </span>
-                    <p className="text-sm text-gray-700 break-words">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 break-words">
                       {event.calendarId}
                     </p>
                   </div>
@@ -192,13 +197,13 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
                 <div className="flex items-start gap-2">
                   <MapPin
                     size={14}
-                    className="mt-0.5 text-gray-500 flex-shrink-0"
+                    className="mt-0.5 text-gray-500 dark:text-gray-400 flex-shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-xs font-medium text-gray-600 block mb-1">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-400 block mb-1">
                       Location
                     </span>
-                    <p className="text-sm text-gray-700 break-words">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 break-words">
                       {event.location}
                     </p>
                   </div>
@@ -208,13 +213,13 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
               <div className="flex items-start gap-2">
                 <Users
                   size={14}
-                  className="mt-0.5 text-gray-500 flex-shrink-0"
+                  className="mt-0.5 text-gray-500 dark:text-gray-400 flex-shrink-0"
                 />
                 <div className="min-w-0">
-                  <span className="text-xs font-medium text-gray-600 block mb-1">
+                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400 block mb-1">
                     Organizer
                   </span>
-                  <p className="text-sm text-gray-700 break-words">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 break-words">
                     {event.organizer.displayName || event.organizer.email}
                   </p>
                 </div>
@@ -224,13 +229,13 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
                 <div className="flex items-start gap-2">
                   <Eye
                     size={14}
-                    className="mt-0.5 text-gray-500 flex-shrink-0"
+                    className="mt-0.5 text-gray-500 dark:text-gray-400 flex-shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-xs font-medium text-gray-600 block mb-1">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-400 block mb-1">
                       Visibility
                     </span>
-                    <p className="text-sm text-gray-700 capitalize">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 capitalize">
                       {event.visibility}
                     </p>
                   </div>
@@ -241,13 +246,15 @@ const EventListItem = ({ event }: { event: CalendarEvent }) => {
                 <div className="flex items-start gap-2">
                   <Repeat
                     size={14}
-                    className="mt-0.5 text-gray-500 flex-shrink-0"
+                    className="mt-0.5 text-gray-500 dark:text-gray-400 flex-shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-xs font-medium text-gray-600 block mb-1">
+                    <span className="text-xs font-medium text-gray-600 dark:text-gray-400 block mb-1">
                       Recurrence
                     </span>
-                    <p className="text-sm text-gray-700">Recurring event</p>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      Recurring event
+                    </p>
                   </div>
                 </div>
               )}

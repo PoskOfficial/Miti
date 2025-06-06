@@ -52,14 +52,14 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
   const days = isNepaliLanguage ? dayNames.np : dayNames.en
 
   return (
-    <div className="rounded-xl max-w-4xl shadow-md overflow-hidden border">
-      <div className="grid grid-cols-7 bg-indigo-50">
+    <div className="rounded-xl max-w-4xl shadow-md overflow-hidden border dark:border-gray-700">
+      <div className="grid grid-cols-7 bg-indigo-50 dark:bg-indigo-950/30">
         {days.map((day, index) => (
           <div
             key={day}
             className={cn(
-              "py-3 text-center text-xs sm:text-sm font-medium border-b border-indigo-100",
-              index === 6 && "text-red-600"
+              "py-3 text-center text-xs sm:text-sm font-medium border-b border-indigo-100 dark:border-indigo-900/30 dark:text-gray-300",
+              index === 6 && "text-red-600 dark:text-red-400"
             )}
           >
             {day}
@@ -67,7 +67,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-7 bg-white">
+      <div className="grid grid-cols-7 gap-px sm:p-2 bg-white dark:bg-gray-900 sm:gap-2">
         {monthData.map((day) => {
           console.log(day.calendarInfo.dates.bs.full.en)
           const dayDate = new NepaliDate(
@@ -94,11 +94,11 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
             <button
               key={day.calendarInfo.dates.bs.day.np}
               className={cn(
-                "min-h-[70px] sm:min-h-[90px] p-1 sm:p-2 transition-all duration-200 border border-gray-100",
-                "flex flex-col justify-between hover:bg-indigo-50 group relative",
-                isHoliday && "bg-red-50/80 hover:bg-red-100/80",
-                isToday && "bg-indigo-50",
-                isHoliday && isToday && "bg-red-100 border-red-300 border-2"
+                "h-auto min-h-[60px] sm:aspect-square sm:min-h-[80px] p-1 sm:p-2 transition-all duration-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 group sm:rounded-lg",
+                isHoliday &&
+                  "bg-red-50/80 hover:bg-red-100/80 dark:bg-red-950/30 dark:hover:bg-red-950/50",
+                isToday && "bg-indigo-50 dark:bg-indigo-950/30",
+                isHoliday && isToday && "bg-red-100 dark:bg-red-950/50"
               )}
               style={
                 monthData.indexOf(day) === 0
@@ -111,8 +111,10 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                 <div className="flex justify-between items-start">
                   <span
                     className={cn(
-                      "text-[10px] sm:text-xs px-1 py-0.5 rounded-full",
-                      isHoliday ? "text-red-700" : "text-gray-600"
+                      "text-[10px] sm:text-xs px-1 sm:px-1.5 py-0.5",
+                      isHoliday
+                        ? "text-red-700 dark:text-red-400"
+                        : "text-gray-600 dark:text-gray-300"
                     )}
                   >
                     {isNepaliLanguage
@@ -128,10 +130,13 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                 <div className="flex justify-center items-center md:my-2">
                   <span
                     className={cn(
-                      "flex items-center justify-center rounded-full w-8 h-8 sm:w-10 sm:h-10 text-base sm:text-lg md:text-xl",
-                      isHoliday && "text-red-600",
-                      isToday && " text-indigo-700 font-bold",
-                      isToday && isHoliday && "bg-red-100 text-red-700"
+                      "flex items-center justify-center rounded-full w-8 h-8 sm:w-10 sm:h-10 text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300",
+                      isHoliday && "text-red-600 dark:text-red-400",
+                      isToday &&
+                        "text-indigo-700 dark:text-indigo-400 font-bold",
+                      isToday &&
+                        isHoliday &&
+                        "bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400"
                     )}
                   >
                     {isNepaliLanguage
@@ -153,11 +158,11 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                                 ? colors[color]
                                 : "#475569",
                             }}
-                            className="inline-block size-2 rounded-full"
+                            className="inline-block size-2 rounded-full dark:opacity-90"
                           ></span>
                         ))}
                       {eventsCount > 2 && (
-                        <span className="text-[10px] text-gray-500">
+                        <span className="text-[10px] text-gray-500 dark:text-gray-400">
                           +
                           {isNepaliLanguage
                             ? nepaliNumber((+eventsCount - 2).toString())
@@ -168,14 +173,14 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                   )}
 
                   {day.eventDetails.length > 0 && (
-                    <p className="text-[10px] mt-1 hidden md:block sm:text-xs text-center truncate text-indigo-700">
+                    <p className="text-[10px] mt-1 sm:text-xs text-center hidden sm:block truncate text-indigo-700 dark:text-indigo-400">
                       {isNepaliLanguage
                         ? day.eventDetails[0]?.title.np
                         : day.eventDetails[0]?.title.en}
                     </p>
                   )}
                 </div>
-                <p className="md:hidden text-[10px] text-gray-500 truncate">
+                <p className="md:hidden text-[10px] text-gray-500 dark:text-gray-400 truncate">
                   {day.tithiDetails?.title.np}
                 </p>
               </div>

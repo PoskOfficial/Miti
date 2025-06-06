@@ -15,14 +15,14 @@ const Today = ({ data, isLoading }: TodayProps) => {
   return (
     <div className="md:mt-14 min-w-full">
       {!isLoading && data ? (
-        <div className="border rounded-xl min-w-80 shadow-md overflow-hidden">
-          <div className="bg-gradient-to-br from-indigo-500 to-blue-600 p-4 flex items-center justify-between">
+        <div className="border rounded-xl min-w-80 shadow-md overflow-hidden dark:border-gray-700">
+          <div className="bg-gradient-to-br from-indigo-500 to-blue-600 dark:from-indigo-600 dark:to-blue-700 p-4 flex items-center justify-between">
             <div className="flex items-center">
-              <div className="bg-white/20 rounded-xl p-2 mr-4 shadow-inner flex flex-col items-center justify-center">
+              <div className="bg-white/20 dark:bg-white/10 rounded-xl p-2 mr-4 shadow-inner flex flex-col items-center justify-center">
                 <div className="text-3xl font-bold text-white">
                   {isNepaliLanguage
                     ? data.calendarInfo.dates.bs.day.np
-                    : data.calendarInfo.dates.ad.day.en}
+                    : data.calendarInfo.dates.bs.day.en}
                 </div>
                 <div className="text-xs font-medium text-white/90 tracking-wide">
                   {isNepaliLanguage
@@ -53,13 +53,13 @@ const Today = ({ data, isLoading }: TodayProps) => {
               </div>
             </div>
 
-            <div className="bg-white/20 rounded-full px-3 py-1 text-xs text-white font-medium">
+            <div className="bg-white/20 dark:bg-white/10 rounded-full px-3 py-1 text-xs text-white font-medium">
               {t("navbar.today")}
             </div>
           </div>
 
           {/* Main content area */}
-          <div className="p-4 bg-white">
+          <div className="p-4 bg-white dark:bg-gray-900">
             {/* Sun/Moon times and astrological info */}
             <div className="gap-4">
               <div className="grid grid-cols-3 gap-3">
@@ -71,10 +71,10 @@ const Today = ({ data, isLoading }: TodayProps) => {
                     className="size-6"
                   />
                   <div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {t("today.Sunrise")}
                     </div>
-                    <div className="text-sm font-medium text-gray-700">
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       {data.panchangaDetails?.times.sunrise ?? "--:--"}
                     </div>
                   </div>
@@ -87,10 +87,10 @@ const Today = ({ data, isLoading }: TodayProps) => {
                     className="size-6"
                   />
                   <div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {t("today.Sunset")}
                     </div>
-                    <div className="text-sm font-medium text-gray-700">
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300">
                       {data.panchangaDetails?.times.sunset ?? "--:--"}
                     </div>
                   </div>
@@ -98,12 +98,15 @@ const Today = ({ data, isLoading }: TodayProps) => {
 
                 {/* Tithi */}
                 <div className="flex items-center gap-2">
-                  <Clock size={18} className="text-indigo-600" />
+                  <Clock
+                    size={18}
+                    className="text-indigo-600 dark:text-indigo-400"
+                  />
                   <div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
                       {t("today.Tithi")}
                     </div>
-                    <div className="text-sm font-medium text-gray-700 truncate">
+                    <div className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate">
                       {data.tithiDetails?.title?.np}
                     </div>
                   </div>
@@ -120,36 +123,36 @@ const Today = ({ data, isLoading }: TodayProps) => {
 }
 
 Today.skeleton = (
-  <div className="border rounded-xl shadow-md overflow-hidden animate-pulse">
-    <div className="bg-gray-200 p-4 px-6 flex items-center">
-      <div className="bg-gray-300 rounded-xl p-3 mr-4 w-16 h-16"></div>
+  <div className="border rounded-xl shadow-md overflow-hidden animate-pulse dark:border-gray-700">
+    <div className="bg-gray-200 dark:bg-gray-800 p-4 px-6 flex items-center">
+      <div className="bg-gray-300 dark:bg-gray-700 rounded-xl p-3 mr-4 w-16 h-16"></div>
       <div className="space-y-2">
-        <div className="h-6 w-32 bg-gray-300 rounded-md"></div>
-        <div className="h-4 w-24 bg-gray-300 rounded-md"></div>
-        <div className="h-3 w-36 bg-gray-300 rounded-md"></div>
+        <div className="h-6 w-32 bg-gray-300 dark:bg-gray-700 rounded-md"></div>
+        <div className="h-4 w-24 bg-gray-300 dark:bg-gray-700 rounded-md"></div>
+        <div className="h-3 w-36 bg-gray-300 dark:bg-gray-700 rounded-md"></div>
       </div>
     </div>
-    <div className="p-4 bg-white">
+    <div className="p-4 bg-white dark:bg-gray-900">
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2 sm:col-span-1">
-          <div className="h-4 w-24 bg-gray-200 rounded mb-2"></div>
-          <div className="bg-gray-100 rounded-lg p-3 grid grid-cols-2 gap-3">
-            <div className="h-12 bg-gray-200 rounded"></div>
-            <div className="h-12 bg-gray-200 rounded"></div>
-            <div className="h-12 bg-gray-200 rounded"></div>
-            <div className="h-12 bg-gray-200 rounded"></div>
+          <div className="h-4 w-24 bg-gray-200 dark:bg-gray-800 rounded mb-2"></div>
+          <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3 grid grid-cols-2 gap-3">
+            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
+            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded"></div>
           </div>
         </div>
         <div className="col-span-2 sm:col-span-1">
-          <div className="h-4 w-24 bg-gray-200 rounded mb-2"></div>
-          <div className="bg-gray-100 rounded-lg p-3 h-32"></div>
+          <div className="h-4 w-24 bg-gray-200 dark:bg-gray-800 rounded mb-2"></div>
+          <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3 h-32"></div>
         </div>
       </div>
-      <div className="mt-4 border-t pt-3">
+      <div className="mt-4 border-t dark:border-gray-800 pt-3">
         <div className="flex gap-4">
-          <div className="h-3 w-20 bg-gray-200 rounded"></div>
-          <div className="h-3 w-20 bg-gray-200 rounded"></div>
-          <div className="h-3 w-20 bg-gray-200 rounded"></div>
+          <div className="h-3 w-20 bg-gray-200 dark:bg-gray-800 rounded"></div>
+          <div className="h-3 w-20 bg-gray-200 dark:bg-gray-800 rounded"></div>
+          <div className="h-3 w-20 bg-gray-200 dark:bg-gray-800 rounded"></div>
         </div>
       </div>
     </div>

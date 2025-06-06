@@ -59,8 +59,8 @@ const YearMonthPicker = ({
           className={cn(
             "flex items-center justify-center flex-shrink-0 disabled:cursor-not-allowed rounded-lg transition-all duration-200",
             isPrevDisabled
-              ? "bg-gray-100 text-gray-400"
-              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+              ? "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
+              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/30 dark:text-indigo-400 dark:hover:bg-indigo-900/50"
           )}
           onClick={handlePrevMonth}
           aria-label="Previous month"
@@ -78,7 +78,7 @@ const YearMonthPicker = ({
                 )
               }}
             >
-              <SelectTrigger className="min-w-[120px] font-semibold text-indigo-800 outline-none ring-0 focus:ring-0">
+              <SelectTrigger className="min-w-[120px] font-semibold text-indigo-800 dark:text-indigo-300 outline-none ring-0 focus:ring-0">
                 <SelectValue placeholder="Year" className="select-none" />
               </SelectTrigger>
               <SelectContent className="max-h-48">
@@ -97,7 +97,7 @@ const YearMonthPicker = ({
                 )
               }}
             >
-              <SelectTrigger className="min-w-[120px] font-semibold text-indigo-800 outline-none ring-0 focus:ring-0">
+              <SelectTrigger className="min-w-[120px] font-semibold text-indigo-800 dark:text-indigo-300 outline-none ring-0 focus:ring-0">
                 <SelectValue placeholder="Month" className="select-none" />
               </SelectTrigger>
               <SelectContent className="max-h-48">
@@ -113,7 +113,7 @@ const YearMonthPicker = ({
           {nepaliMonths[currentMonth]?.ad && (
             <Badge
               variant="secondary"
-              className="hidden sm:inline-block text-sm rounded-full bg-gray-100 text-gray-600"
+              className="hidden sm:inline-block text-sm rounded-full bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300"
             >
               {nepaliMonths[currentMonth]?.ad}
             </Badge>
@@ -127,8 +127,8 @@ const YearMonthPicker = ({
           className={cn(
             "flex items-center justify-center disabled:cursor-not-allowed flex-shrink-0 rounded-lg transition-all duration-200",
             isNextDisabled
-              ? "bg-gray-100 text-gray-400"
-              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100"
+              ? "bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-500"
+              : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-950/30 dark:text-indigo-400 dark:hover:bg-indigo-900/50"
           )}
           onClick={handleNextMonth}
           aria-label="Next month"

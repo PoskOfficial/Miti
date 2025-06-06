@@ -78,15 +78,17 @@ const EventList: React.FC<{
   const renderEmptyState = () => (
     <div
       className={cn(
-        "flex gap-4 items-center p-4 rounded-lg border border-dashed border-gray-200",
-        isHoliday ? "bg-rose-50" : "bg-indigo-50"
+        "flex gap-4 items-center p-4 rounded-lg border border-dashed border-gray-200 dark:border-gray-700",
+        isHoliday
+          ? "bg-rose-50 dark:bg-rose-700"
+          : "bg-indigo-50 dark:bg-indigo-900"
       )}
     >
       <Calendar
         className={cn(isHoliday ? "text-rose-600" : "text-indigo-600")}
         size={24}
       />
-      <h3 className="text-gray-700 text-sm font-semibold">
+      <h3 className="text-gray-700 dark:text-gray-300 text-sm font-semibold">
         {/* {isHoliday ? "No holidays" : "No events"} */}
         {isNepaliLanguage
           ? isHoliday
@@ -100,14 +102,17 @@ const EventList: React.FC<{
   )
 
   return (
-    <div className="bg-white min-w-80 rounded-lg ">
-      <h2 className="text-xl font-bold text-gray-700 mb-4 text-center">
+    <div className="bg-white dark:bg-gray-900 min-w-80 rounded-lg">
+      <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200 mb-4 text-center">
         {title}
       </h2>
 
       {isLoading && (
         <div className="flex justify-center items-center h-40">
-          <Loader2 className="animate-spin text-gray-500" size={32} />
+          <Loader2
+            className="animate-spin text-gray-500 dark:text-gray-400"
+            size={32}
+          />
         </div>
       )}
 
@@ -126,7 +131,7 @@ const EventList: React.FC<{
           {filteredEvents.length > 5 && (
             <div className="flex justify-end pt-2">
               <button
-                className="text-indigo-600 hover:text-indigo-800 text-sm font-medium gap-1 flex items-center justify-center transition-colors"
+                className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 text-sm font-medium gap-1 flex items-center justify-center transition-colors"
                 onClick={handleViewAll}
               >
                 View all
