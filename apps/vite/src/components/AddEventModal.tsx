@@ -149,7 +149,7 @@ function AddEventModal({
                   required
                   type="time"
                   name="startTime"
-                  className="w-24 rounded-lg border p-1.5"
+                  className="w-24 rounded-lg border bg-background p-1.5 text-foreground [color-scheme:light] dark:border-border dark:bg-background dark:text-foreground dark:[color-scheme:dark]"
                 />
               )}
             </div>
@@ -169,7 +169,7 @@ function AddEventModal({
                   required
                   type="time"
                   name="endTime"
-                  className="w-24 rounded-lg border p-1.5"
+                  className="w-24 rounded-lg border bg-background p-1.5 text-foreground [color-scheme:light] dark:border-border dark:bg-background dark:text-foreground dark:[color-scheme:dark]"
                 />
               )}
             </div>
@@ -261,7 +261,7 @@ function AddEventModal({
                 <label
                   htmlFor={`color-${color}`}
                   style={{ backgroundColor: colors[color] }}
-                  className="block h-8 w-8 cursor-pointer rounded-full border-2 border-transparent transition-all duration-200 peer-checked:ring-2 peer-checked:ring-indigo-600 peer-checked:ring-offset-2"
+                  className="block h-8 w-8 cursor-pointer rounded-full border-2 border-transparent transition-all duration-200 peer-checked:ring-2 peer-checked:ring-primary peer-checked:ring-offset-2 dark:peer-checked:ring-offset-background"
                 ></label>
               </div>
             ))}
@@ -280,7 +280,7 @@ function AddEventModal({
         </Button>
         <Button
           type="submit"
-          className="flex-1 bg-indigo-600 hover:bg-indigo-800"
+          className="flex-1 bg-primary hover:bg-primary/90"
           disabled={isPending}
         >
           {isPending ? "Creating..." : "Create Event"}
