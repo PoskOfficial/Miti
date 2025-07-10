@@ -24,7 +24,7 @@ const Body = () => {
     >
       {/* <AnnouncementAlert /> */}
       <Navbar />
-      <div className="flex-grow">
+      <div className="flex-grow text-black dark:text-white">
         <Routes>
           <Route path="/" element={<Calendar />} />
           <Route path="/calendar/:BSYear?/:BSMonth?" element={<Calendar />} />
