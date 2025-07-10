@@ -12,7 +12,7 @@ const getCalendarEvents = async (accessToken: string, timeMin: string, timeMax: 
         url.searchParams.append("timeMin", new Date(timeMin).toISOString());
         url.searchParams.append("timeMax", new Date(timeMax).toISOString());
         url.searchParams.append("orderBy", "startTime");
-        url.searchParams.append("maxResults", "200");
+        url.searchParams.append("maxResults", "100");
         url.searchParams.append("singleEvents", "true");
 
         const response = await fetch(url.href, {
