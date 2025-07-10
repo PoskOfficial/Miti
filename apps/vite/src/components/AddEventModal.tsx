@@ -149,7 +149,7 @@ function AddEventModal({
                   required
                   type="time"
                   name="startTime"
-                  className="w-24 rounded-lg border bg-background p-1.5 text-foreground [color-scheme:light] dark:border-border dark:bg-background dark:text-foreground dark:[color-scheme:dark]"
+                  className="w-24 rounded-lg border bg-background p-1.5 text-foreground dark:border-border dark:bg-background dark:text-foreground"
                 />
               )}
             </div>
@@ -169,7 +169,7 @@ function AddEventModal({
                   required
                   type="time"
                   name="endTime"
-                  className="w-24 rounded-lg border bg-background p-1.5 text-foreground [color-scheme:light] dark:border-border dark:bg-background dark:text-foreground dark:[color-scheme:dark]"
+                  className="w-24 rounded-lg border bg-background p-1.5 text-foreground dark:border-border dark:bg-background dark:text-foreground"
                 />
               )}
             </div>
@@ -308,7 +308,7 @@ function AddEventModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-h-[90vh] gap-0 overflow-hidden p-0 sm:max-w-[600px]">
+      <DialogContent className="max-h-[90vh] gap-0 overflow-hidden p-0 sm:max-w-[600px] text-black dark:text-white">
         <DialogHeader className="bg-background sticky top-0 z-10 border-b px-6 py-4">
           <DialogTitle className="text-xl font-semibold">
             Create Event
