@@ -43,7 +43,9 @@ const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
   const timeMin = startOfDay(baseDate).toISOString()
   const timeMax = add(baseDate, { days: 1 }).toISOString()
 
-  const { data: dayUserEvents } = useQuery<{ events: CalendarEvent[] }>({
+  const { data: dayUserEvents, isLoading } = useQuery<{
+    events: CalendarEvent[]
+  }>({
     queryKey: ["userEvents", selectedDate],
     queryFn: () => fetchUserEvents(timeMin, timeMax),
     enabled: !!selectedDate,
@@ -72,7 +74,13 @@ const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
       </div>
 
       <div className="space-y-3">
-        {dayUserEvents?.events && dayUserEvents.events.length > 0 ? (
+        {isLoading ? (
+          <>
+            <EventSkeleton />
+            <EventSkeleton />
+            <EventSkeleton />
+          </>
+        ) : dayUserEvents?.events && dayUserEvents.events.length > 0 ? (
           dayUserEvents.events.map((event) => (
             <EventListItem key={event.id} event={event} />
           ))
@@ -81,6 +89,24 @@ const UserEvents = ({ selectedDate }: { selectedDate: string }) => {
             No events scheduled
           </p>
         )}
+      </div>
+    </div>
+  )
+}
+
+const EventSkeleton = () => {
+  return (
+    <div className="rounded-lg overflow-hidden shadow-sm border dark:border-gray-700 animate-pulse">
+      <div className="p-3 bg-gray-100 dark:bg-gray-800">
+        <div className="flex items-center gap-2 w-full">
+          <div className="h-5 w-48 bg-gray-200 dark:bg-gray-700 rounded"></div>
+        </div>
+        <div className="flex items-center text-xs mt-1.5 gap-2">
+          <div className="flex items-center gap-1">
+            <div className="h-3 w-3 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+            <div className="h-3 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+          </div>
+        </div>
       </div>
     </div>
   )
