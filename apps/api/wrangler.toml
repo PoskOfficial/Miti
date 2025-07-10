@@ -1,12 +1,12 @@
-name = "miti-api"
+name = "miti-api-production"
 compatibility_date = "2023-12-04"
 
-vars = { ENVIRONMENT = "development" }
+vars = { ENVIRONMENT = "production" }
 
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "demo"
-database_id = "67fcc075-4057-4de4-a083-0a62e93efc8f"
+database_name = "miti"
+database_id = "4040a4d7-69e7-4cba-9975-4cc418134b2e"
 preview_database_id = "DB"
 migrations_dir = "./src/database/migrations"
 

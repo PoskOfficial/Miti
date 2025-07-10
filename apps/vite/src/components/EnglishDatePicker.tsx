@@ -1,8 +1,7 @@
 import { Dispatch, Fragment, useMemo, useState } from "react"
-import NepaliDate from "nepali-datetime"
 import { Combobox, Transition } from "@headlessui/react"
 import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/20/solid"
-import nepaliDateData from "../constants/nepaliDateData"
+import { format } from "date-fns"
 
 function Picker({
   date,
@@ -28,28 +27,29 @@ function Picker({
   const filtered = cleanedData.filter((item) =>
     item.label.toLowerCase().includes(query.toLowerCase())
   )
+
   return (
-    <div className={`${title == "year" ? "w-24" : "w-20"}`}>
+    <div className={`${title === "year" ? "w-24" : "w-20"}`}>
       <Combobox
         value={date}
         onChange={(value) => {
           setYYMMDD((prev) => {
-            const oldDate = new NepaliDate(prev)
+            const newDate = new Date(prev)
             if (title === "year") {
-              oldDate.setYear(+value)
+              newDate.setFullYear(+value)
             }
             if (title === "month") {
-              oldDate.setMonth(+value - 1)
+              newDate.setMonth(+value)
             }
             if (title === "day") {
-              oldDate.setDate(+value)
+              newDate.setDate(+value)
             }
-            return oldDate.getDateObject()
+            return newDate
           })
         }}
       >
         <div className="relative">
-          <div className="relative w-full cursor-default overflow-hidden rounded-md border bg-white text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 dark:border-gray-400 dark:bg-gray-800 sm:text-sm">
+          <div className="relative w-full cursor-default overflow-hidden rounded-md border bg-white text-left shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 dark:border-gray-400  sm:text-sm">
             <Combobox.Input
               className="w-full rounded-md border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:outline-indigo-600 focus:ring-0 dark:bg-gray-800 dark:text-white"
               onChange={(event) => setQuery(event.target.value)}
@@ -84,13 +84,7 @@ function Picker({
                           : "text-gray-900 dark:text-white"
                       }`
                     }
-                    value={
-                      title == "month"
-                        ? (parseInt(item.value) + 1).toString()
-                        : parseInt(item.value).toString()
-                        ? item.value
-                        : (parseInt(item.value) - 1).toString()
-                    }
+                    value={item.value}
                   >
                     {({ selected, active }) => (
                       <>
@@ -122,44 +116,46 @@ function Picker({
     </div>
   )
 }
-function NepaliDatePicker({
+
+function EnglishDatePicker({
   setDate,
   date,
+  minDate,
+  maxDate,
 }: {
   setDate: Dispatch<React.SetStateAction<Date>>
   date: Date
+  minDate: string
+  maxDate: string
 }) {
   const monthData = [
-    { value: "0", label: "1" },
-    { value: "1", label: "2" },
-    { value: "2", label: "3" },
-    { value: "3", label: "4" },
-    { value: "4", label: "5" },
-    { value: "5", label: "6" },
-    { value: "6", label: "7" },
-    { value: "7", label: "8" },
-    { value: "8", label: "9" },
-    { value: "9", label: "10" },
-    { value: "10", label: "11" },
-    { value: "11", label: "12" },
+    { value: "0", label: "January" },
+    { value: "1", label: "February" },
+    { value: "2", label: "March" },
+    { value: "3", label: "April" },
+    { value: "4", label: "May" },
+    { value: "5", label: "June" },
+    { value: "6", label: "July" },
+    { value: "7", label: "August" },
+    { value: "8", label: "September" },
+    { value: "9", label: "October" },
+    { value: "10", label: "November" },
+    { value: "11", label: "December" },
   ]
-  const dateBs = useMemo(() => {
-    const nepaliDate = new NepaliDate(date)
-    return {
-      date: nepaliDate.getDate(),
-      year: nepaliDate.getYear(),
-      day: nepaliDate.getDay(),
-      month: nepaliDate.getMonth() + 1,
-    }
-  }, [date])
 
-  const getDays = (
-    year: keyof typeof nepaliDateData | null,
-    month: string | null
-  ) => {
-    if (!year || !month) return []
-    const days = nepaliDateData[year][+month]
-    if (!days) return []
+  const minYear = new Date(minDate).getFullYear()
+  const maxYear = new Date(maxDate).getFullYear()
+  const yearData = Array.from(
+    { length: maxYear - minYear + 1 },
+    (_, i) => minYear + i
+  ).map((year) => ({ value: year.toString(), label: year.toString() }))
+
+  const getDaysInMonth = (year: number, month: number) => {
+    return new Date(year, month + 1, 0).getDate()
+  }
+
+  const getDays = (year: number, month: number) => {
+    const days = getDaysInMonth(year, month)
     const dayData = []
     for (let i = 1; i <= days; i += 1) {
       dayData.push({ value: i.toString(), label: i.toString() })
@@ -170,24 +166,21 @@ function NepaliDatePicker({
   return (
     <div className="flex items-center gap-2">
       <Picker
-        date={dateBs.year.toString()}
-        data={Object.keys(nepaliDateData).slice(1)}
+        date={date.getFullYear().toString()}
+        data={yearData}
         title="year"
         setYYMMDD={setDate}
       />
       <Picker
-        date={dateBs.month.toString()}
+        date={`${date.getMonth() + 1}`}
         data={monthData}
         hasValueLabel
         title="month"
         setYYMMDD={setDate}
       />
       <Picker
-        date={dateBs.date?.toString()}
-        data={getDays(
-          dateBs.year?.toString() as keyof typeof nepaliDateData,
-          dateBs.month?.toString()
-        )}
+        date={date.getDate().toString()}
+        data={getDays(date.getFullYear(), date.getMonth())}
         hasValueLabel
         title="day"
         setYYMMDD={setDate}
@@ -196,4 +189,4 @@ function NepaliDatePicker({
   )
 }
 
-export default NepaliDatePicker
+export default EnglishDatePicker
