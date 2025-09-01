@@ -175,8 +175,12 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
                   {day.eventDetails.length > 0 && (
                     <p className="text-[10px] mt-1 sm:text-xs text-center hidden sm:block truncate text-indigo-700 dark:text-indigo-400">
                       {isNepaliLanguage
-                        ? day.eventDetails[0]?.title.np
-                        : day.eventDetails[0]?.title.en}
+                        ? day.eventDetails.sort((a, b) =>
+                            a.isHoliday ? -1 : b.isHoliday ? 1 : 0
+                          )[0]?.title.np
+                        : day.eventDetails.sort((a, b) =>
+                            a.isHoliday ? -1 : b.isHoliday ? 1 : 0
+                          )[0]?.title.en}
                     </p>
                   )}
                 </div>
