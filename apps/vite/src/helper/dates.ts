@@ -184,7 +184,7 @@ export function relativeTimeFromDates(
   isNepaliLanguage = false,
   pivot = new Date()
 ): string {
-  if (!relative) return ""
+  if (!relative || Number.isNaN(relative.getTime())) return ""
 
   // Calculate the difference in days between the relative date and the current date
   const dayInMillis = 24 * 60 * 60 * 1000 // Milliseconds in a day
@@ -193,6 +193,8 @@ export function relativeTimeFromDates(
   const relativeDay = Math.round(
     (relative.getTime() - todayStart) / dayInMillis
   )
+
+  if (!Number.isFinite(relativeDay)) return ""
 
   // Use the relativeTimeFromElapsed function to get the language-sensitive relative time message
   return relativeTimeFromElapsed(relativeDay, isNepaliLanguage)
