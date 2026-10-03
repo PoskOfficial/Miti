@@ -1,7 +1,6 @@
 import { CalendarEvent, NewCalendarData } from "@miti/types"
 import React, { useState } from "react"
 import { cn } from "@/lib/utils"
-import NepaliDate from "nepali-datetime"
 import { isSameDay } from "date-fns"
 import { DayDialog } from "./DayDialog"
 import { DayDetail } from "./DayDetails"
@@ -69,12 +68,18 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({ monthData }) => {
 
       <div className="grid grid-cols-7 gap-px sm:p-2 bg-white dark:bg-gray-900 sm:gap-2">
         {monthData.map((day) => {
-          console.log(day.calendarInfo.dates.bs.full.en)
-          const dayDate = new NepaliDate(
-            day.calendarInfo.dates.bs.full.en || ""
-          ).getDateObject()
-
-          const isToday = isSameDay(new Date(), dayDate)
+          // use the AD date from the calendar data instead of converting the
+          // BS date locally, so a stale converter can't shift "today"
+          const [adYear, adMonth, adDay] = (
+            day.calendarInfo.dates.ad.full.en ?? ""
+          )
+            .split("-")
+            .map(Number)
+          const isToday =
+            !!adYear &&
+            !!adMonth &&
+            !!adDay &&
+            isSameDay(new Date(), new Date(adYear, adMonth - 1, adDay))
           const isHoliday =
             day.eventDetails.filter((event) => event.isHoliday).length > 0 ||
             day.calendarInfo.days.codes.en === "7"

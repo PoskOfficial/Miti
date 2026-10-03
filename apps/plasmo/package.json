@@ -12,7 +12,7 @@
   "dependencies": {
     "@swc/types": "^0.1.12",
     "lucide-react": "^0.454.0",
-    "nepali-datetime": "^1.2.1",
+    "nepali-datetime": "^1.6.0",
     "plasmo": "^0.80.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

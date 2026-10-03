@@ -293,7 +293,7 @@
     "@raycast/utils": "^1.17.0",
     "chrono-node": "^2.7.7",
     "javascript-time-ago": "^2.5.11",
-    "nepali-datetime": "^1.2.1",
+    "nepali-datetime": "^1.6.0",
     "unicode-text-decorator": "^0.1.1"
   },
   "devDependencies": {
