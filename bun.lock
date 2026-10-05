@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "miti-monorepo",
@@ -228,6 +229,13 @@
         "@miti/tsconfig": "*",
       },
     },
+    "packages/theme": {
+      "name": "@miti/theme",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@miti/tsconfig": "*",
+      },
+    },
     "packages/tsconfig": {
       "name": "@miti/tsconfig",
       "version": "0.1.0",
@@ -253,9 +261,9 @@
     "workerd",
   ],
   "overrides": {
-    "react-refresh": "^0.14.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-refresh": "^0.14.0",
   },
   "packages": {
     "@alloc/quick-lru": ["@alloc/quick-lru@5.2.0", "", {}, "sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw=="],
@@ -795,6 +803,8 @@
     "@miti/prettier-config": ["@miti/prettier-config@workspace:packages/prettier-config"],
 
     "@miti/query": ["@miti/query@workspace:packages/query"],
+
+    "@miti/theme": ["@miti/theme@workspace:packages/theme"],
 
     "@miti/tsconfig": ["@miti/tsconfig@workspace:packages/tsconfig"],
 

@@ -40,12 +40,20 @@ function getCombinedDateTime(date: Date, time: string) {
 
 export type CalendarPayload = Partial<CalendarEvent> & { calendarId: string }
 
+function DefaultAddEventTrigger() {
+  return (
+    <Button className="mt-2 w-full bg-indigo-600 text-white shadow-sm hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500">
+      Add event
+    </Button>
+  )
+}
+
 function AddEventModal({
   startDate,
   children,
 }: {
   startDate: Date
-  children: ReactNode
+  children?: ReactNode
 }) {
   const [open, setOpen] = useState(false)
   const [isAllDayEvent, setIsAllDayEvent] = useState(false)
@@ -292,7 +300,9 @@ function AddEventModal({
   if (!isDesktop) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerTrigger asChild>
+          {children ?? <DefaultAddEventTrigger />}
+        </DrawerTrigger>
         <DrawerContent className="h-[90vh] rounded-t-xl border-0">
           <DrawerHeader className="text-left">
             <DrawerTitle>Create Event</DrawerTitle>
@@ -307,7 +317,7 @@ function AddEventModal({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>{children ?? <DefaultAddEventTrigger />}</DialogTrigger>
       <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden gap-0 max-h-[90vh]">
         <DialogHeader className="px-6 py-4 border-b sticky top-0 bg-background z-10">
           <DialogTitle className="text-xl font-semibold">

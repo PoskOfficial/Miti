@@ -1,14 +1,31 @@
 name: Deploy
 
+# NOTE: the repo's default/production branch is `v2` (origin HEAD -> v2).
+# This workflow previously ran on `main` only, so it never executed (0 runs).
+# The website itself (apps/vite) deploys via Cloudflare Pages Git integration
+# (project `miti-web`, production branch `v2`); CI verifies its build here and
+# deploys the API worker via Wrangler.
+
 on:
   push:
     branches:
+      - v2
       - main
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  web-build:
     runs-on: ubuntu-latest
-    name: Deploy
+    name: Web build check (apps/vite)
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - run: bun run --cwd ./apps/vite build
+
+  deploy-api:
+    runs-on: ubuntu-latest
+    name: Deploy API worker
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
@@ -20,18 +37,3 @@ jobs:
           workingDirectory: './apps/api'
           packageManager: bun
           command: deploy ./src/index.ts --env production
-      - name: Build Web
-        env:
-          EXPO_PUBLIC_API_URL: ${{ vars.EXPO_PUBLIC_API_URL }}
-          EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID: ${{ vars.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID }}
-          EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID: ${{ vars.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID }}
-        run: bun run --cwd ./apps/expo build:web
-      - name: Deploy Pages
-        uses: cloudflare/wrangler-action@v3
-
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: './apps/expo'
-          packageManager: bun
-          command: pages deploy ./dist --project-name=miti-example-web

@@ -2,7 +2,12 @@
   "extends": ["expo/tsconfig.base", "@miti/tsconfig/base"],
   "compilerOptions": {
     "strict": true,
-    "types": ["vite-plugin-pwa/client", "node", "react", "react-dom"],
+    // NOTE: do NOT add "vite-plugin-pwa/client" here. Its types pull the
+    // `vue` package (via vite-plugin-pwa framework adapters) whose global
+    // jsx.d.ts hijacks the JSX namespace and breaks every React component
+    // check (TS2786). Nothing in src uses the PWA client APIs; PWA registration
+    // (if re-enabled) should use a scoped `/// <reference ... />` instead.
+    "types": ["vite/client", "node", "react", "react-dom"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "module": "ESNext",
