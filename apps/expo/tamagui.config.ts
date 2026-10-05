@@ -83,6 +83,8 @@ export const config = createTamagui({
   },
   themes: {
     ...themes,
+    // Locked brand accent — @miti/theme brand.primaryHex #4f46e5
+    // Radius scale locked to 0.5rem (8px): card $4, rows $3.
     light_Button: {
       background: "#fff",
       backgroundFocus: "#424242",
@@ -96,6 +98,20 @@ export const config = createTamagui({
       colorPress: "#fff",
       colorTransparent: "#a5a5a5",
       placeholderColor: "#424242",
+    },
+    light_brand: {
+      background: "#4f46e5",
+      backgroundHover: "#4338ca",
+      backgroundPress: "#4338ca",
+      backgroundFocus: "#6366f1",
+      color: "#fff",
+    },
+    dark_brand: {
+      background: "#4f46e5",
+      backgroundHover: "#6366f1",
+      backgroundPress: "#6366f1",
+      backgroundFocus: "#818cf8",
+      color: "#fff",
     },
   },
   tokens,

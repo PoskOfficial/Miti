@@ -23,9 +23,11 @@ export function App() {
         flex={1}
         width={"100%"}
         maxWidth={500}
-        backgroundColor={scheme === "light" ? "white" : undefined}
+        backgroundColor={scheme === "light" ? "#ffffff" : "#161b26"}
         padding={"$4"}
-        borderRadius={"$3"}
+        borderRadius={"$4"}
+        borderWidth={1}
+        borderColor={scheme === "light" ? "#e4e4e7" : "#252d3d"}
       >
         {user && (
           <View>
@@ -53,8 +55,8 @@ export function App() {
             key={provider}
             alignItems="center"
             justifyContent="space-between"
-            backgroundColor={"$gray3"}
-            borderRadius={"$4"}
+            backgroundColor={scheme === "light" ? "#f4f4f5" : "$gray3"}
+            borderRadius={"$3"}
             padding={"$3"}
           >
             <Text>{provider}</Text>
@@ -62,7 +64,9 @@ export function App() {
               <Text color="$green10">Connected</Text>
             ) : (
               <Pressable onPress={() => signInWithOAuth({ provider: provider.toLowerCase() })}>
-                <Text color="$gray12">Connect now</Text>
+                <Text color="#4f46e5" fontWeight="600">
+                  Connect now
+                </Text>
               </Pressable>
             )}
           </XStack>
@@ -71,7 +75,8 @@ export function App() {
           onPress={() => {
             void signOut().then(() => router.replace("/auth/sign-in"));
           }}
-          backgroundColor={scheme === "light" ? "$gray4" : undefined}
+          backgroundColor={scheme === "light" ? "$gray4" : "#4f46e5"}
+          pressStyle={{ scale: 0.98, backgroundColor: "#4338ca" }}
         >
           Sign out
         </Button>

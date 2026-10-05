@@ -17,37 +17,37 @@ export const CalendarDay: React.FC<CalendarDayProps> = ({
     <div
       onClick={() => !day.empty && onDayClick(day)}
       className={`
-        plasmo-p-2 plasmo-rounded-lg
-        ${day.empty ? "" : "plasmo-bg-gray-800/50"}
+        plasmo-p-2 plasmo-rounded-lg plasmo-tabular-nums
+        ${day.empty ? "" : "plasmo-bg-white/5"}
         ${
           day.isHoliday || day.isWeekend
-            ? "plasmo-text-red-500"
-            : "plasmo-text-white"
+            ? "plasmo-text-rose-400"
+            : "plasmo-text-slate-100"
         }
-        ${isSelected ? "!plasmo-bg-blue-600" : ""}
+        ${isSelected ? "!plasmo-bg-indigo-600 plasmo-text-white" : ""}
         ${
           day.isToday && !isSelected
-            ? "plasmo-border-2 plasmo-border-blue-400"
-            : ""
+            ? "plasmo-border-2 plasmo-border-indigo-400"
+            : "plasmo-border-2 plasmo-border-transparent"
         }
         plasmo-flex plasmo-flex-col plasmo-items-center plasmo-justify-center
-        plasmo-transition-all plasmo-duration-200
-        ${day.empty ? "" : "plasmo-cursor-pointer plasmo-hover:bg-gray-700/50"}
+        plasmo-transition-colors plasmo-duration-200
+        ${day.empty ? "" : "plasmo-cursor-pointer hover:plasmo-bg-white/10 focus-visible:plasmo-outline-none focus-visible:plasmo-ring-2 plasmo-ring-indigo-500 active:plasmo-scale-[0.98]"}
         plasmo-aspect-square
         relative
       `}>
       {!day.empty && (
         <>
-          <span className="plasmo-text-2xl plasmo-font-medium">
+          <span className="plasmo-text-2xl plasmo-font-medium plasmo-font-mukta plasmo-leading-none">
             {day.NepaliNum}
           </span>
           <span
-            className={`plasmo-text-xs ${
+            className={`plasmo-text-xs plasmo-tabular-nums ${
               isSelected
-                ? "plasmo-text-blue-200"
+                ? "plasmo-text-indigo-200"
                 : day.isHoliday || day.isWeekend
-                  ? "plasmo-text-red-400"
-                  : "plasmo-text-gray-400"
+                  ? "plasmo-text-rose-400"
+                  : "plasmo-text-slate-400"
             }`}>
             {day.date}
           </span>

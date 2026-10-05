@@ -14,7 +14,7 @@ function IndexPopup() {
     chrome?.action?.setIcon({ path: getIconSrcByDay(today) })
   }, [])
   return (
-    <div className="plasmo-h-full plasmo-w-[30rem] plasmo-bg-[#1F2937] plasmo-pt-[0.15rem] plasmo-overflow-hidden">
+    <div className="plasmo-h-full plasmo-w-[30rem] plasmo-overflow-hidden plasmo-bg-[#12151d] plasmo-pt-[0.15rem] plasmo-text-slate-100 plasmo-antialiased dark">
       <Calendar />
     </div>
   )

@@ -83,7 +83,7 @@ export default function MonthCalendar({
         <div>{t("homepage.F")}</div>
         <div>{t("homepage.Sa")}</div>
       </div>
-      <div className="isolate mx-1 mt-2 grid auto-rows-cell grid-cols-7 gap-px overflow-hidden rounded-md bg-gray-200 font-sans text-sm shadow ring-1 ring-gray-200 dark:bg-gray-800 dark:text-white dark:ring-gray-600">
+      <div className="isolate mx-1 mt-2 grid auto-rows-cell grid-cols-7 gap-px overflow-hidden rounded-lg bg-gray-200 font-sans text-sm shadow-sm ring-1 ring-gray-200 dark:bg-gray-800 dark:ring-gray-700">
         {monthData.map((day, dayIdx) => {
           const { bs_year, bs_month, bs_day } = day.AD_date
           const dayInNepaliDate = new NepaliDate(
@@ -102,16 +102,18 @@ export default function MonthCalendar({
               }}
               style={dayIdx === 0 ? { gridColumnStart: day.week_day + 1 } : {}}
               className={cn(
-                "p-1 font-mukta leading-3 hover:bg-gray-100 focus:z-10",
+                "p-1 font-mukta tabular-nums leading-4 transition-colors hover:bg-gray-100 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 active:scale-[0.98] dark:hover:bg-gray-800",
                 (isSelectedDay || isToday) && "font-semibold",
-                isToday && "bg-indigo-200 font-semibold text-indigo-600",
+                isToday &&
+                  !isSelectedDay &&
+                  "bg-indigo-200 font-semibold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-200",
                 !isSelectedDay && "bg-white dark:bg-gray-900",
                 isSelectedDay &&
-                  " bg-indigo-600  text-white hover:bg-indigo-700",
-                isSelectedDay && "bg-indigo-600",
+                  "bg-indigo-600 text-white hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500",
                 (day.events.find((event) => event.jds?.gh == "1") ||
                   day.week_day === 6) &&
-                  "text-rose-600"
+                  !isSelectedDay &&
+                  "text-rose-600 dark:text-rose-400"
               )}
             >
               {!!userEvents?.events?.length &&
@@ -128,7 +130,7 @@ export default function MonthCalendar({
                   <span
                     key={i}
                     style={{
-                      backgroundColor: color ? colors[color] : "#475569",
+                      backgroundColor: color ? colors[color] : "#64748b",
                     }}
                     className={cn(`mx-[1px] inline-block h-1 w-1 rounded-full`)}
                   ></span>
@@ -152,7 +154,7 @@ export default function MonthCalendar({
         <Link
           type="button"
           to={`/upcoming`}
-          className="mt-8 block w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="mt-8 block w-full whitespace-nowrap rounded-lg border border-transparent bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:translate-y-[1px] dark:bg-indigo-600 dark:hover:bg-indigo-500"
         >
           {t("homepage.View_all_events")}
         </Link>

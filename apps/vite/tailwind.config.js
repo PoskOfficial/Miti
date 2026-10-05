@@ -5,10 +5,12 @@ export default {
   	fontFamily: {
   		sans: [
   			'Inter',
+  			'system-ui',
   			'sans-serif'
   		],
   		mukta: [
   			'Mukta',
+  			'Inter',
   			'sans-serif'
   		]
   	},
@@ -28,6 +30,13 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
+  			// Locked brand accent — single source (@miti/theme brand.primaryHex #4f46e5)
+  			brand: {
+  				DEFAULT: '#4f46e5',
+  				hover: '#4338ca',
+  				soft: '#eef2ff',
+  				ring: '#6366f1',
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

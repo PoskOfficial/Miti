@@ -1,9 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Fonts load via manifest/popup <link> — no render-blocking @import.
+   Stack matches @miti/theme: Inter latin + Mukta numerals + system fallback. */
 body {
-  background-color: #1f2937;
+  background-color: #12151d;
+  color: #f7f8fa;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "tnum" 1;
+}
+
+::selection {
+  background: #4f46e5;
+  color: #fff;
 }

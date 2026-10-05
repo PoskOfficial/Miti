@@ -47,7 +47,7 @@ const CalendarBody: React.FC = () => {
   }
 
   return (
-    <div className="plasmo-bg-gray-900 plasmo-p-4 plasmo-w-full">
+    <div className="plasmo-bg-[#12151d] plasmo-p-4 plasmo-w-full plasmo-text-slate-100">
       <div className="plasmo-space-y-4">
         <MonthYearSelect
           selectedYear={selectedYear}

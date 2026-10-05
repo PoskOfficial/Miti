@@ -26,7 +26,26 @@
   background: #888;
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: #161b26;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2b3548;
+}
+
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-feature-settings: "tnum" 1, "cv05" 1;
+  }
+  ::selection {
+    background: #4f46e5;
+    color: #fff;
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;

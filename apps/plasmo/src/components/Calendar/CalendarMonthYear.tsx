@@ -45,13 +45,13 @@ const CustomSelect = ({
     <div className="plasmo-relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="plasmo-flex plasmo-items-center plasmo-justify-between plasmo-w-full plasmo-px-2 plasmo-py-1.5 plasmo-text-xs plasmo-text-gray-200 plasmo-bg-gray-800 plasmo-border plasmo-border-gray-700 plasmo-rounded-md hover:plasmo-bg-gray-700 focus:plasmo-outline-none focus:plasmo-ring-2 plasmo-ring-blue-500">
+        className="plasmo-flex plasmo-items-center plasmo-justify-between plasmo-w-full plasmo-px-2 plasmo-py-1.5 plasmo-text-xs plasmo-text-slate-200 plasmo-bg-[#161b26] plasmo-border plasmo-border-[#252d3d] plasmo-rounded-md hover:plasmo-bg-white/10 focus:plasmo-outline-none focus:plasmo-ring-2 plasmo-ring-indigo-500 plasmo-transition-colors">
         <span>{selectedOption?.label || label}</span>
         <ChevronDown className="plasmo-w-3 plasmo-h-3 plasmo-ml-1.5" />
       </button>
 
       {isOpen && (
-        <div className="plasmo-absolute plasmo-z-10 plasmo-w-full plasmo-mt-1 plasmo-bg-gray-800 plasmo-border plasmo-border-gray-700 plasmo-rounded-md plasmo-shadow-lg">
+        <div className="plasmo-absolute plasmo-z-10 plasmo-w-full plasmo-mt-1 plasmo-bg-[#161b26] plasmo-border plasmo-border-[#252d3d] plasmo-rounded-md plasmo-shadow-lg">
           <div
             className="plasmo-space-y-0.5 plasmo-overflow-y-auto [&::-webkit-scrollbar]:plasmo-hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             style={{ maxHeight: `${maxHeight}px` }}>
@@ -62,10 +62,10 @@ const CustomSelect = ({
                   onChange(option.value)
                   setIsOpen(false)
                 }}
-                className="plasmo-flex plasmo-items-center plasmo-w-full plasmo-px-2 plasmo-py-1.5 plasmo-text-xs plasmo-text-left plasmo-text-gray-200 hover:plasmo-bg-gray-700">
+                className="plasmo-flex plasmo-items-center plasmo-w-full plasmo-px-2 plasmo-py-1.5 plasmo-text-xs plasmo-text-left plasmo-text-slate-200 hover:plasmo-bg-white/10 plasmo-transition-colors">
                 <span className="plasmo-flex-grow">{option.label}</span>
                 {option.value === value && (
-                  <Check className="plasmo-w-3 plasmo-h-3 plasmo-text-blue-500" />
+                  <Check className="plasmo-w-3 plasmo-h-3 plasmo-text-indigo-400" />
                 )}
               </button>
             ))}
@@ -144,9 +144,9 @@ export const MonthYearSelect = ({
     <div className="plasmo-flex plasmo-items-center plasmo-justify-center plasmo-gap-3">
       <button
         onClick={handlePreviousMonth}
-        className="plasmo-p-1 plasmo-rounded hover:plasmo-bg-gray-700 focus:plasmo-outline-none focus:plasmo-ring-2 plasmo-ring-blue-500"
+        className="plasmo-p-1 plasmo-rounded-md hover:plasmo-bg-white/10 focus:plasmo-outline-none focus:plasmo-ring-2 plasmo-ring-indigo-500 plasmo-transition-colors"
         aria-label="Previous month">
-        <ChevronLeft className="plasmo-w-4 plasmo-h-4 plasmo-text-gray-200" />
+        <ChevronLeft className="plasmo-w-4 plasmo-h-4 plasmo-text-slate-200" />
       </button>
 
       <div className="plasmo-w-24">
@@ -168,9 +168,9 @@ export const MonthYearSelect = ({
 
       <button
         onClick={handleNextMonth}
-        className="plasmo-p-1 plasmo-rounded hover:plasmo-bg-gray-700 focus:plasmo-outline-none focus:plasmo-ring-2 plasmo-ring-blue-500"
+        className="plasmo-p-1 plasmo-rounded-md hover:plasmo-bg-white/10 focus:plasmo-outline-none focus:plasmo-ring-2 plasmo-ring-indigo-500 plasmo-transition-colors"
         aria-label="Next month">
-        <ChevronRight className="plasmo-w-4 plasmo-h-4 plasmo-text-gray-200" />
+        <ChevronRight className="plasmo-w-4 plasmo-h-4 plasmo-text-slate-200" />
       </button>
     </div>
   )
