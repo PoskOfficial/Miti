@@ -37,7 +37,7 @@
     "i18next-browser-languagedetector": "^7.0.2",
     "i18next-http-backend": "^2.2.1",
     "lucide-react": "^0.487.0",
-    "nepali-datetime": "^1.4.1",
+    "nepali-datetime": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
