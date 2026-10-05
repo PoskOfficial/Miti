@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import MonthCalendar from "../components/MonthCalendar"
 import { fetchUserEvents } from "../helper/api"
 import YearMonthPicker from "../components/YearMonthPicker"
+import { isAvailableYear } from "../constants/availableYears"
 import { useParams } from "react-router-dom"
 import NepaliDate from "nepali-datetime"
 import { useQuery } from "@tanstack/react-query"
@@ -18,7 +19,7 @@ function Home() {
     if (!BSYear || !BSMonth) return new NepaliDate()
     const year = parseInt(BSYear)
     const month = parseInt(BSMonth)
-    const isValid = year >= 2075 && year <= 2082 && month >= 1 && month <= 12
+    const isValid = isAvailableYear(year) && month >= 1 && month <= 12
 
     if (isValid) return new NepaliDate(year, month - 1, 1)
 

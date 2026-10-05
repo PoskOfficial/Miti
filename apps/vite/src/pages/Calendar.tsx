@@ -12,6 +12,7 @@ import NepaliDate from "nepali-datetime"
 import { useCalendarData, useTodayData } from "@miti/query/calendar"
 import { NewCalendarData } from "@miti/types"
 import TimelineView from "@/components/calendar/TimelineView"
+import { isAvailableYear } from "@/constants/availableYears"
 import { useTranslation } from "react-i18next"
 import { Loader2 } from "lucide-react"
 
@@ -25,7 +26,7 @@ const Calendar = () => {
     if (!BSYear || !BSMonth) return new NepaliDate()
     const year = parseInt(BSYear)
     const month = parseInt(BSMonth)
-    const isValid = year >= 2075 && year <= 2082 && month >= 1 && month <= 12
+    const isValid = isAvailableYear(year) && month >= 1 && month <= 12
 
     if (isValid) return new NepaliDate(year, month - 1, 1)
     return new NepaliDate()

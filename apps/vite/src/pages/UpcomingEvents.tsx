@@ -7,6 +7,7 @@ import { Event } from "@/components/calendar/EventList"
 import { Calendar, Calendar1, Clock } from "lucide-react"
 import YearMonthPicker from "@/components/YearMonthPicker"
 import { nepaliMonths } from "@/constants/mahina"
+import { isAvailableYear } from "@/constants/availableYears"
 import { relativeTimeFromDates } from "@/helper/dates"
 import useLanguage from "@/helper/useLanguage"
 import { useTranslation } from "react-i18next"
@@ -21,7 +22,7 @@ function UpcomingEvents() {
     if (!BSYear || !BSMonth) return new NepaliDate()
     const year = parseInt(BSYear)
     const month = parseInt(BSMonth)
-    const isValid = year >= 2075 && year <= 2082 && month >= 1 && month <= 12
+    const isValid = isAvailableYear(year) && month >= 1 && month <= 12
 
     if (isValid) return new NepaliDate(year, month - 1, 1)
     return new NepaliDate()
