@@ -2,7 +2,14 @@ import { Dispatch, Fragment, useMemo, useState } from "react"
 import NepaliDate from "nepali-datetime"
 import { Combobox, Transition } from "@headlessui/react"
 import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/20/solid"
-import nepaliDateData from "../constants/nepaliDateData"
+
+// Year range and month lengths come from nepali-datetime, the same calendar data
+// used for conversion, so the picker never offers a day that doesn't exist.
+const MIN_YEAR = NepaliDate.minSupportedNepaliDate().getYear()
+const MAX_YEAR = NepaliDate.maxSupportedNepaliDate().getYear()
+const YEARS = Array.from({ length: MAX_YEAR - MIN_YEAR + 1 }, (_, i) =>
+  (MIN_YEAR + i).toString()
+)
 
 function Picker({
   date,
@@ -153,13 +160,10 @@ function NepaliDatePicker({
     }
   }, [date])
 
-  const getDays = (
-    year: keyof typeof nepaliDateData | null,
-    month: string | null
-  ) => {
+  const getDays = (year: number | null, month: number | null) => {
     if (!year || !month) return []
-    const days = nepaliDateData[year][+month]
-    if (!days) return []
+    // month is 1-based here; getDaysOfMonth takes a 0-based month
+    const days = NepaliDate.getDaysOfMonth(year, month - 1)
     const dayData = []
     for (let i = 1; i <= days; i += 1) {
       dayData.push({ value: i.toString(), label: i.toString() })
@@ -171,7 +175,7 @@ function NepaliDatePicker({
     <div className="flex items-center gap-2">
       <Picker
         date={dateBs.year.toString()}
-        data={Object.keys(nepaliDateData)}
+        data={YEARS}
         title="year"
         setYYMMDD={setDate}
       />
@@ -184,10 +188,7 @@ function NepaliDatePicker({
       />
       <Picker
         date={dateBs.date?.toString()}
-        data={getDays(
-          dateBs.year?.toString() as keyof typeof nepaliDateData,
-          dateBs.month?.toString()
-        )}
+        data={getDays(dateBs.year, dateBs.month)}
         hasValueLabel
         title="day"
         setYYMMDD={setDate}
