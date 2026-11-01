@@ -12,7 +12,9 @@ const DateConverter = () => {
   const [date, setDate] = useState(new Date())
   const nepaliDate = new NepaliDate(date)
   const minDate = "1943-04-14"
-  const maxDate = "2034-04-13"
+  const maxDate = new NepaliDate(NepaliDate.maxSupportedDate()).formatEnglishDate(
+    "YYYY-MM-DD"
+  )
 
   const { t } = useLanguage()
 
@@ -22,7 +24,7 @@ const DateConverter = () => {
     const inputDate = new Date(inputValue)
 
     // change state if the current date exceeds the maxDate or falls before the minDate.
-    if (inputDate > new Date(minDate) && inputDate < new Date(maxDate)) {
+    if (inputDate > new Date(minDate) && inputDate <= new Date(maxDate)) {
       setDate(inputDate)
     }
   }

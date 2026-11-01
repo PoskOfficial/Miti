@@ -6,7 +6,9 @@ import { ChevronUpDownIcon, CheckIcon } from "@heroicons/react/20/solid"
 // Year range and month lengths come from nepali-datetime, the same calendar data
 // used for conversion, so the picker never offers a day that doesn't exist.
 const MIN_YEAR = NepaliDate.minSupportedNepaliDate().getYear()
-const MAX_YEAR = NepaliDate.maxSupportedNepaliDate().getYear()
+// The library's last BS year runs past its last supported AD date (maxSupportedDate),
+// so its later months can't be read back from a Date. Stop at the year before.
+const MAX_YEAR = new NepaliDate(NepaliDate.maxSupportedDate()).getYear() - 1
 const YEARS = Array.from({ length: MAX_YEAR - MIN_YEAR + 1 }, (_, i) =>
   (MIN_YEAR + i).toString()
 )
